@@ -6,6 +6,7 @@ Created on Thu Mar 16 11:09:50 2017
 
 Show SC1-7 hydration
 """
+from __future__ import print_function
 from olivine.SanCarlos import SanCarlos_spectra as SC
 from olivine import thisfolder
 import numpy as np
