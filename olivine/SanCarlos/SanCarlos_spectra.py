@@ -173,6 +173,10 @@ wb_800C_hyd = Block(name='hydrated San Carlos olivine',
                           time_seconds=0.00000001,
                           folder=FTIR_file_location)
 
+spec2 = wb_800C_hyd.average_spectra()
+spec2.fname = 'SC1-2-hyd-average'
+spec2.folder = FTIR_file_location
+
 #%% SC1-2-800C-1hr
 # San Carlos oriented sample SC1-2 dehydrated for 1 hour at 800 C
 SC1_2_800C_1hr_profileA = Profile(profile_name='SC1-2-1hr || a',
@@ -617,7 +621,7 @@ wb_1000C_SC1_7 = Block(profiles=[SC1_7_hyd_profileA,
 
 spec7 = wb_1000C_SC1_7.average_spectra()
 spec7.fname = 'SC1-7-average'
-spec7.save_spectrum(folder=FTIR_file_location, printout=False)
+spec7.folder = FTIR_file_location
 #%% SC1-2-800C-19hr
 # San Carlos oriented sample SC1-2 dehydrated for 19 hours at 800 C, NNO
 SC1_2_800C_19hr_profileA = Profile(profile_name='SC1-2-19hr || a',
