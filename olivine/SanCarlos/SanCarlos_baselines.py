@@ -12,7 +12,7 @@ import olivine
 high_ending = olivine.high_ending
 low_ending = olivine.low_ending
 
-#%% Range of 3 baselines for initial concentration estimates
+#%% Range of 3 baselines for initial concentration estimates from SC1-1
 spec = SC.SC_untreated_Ea
 spec.make_baseline(curvature=0.04)
 fig, ax = spec.plot_showbaseline()
@@ -51,7 +51,7 @@ spec.make_baseline(curvature=0.05, abs_smear_high=10)
 spec.plot_showbaseline(axes=ax, style_base=styles.style_3)
 spec.save_baseline(baseline_ending=high_ending)
 
-#%% final - after dehydration
+#%% final - SC1-2 after dehydration
 spec = SC.SC_final_averaged
 spec.make_baseline(curvature=0.04)
 fig, ax = spec.plot_showbaseline()

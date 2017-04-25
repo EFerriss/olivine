@@ -14,12 +14,10 @@ from pynams.experiments import style_graphite, style_pyrophyllite
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.path import Path
-import matplotlib
 from olivine import thisfolder
 
 fig = plt.figure()
 fig.set_size_inches(3.5, 2.5)
-#fig.set_size_inches(14, 10)
 
 xstart = 0.12
 ypstart = 0.15

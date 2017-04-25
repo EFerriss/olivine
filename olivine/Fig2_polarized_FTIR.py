@@ -9,12 +9,11 @@ Create subplots of initial polarized FTIR spectra for San Carlos olivine
 and Kilauea Iki olivine, plus estimate water concentrations for San Carlos
 olivine after final dehydration step
 """
+from __future__ import print_function
 from olivine.SanCarlos import SanCarlos_spectra as SC
 from olivine.KilaueaIki import Kiki_spectra as kiki
-from pynams import pynams, styles
+from pynams import styles
 import matplotlib.pyplot as plt
-import numpy as np
-from uncertainties import ufloat
 
 plt.close('all')
 numformat = '{:.0f}'
@@ -24,86 +23,6 @@ SCf = SC.SC_final_averaged
 Kiki_list = [kiki.Kiki_init_Ea, kiki.Kiki_init_Eb, kiki.Kiki_init_Ec]
 spec_list = Kiki_list + SCi_list
 
-#%% Get water concentration estimates from FTIR
-# All baselines made and saved in Kiki_baseline.py and SanCarlos_baseline.py
-baselines = ['-high-baseline.CSV', '-baseline.CSV', '-low-baseline.CSV']
-
-kiki_area = ufloat(0, 0)
-kiki_Withers = ufloat(0, 0)
-kiki_Bell = ufloat(0, 0)
-kiki_SIMS = ufloat(14, 1.2)
-print()
-print('Kilauea Iki olivine')
-for spec in Kiki_list:
-    areas = []
-    for baseline in baselines:
-        spec.get_baseline(baseline_ending=baseline, print_confirmation=False)
-        areas.append(spec.make_area(printout=False))
-    spec.area = ufloat(np.mean(areas), np.std(areas))
-    print('{:.3u}'.format(spec.area), 'cm-2 area || 1 direcion')
-    spec.Withers = pynams.area2water(spec.area, phase='olivine',
-                                   calibration='Withers')
-    spec.Bell = pynams.area2water(spec.area, phase='olivine',
-                                  calibration='Bell')
-    kiki_area = kiki_area + spec.area
-    kiki_Withers = kiki_Withers + spec.Withers
-    kiki_Bell = kiki_Bell + spec.Bell
-kiki_ave = np.mean([kiki_Withers, kiki_Bell, kiki_SIMS])
-print('{:.3u}'.format(kiki_area), 'cm-2 area')
-print(kiki_Withers, 'ppm H2O with Withers calibration') 
-print(kiki_Bell, 'ppm H2O with Bell calibration')
-print(kiki_SIMS, 'ppm H2O by nanoSIMS')
-print(kiki_ave, 'ppm H2O average')
-
-SC_area = ufloat(0, 0)
-SC_Withers = ufloat(0, 0)
-SC_Bell = ufloat(0, 0)
-SC_SIMS = ufloat(5, 0.87)
-print()
-print('San Carlos olivine initial')
-for spec in SCi_list:
-    areas = []
-    for baseline in baselines:
-        spec.get_baseline(baseline_ending=baseline, print_confirmation=False)
-        areas.append(spec.make_area(printout=False))
-    spec.area = ufloat(np.mean(areas), np.std(areas))
-    spec.Withers = pynams.area2water(spec.area, phase='olivine',
-                                   calibration='Withers')
-    spec.Bell = pynams.area2water(spec.area, phase='olivine',
-                                  calibration='Bell')
-    SC_area = SC_area + spec.area
-    SC_Withers = SC_Withers + spec.Withers
-    SC_Bell = SC_Bell + spec.Bell
-    print('{:.2u}'.format(spec.area), 'cm-2 area || 1 direcion')
-SC_ave = np.mean([SC_Bell, SC_Withers, SC_SIMS])
-
-print('{:.2u}'.format(SC_area), 'cm-2 area total')
-print(SC_Withers, 'ppm H2O with Withers calibration') 
-print(SC_Bell, 'ppm H2O with Bell calibration')
-print(SC_SIMS, 'ppm H2O by nanoSIMS')
-print(SC_ave, 'ppm H2O average')
-
-SCf_area = ufloat(0, 0)
-SCf_Withers = ufloat(0, 0)
-SCf_Bell = ufloat(0, 0)
-spec = SC.SC_final_averaged
-areas = []
-for baseline in baselines:
-    spec.get_baseline(baseline_ending=baseline, print_confirmation=False)
-    areas.append(spec.make_area(printout=False))
-#    spec.plot_showbaseline()
-spec.area = ufloat(np.mean(areas), np.std(areas))
-spec.Withers = pynams.area2water(spec.area, phase='olivine',
-                               calibration='Withers')
-spec.Bell = pynams.area2water(spec.area, phase='olivine',
-                              calibration='Bell')
-
-print()
-print('San Carlos olivine initial vs final E||a')
-print('{:.2u}'.format(SC.SC_untreated_Ea.area), 'area cm-2 initial')
-print('{:.2u}'.format(SC.SC_final_averaged.area), 'area cm-2 final')
-
-#%% Figure showing baselines
 fig = plt.figure()
 fig.set_size_inches(6.5, 4)
 
