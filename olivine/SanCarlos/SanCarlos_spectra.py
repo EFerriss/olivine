@@ -121,7 +121,7 @@ sample_SC1_2 = Sample(length_a_microns=[2200.],
                       length_c_microns=[2858., 2864., 2858., 2863., 2864.])
 
 # hydrated profiles measured with E || a along three directions
-SC1_2_hyd_Ea_profileA = Profile(profile_name='SC1-2-hyd || a',
+SC1_2_hyd_Ea_profileA = Profile(name='SC1-2-hyd || a',
                                        sample=sample_SC1_2, 
                                        direction='a', raypath='b',
                                        folder=FTIR_file_location,
@@ -135,7 +135,7 @@ SC1_2_hyd_Ea_profileA = Profile(profile_name='SC1-2-hyd || a',
                                        positions_microns=[100., 500., 900.,
                                                           1300., 1700., 2100.])
 
-SC1_2_hyd_Ea_profileB = Profile(profile_name='SC1-2-hyd || b',
+SC1_2_hyd_Ea_profileB = Profile(name='SC1-2-hyd || b',
                                        sample=sample_SC1_2, 
                                        folder=FTIR_file_location,
                                        direction='b', raypath='c',
@@ -147,7 +147,7 @@ SC1_2_hyd_Ea_profileB = Profile(profile_name='SC1-2-hyd || b',
                                        positions_microns=[100., 500., 900.,
                                                           1400., 1800.])
 
-SC1_2_hyd_Ea_profileC = Profile(profile_name='SC1-2-hyd || c',
+SC1_2_hyd_Ea_profileC = Profile(name='SC1-2-hyd || c',
                                        sample=sample_SC1_2, 
                                        folder=FTIR_file_location,
                                        direction='c', raypath='b',
@@ -179,7 +179,7 @@ spec2.folder = FTIR_file_location
 
 #%% SC1-2-800C-1hr
 # San Carlos oriented sample SC1-2 dehydrated for 1 hour at 800 C
-SC1_2_800C_1hr_profileA = Profile(profile_name='SC1-2-1hr || a',
+SC1_2_800C_1hr_profileA = Profile(name='SC1-2-1hr || a',
                                   sample=sample_SC1_2, 
                                   direction='a', raypath='b',
                                   folder=FTIR_file_location,
@@ -202,7 +202,7 @@ SC1_2_800C_1hr_profileA = Profile(profile_name='SC1-2-1hr || a',
                                                      1500., 1700., 1900.,
                                                      2000., 2100.])
                                        
-SC1_2_800C_1hr_profileB = Profile(profile_name='SC1-2-1hr || b',
+SC1_2_800C_1hr_profileB = Profile(name='SC1-2-1hr || b',
                                   sample=sample_SC1_2,  direction='b', 
                                   raypath='c', folder=FTIR_file_location,
                                   initial_profile=SC1_2_hyd_Ea_profileB,
@@ -221,7 +221,7 @@ SC1_2_800C_1hr_profileB = Profile(profile_name='SC1-2-1hr || b',
                                                       700., 900., 1200., 1400., 1600.,
                                                       1700., 1800.])
 
-SC1_2_800C_1hr_profileC = Profile(profile_name='SC1-2-1hr || c',
+SC1_2_800C_1hr_profileC = Profile(name='SC1-2-1hr || c',
                                   sample=sample_SC1_2, direction='c', 
                                   raypath='b', folder=FTIR_file_location,
                                   initial_profile=SC1_2_hyd_Ea_profileC,
@@ -251,7 +251,7 @@ wb_800C_1hr = Block(name='SC1-2 800C 1hr',
  
 #%% SC1-2-800C-3hr
 # San Carlos oriented sample SC1-2 dehydrated for 3 hours at 800 C
-SC1_2_800C_3hr_profileA = Profile(profile_name='SC1-2-3hr || a',
+SC1_2_800C_3hr_profileA = Profile(name='SC1-2-3hr || a',
                                        sample=sample_SC1_2, 
                                        direction='a', raypath='b',
                                        folder=FTIR_file_location,
@@ -275,7 +275,7 @@ SC1_2_800C_3hr_profileA = Profile(profile_name='SC1-2-3hr || a',
                                                           1700., 1900., 2000.,
                                                           2100.])
 
-SC1_2_800C_3hr_profileB = Profile(profile_name='SC1-2-3hr || b',
+SC1_2_800C_3hr_profileB = Profile(name='SC1-2-3hr || b',
                                          sample=sample_SC1_2, 
                                          direction='b', raypath='c',
                                          folder=FTIR_file_location,
@@ -296,7 +296,7 @@ SC1_2_800C_3hr_profileB = Profile(profile_name='SC1-2-3hr || b',
                                                           1200., 1400., 1600.,
                                                           1700., 1800.])
 
-SC1_2_800C_3hr_profileC = Profile(profile_name='SC1-2-3hr || c',
+SC1_2_800C_3hr_profileC = Profile(name='SC1-2-3hr || c',
                                        sample=sample_SC1_2, 
                                        direction='c', raypath='b',
                                        folder=FTIR_file_location,
@@ -345,7 +345,7 @@ SC1_6_hyd_Ec = Spectrum(fname='SC1-6-thin-parshort',
 
 #%% SC1-2-800C-7hr
 # San Carlos oriented sample SC1-2 dehydrated for 7 hours at 800 C
-SC1_2_800C_7hr_profileA = Profile(profile_name='SC1-2-7hr || a',
+SC1_2_800C_7hr_profileA = Profile(name='SC1-2-7hr || a',
                                        sample=sample_SC1_2, 
                                        direction='a', raypath='b',
                                        folder=FTIR_file_location,
@@ -366,7 +366,7 @@ SC1_2_800C_7hr_profileA = Profile(profile_name='SC1-2-7hr || a',
                                                           1100., 1300., 1500.,
                                                           1700., 1900., 2100.])
 
-SC1_2_800C_7hr_profileB = Profile(profile_name='SC1-2-7hr || b',
+SC1_2_800C_7hr_profileB = Profile(name='SC1-2-7hr || b',
                                          sample=sample_SC1_2, 
                                          direction='b', raypath='c',
                                          folder=FTIR_file_location,
@@ -385,7 +385,7 @@ SC1_2_800C_7hr_profileB = Profile(profile_name='SC1-2-7hr || b',
                                                           1100., 1300., 1500.,
                                                           1800.])
 
-SC1_2_800C_7hr_profileC = Profile(profile_name='SC1-2-7hr || c',
+SC1_2_800C_7hr_profileC = Profile(name='SC1-2-7hr || c',
                                          sample=sample_SC1_2, 
                                          direction='c', raypath='b',
                                          folder=FTIR_file_location,
@@ -418,7 +418,7 @@ wb_800C_7hr = Block(name='SC1-2 800C 7hr',
                                 time_seconds=7.*3600.)
 
 #%% hydrated SC1-6 initial profiles, IR polarized || a
-SC1_6_hyd_profileA = Profile(profile_name='SC1-6-hyd || a',
+SC1_6_hyd_profileA = Profile(name='SC1-6-hyd || a',
                                     sample=SC1_6_sample, 
                                     folder=FTIR_file_location,
                                     direction='a', raypath='b',
@@ -436,7 +436,7 @@ SC1_6_hyd_profileA = Profile(profile_name='SC1-6-hyd || a',
                                                           1450., 1950., 2450.,
                                                           2950., 3250., 3429.])
 #
-SC1_6_hyd_profileB = Profile(profile_name='SC1-6-hyd || b',
+SC1_6_hyd_profileB = Profile(name='SC1-6-hyd || b',
                                     sample=SC1_6_sample, 
                                     folder=FTIR_file_location,
                                     direction='b', raypath='c',
@@ -452,7 +452,7 @@ SC1_6_hyd_profileB = Profile(profile_name='SC1-6-hyd || b',
                                                           1150., 1550., 1950.,
                                                           2269.])
 
-SC1_6_hyd_profileC = Profile(profile_name='SC1-6-hyd || c',
+SC1_6_hyd_profileC = Profile(name='SC1-6-hyd || c',
                                        sample=SC1_6_sample, 
                                        folder=FTIR_file_location,
                                        direction='c', raypath='b',
@@ -479,7 +479,7 @@ wb_1000C_SC1_6 = Block(profiles=[SC1_6_hyd_profileA,
 
 #%% SC1-2-800C-13hr
 # San Carlos oriented sample SC1-2 dehydrated for 13 hours at 800 C, NNO
-SC1_2_800C_13hr_profileA = Profile(profile_name='SC1-2-13hr || a',
+SC1_2_800C_13hr_profileA = Profile(name='SC1-2-13hr || a',
                                        sample=sample_SC1_2, 
                                        direction='a', raypath='b',
                                        folder=FTIR_file_location,
@@ -500,7 +500,7 @@ SC1_2_800C_13hr_profileA = Profile(profile_name='SC1-2-13hr || a',
                                                          1100., 1300., 1500.,
                                                          1700., 1900., 2100.])
 
-SC1_2_800C_13hr_profileB = Profile(profile_name='SC1-2-13hr || b',
+SC1_2_800C_13hr_profileB = Profile(name='SC1-2-13hr || b',
                                          sample=sample_SC1_2, 
                                          direction='b', raypath='c',
                                          folder=FTIR_file_location,
@@ -519,7 +519,7 @@ SC1_2_800C_13hr_profileB = Profile(profile_name='SC1-2-13hr || b',
                                                           1100., 1300., 1500.,
                                                           1800.])
 
-SC1_2_800C_13hr_profileC = Profile(profile_name='SC1-2-13hr || c',
+SC1_2_800C_13hr_profileC = Profile(name='SC1-2-13hr || c',
                                          sample=sample_SC1_2, 
                                          direction='c', raypath='b',
                                          folder=FTIR_file_location,
@@ -557,7 +557,7 @@ SC1_7_sample = Sample(length_a_microns=[2788., 2791., 2793., 2789., 2791.],
                       length_c_microns=[3048., 3084., 2980., 3065., 3036.])
 
 #%% hydrated SC1-7 
-SC1_7_hyd_profileA = Profile(profile_name='SC1-7-hyd || a',
+SC1_7_hyd_profileA = Profile(name='SC1-7-hyd || a',
                                     sample=SC1_7_sample, 
                                     folder=FTIR_file_location,
                                     direction='a', raypath='b',
@@ -578,7 +578,7 @@ SC1_7_hyd_profileA = Profile(profile_name='SC1-7-hyd || a',
                                                           1675., 2075., 2275.,
                                                           2475., 2715.])
 
-SC1_7_hyd_profileB = Profile(profile_name='SC1-7-hyd || b',
+SC1_7_hyd_profileB = Profile(name='SC1-7-hyd || b',
                                        sample=SC1_7_sample, 
                                        folder=FTIR_file_location,
                                        direction='b', raypath='c',
@@ -589,7 +589,7 @@ SC1_7_hyd_profileB = Profile(profile_name='SC1-7-hyd || b',
                                                    ], 
                                        positions_microns=[300., 500., 900.,])
 
-SC1_7_hyd_profileC = Profile(profile_name='SC1-7-hyd || c',
+SC1_7_hyd_profileC = Profile(name='SC1-7-hyd || c',
                                        sample=SC1_7_sample, 
                                        folder=FTIR_file_location,
                                        direction='c', raypath='b',
@@ -624,7 +624,7 @@ spec7.fname = 'SC1-7-average'
 spec7.folder = FTIR_file_location
 #%% SC1-2-800C-19hr
 # San Carlos oriented sample SC1-2 dehydrated for 19 hours at 800 C, NNO
-SC1_2_800C_19hr_profileA = Profile(profile_name='SC1-2-19hr || a',
+SC1_2_800C_19hr_profileA = Profile(name='SC1-2-19hr || a',
                                        sample=sample_SC1_2, 
                                        direction='a', raypath='b',
                                        folder=FTIR_file_location,
@@ -645,7 +645,7 @@ SC1_2_800C_19hr_profileA = Profile(profile_name='SC1-2-19hr || a',
                                                          1100., 1300., 1500.,
                                                          1700., 1900., 2100.])
 
-SC1_2_800C_19hr_profileB = Profile(profile_name='SC1-2-19hr || b',
+SC1_2_800C_19hr_profileB = Profile(name='SC1-2-19hr || b',
                                          sample=sample_SC1_2, 
                                          direction='b', raypath='c',
                                          folder=FTIR_file_location,
@@ -664,7 +664,7 @@ SC1_2_800C_19hr_profileB = Profile(profile_name='SC1-2-19hr || b',
                                                           1100., 1300., 1500.,
                                                           1800.])
 
-SC1_2_800C_19hr_profileC = Profile(profile_name='SC1-2-19hr || c',
+SC1_2_800C_19hr_profileC = Profile(name='SC1-2-19hr || c',
                                          sample=sample_SC1_2, 
                                          direction='c', raypath='b',
                                          folder=FTIR_file_location,
@@ -698,7 +698,7 @@ wb_800C_19hr = Block(name='SC1-2 800C 19hr',
 
 #%% SC1-2-800C-43hr
 # San Carlos oriented sample SC1-2 dehydrated for 43 hours at 800 C, NNO
-SC1_2_800C_43hr_profileA = Profile(profile_name='SC1-2-43hr || a',
+SC1_2_800C_43hr_profileA = Profile(name='SC1-2-43hr || a',
                                        sample=sample_SC1_2, 
                                        direction='a', raypath='b',
                                        folder=FTIR_file_location,
@@ -719,7 +719,7 @@ SC1_2_800C_43hr_profileA = Profile(profile_name='SC1-2-43hr || a',
                                                          1100., 1300., 1500.,
                                                          1700., 1900., 2100.])
 
-SC1_2_800C_43hr_profileB = Profile(profile_name='SC1-2-43hr || b',
+SC1_2_800C_43hr_profileB = Profile(name='SC1-2-43hr || b',
                                          sample=sample_SC1_2, 
                                          direction='b', raypath='c',
                                          folder=FTIR_file_location,
@@ -738,7 +738,7 @@ SC1_2_800C_43hr_profileB = Profile(profile_name='SC1-2-43hr || b',
                                                           1100., 1300., 
                                                           1500., 1800.])
 
-SC1_2_800C_43hr_profileC = Profile(profile_name='SC1-2-43hr || c',
+SC1_2_800C_43hr_profileC = Profile(name='SC1-2-43hr || c',
                                          sample=sample_SC1_2, 
                                          direction='c', raypath='b',
                                          folder=FTIR_file_location,
@@ -772,7 +772,7 @@ wb_800C_43hr = Block(name='SC1-2 800C 43hr',
 
 #%% SC1-2-800C-68hr
 # San Carlos oriented sample SC1-2 dehydrated for 68 hours at 800 C, NNO
-SC1_2_800C_68hr_profileA = Profile(profile_name='SC1-2-68hr || a',
+SC1_2_800C_68hr_profileA = Profile(name='SC1-2-68hr || a',
                                        sample=sample_SC1_2, 
                                        direction='a', raypath='b',
                                        folder=FTIR_file_location,
@@ -793,7 +793,7 @@ SC1_2_800C_68hr_profileA = Profile(profile_name='SC1-2-68hr || a',
                                                          1100., 1300., 1500.,
                                                          1700., 1900., 2100.])
 
-SC1_2_800C_68hr_profileB = Profile(profile_name='SC1-2-68hr || b',
+SC1_2_800C_68hr_profileB = Profile(name='SC1-2-68hr || b',
                                          sample=sample_SC1_2, 
                                          direction='b', raypath='c',
                                          folder=FTIR_file_location,
@@ -812,7 +812,7 @@ SC1_2_800C_68hr_profileB = Profile(profile_name='SC1-2-68hr || b',
                                                           1100., #1300., 
                                                           1500., 1800.])
 
-SC1_2_800C_68hr_profileC = Profile(profile_name='SC1-2-68hr || c',
+SC1_2_800C_68hr_profileC = Profile(name='SC1-2-68hr || c',
                                          sample=sample_SC1_2, 
                                          direction='c', raypath='b',
                                          folder=FTIR_file_location,
