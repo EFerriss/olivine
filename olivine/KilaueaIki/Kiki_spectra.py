@@ -84,7 +84,7 @@ Kiki_init_Eb = Spectrum(fname='Kiki1_dcrack_Ethin',
                                 raypath='a', polar='b', sample=Kiki_sample)
 
 ### initial profile measurements on untreated sample
-Kiki_init_profileA = Profile(profile_name='Kilauea Iki untreated olivine || a', 
+Kiki_init_profileA = Profile(name='Kilauea Iki untreated olivine || a', 
                              time_seconds=0.0001,
                              fnames=['Kiki1_init_a1', 'Kiki1_init_a2',
                                       'Kiki1_init_a3', 'Kiki1_init_a4',
@@ -95,7 +95,7 @@ Kiki_init_profileA = Profile(profile_name='Kilauea Iki untreated olivine || a',
                               folder=FTIR_file_location,
                               sample=Kiki_sample, direction='a', raypath='b')
 
-Kiki_init_profileC = Profile(profile_name='Kilauea Iki untreated olivine || c',
+Kiki_init_profileC = Profile(name='Kilauea Iki untreated olivine || c',
                              time_seconds=0.0001,
                                      folder=FTIR_file_location,
                               fnames=['Kiki1_init_b3', 'Kiki1_init_b4',
@@ -104,7 +104,7 @@ Kiki_init_profileC = Profile(profile_name='Kilauea Iki untreated olivine || c',
                               np.mean(Kiki_sample.length_b_microns)-200, 4), 
                               sample=Kiki_sample, direction='c', raypath='b')
 
-Kiki_init_profileB = Profile(profile_name='Kilauea Iki untreated olivine || b',
+Kiki_init_profileB = Profile(name='Kilauea Iki untreated olivine || b',
                               time_seconds=0.0001, folder=FTIR_file_location,
                               fnames=['Kiki1_init_c1', 'Kiki1_init_c2',
                                       'Kiki1_init_c3', 'Kiki1_init_c4',
@@ -122,7 +122,7 @@ wb_Kiki_init = Block(profiles=[Kiki_init_profileA, Kiki_init_profileB,
 
 ### Profiles after 1 hour of heating at 800 C
 length = Kiki_sample.thickness_microns[0]
-Kiki_1hr_profileA = Profile(profile_name='Kilauea Iki olivine heated 1hr || a',
+Kiki_1hr_profileA = Profile(name='Kilauea Iki olivine heated 1hr || a',
                              time_seconds=3600.,
                              fnames=['Kiki_1hr_a01', 'Kiki_1hr_a02', 
                                     'Kiki_1hr_a03', 'Kiki_1hr_a05',
@@ -138,7 +138,7 @@ Kiki_1hr_profileA = Profile(profile_name='Kilauea Iki olivine heated 1hr || a',
                            direction='a', raypath='b', 
                            initial_profile=Kiki_init_profileA)
 
-Kiki_1hr_profileC = Profile(profile_name='Kilauea Iki olivine heated 1hr || c',
+Kiki_1hr_profileC = Profile(name='Kilauea Iki olivine heated 1hr || c',
                                    time_seconds=3600.,
                                    fnames=['Kiki_1hr_b01', 'Kiki_1hr_b02',
                                            'Kiki_1hr_b03', 'Kiki_1hr_b04',
@@ -153,7 +153,7 @@ Kiki_1hr_profileC = Profile(profile_name='Kilauea Iki olivine heated 1hr || c',
                                    direction='c', raypath='b',
                                    initial_profile=Kiki_init_profileC)
 
-Kiki_1hr_profileB = Profile(profile_name='Kilauea Iki olivine heated 1hr || b', 
+Kiki_1hr_profileB = Profile(name='Kilauea Iki olivine heated 1hr || b', 
                                    time_seconds=3600.,
                                    fnames=['Kiki_1hr_c01', 'Kiki_1hr_c02',
                                            'Kiki_1hr_c03', 'Kiki_1hr_c04',
@@ -179,7 +179,7 @@ wb_Kiki_1hr = Block(profiles=[Kiki_1hr_profileA, Kiki_1hr_profileB,
 ### This is the initial for 1000C experiments
 name = 'Kilauea Iki olivine heated 8hr at 800$\degree$C || a'
 length = Kiki_sample.thickness_microns[0]
-Kiki_8hr_profileA = Profile(profile_name=name, time_seconds=3600.,
+Kiki_8hr_profileA = Profile(name=name, time_seconds=3600.,
                            fnames=['Kiki_8hr_a01', 'Kiki_8hr_a02', 
                                    'Kiki_8hr_a03', 'Kiki_8hr_a05',
                                    'Kiki_8hr_a07', 'Kiki_8hr_a09',
@@ -195,7 +195,7 @@ Kiki_8hr_profileA = Profile(profile_name=name, time_seconds=3600.,
                            initial_profile=Kiki_init_profileA)
 
 name = 'Kilauea Iki olivine heated 8hr at 800$\degree$C || c'
-Kiki_8hr_profileC = Profile(profile_name=name, time_seconds=3600.,
+Kiki_8hr_profileC = Profile(name=name, time_seconds=3600.,
                             fnames=['Kiki_8hr_b01', 'Kiki_8hr_b02',
                                     'Kiki_8hr_b03', 'Kiki_8hr_b04',
                                     'Kiki_8hr_b05', 'Kiki_8hr_b06',
@@ -209,7 +209,7 @@ Kiki_8hr_profileC = Profile(profile_name=name, time_seconds=3600.,
                            initial_profile=Kiki_init_profileC)
 
 name = 'Kilauea Iki olivine heated 8hr at 800$\degree$C || b'
-Kiki_8hr_profileB = Profile(profile_name=name, time_seconds=3600.,
+Kiki_8hr_profileB = Profile(name=name, time_seconds=3600.,
                             fnames=['Kiki_8hr_c01', 'Kiki_8hr_c02',
                                     'Kiki_8hr_c03', 'Kiki_8hr_c04',
                                     'Kiki_8hr_c05', 'Kiki_8hr_c06',
@@ -231,7 +231,7 @@ wb_Kiki_8hr = Block(profiles=[Kiki_8hr_profileA, Kiki_8hr_profileB,
 ### Profiles after 8 hours of heating at 800 C + 3 hours heating at 1000 C
 name = 'Kilauea Iki olivine heated 3hr at 1000$\degree$C || a'
 length = Kiki_sample.thickness_microns[0]
-Kiki_1000C_3hr_profileA = Profile(profile_name=name, time_seconds=3600.,
+Kiki_1000C_3hr_profileA = Profile(name=name, time_seconds=3600.,
                                   fnames=['Kiki_1000C_3hr_a01', 
                                           'Kiki_1000C_3hr_a02', 
                                           'Kiki_1000C_3hr_a03', 
@@ -255,7 +255,7 @@ Kiki_1000C_3hr_profileA = Profile(profile_name=name, time_seconds=3600.,
 
 name = 'Kilauea Iki olivine heated 3hr at 1000$\degree$C || c'
 length = Kiki_sample.thickness_microns[2]
-Kiki_1000C_3hr_profileC = Profile(profile_name=name, time_seconds=3600.,
+Kiki_1000C_3hr_profileC = Profile(name=name, time_seconds=3600.,
                                   fnames=['Kiki_1000C_3hr_b01', 
                                           'Kiki_1000C_3hr_b02',
                                           'Kiki_1000C_3hr_b03', 
@@ -275,7 +275,7 @@ Kiki_1000C_3hr_profileC = Profile(profile_name=name, time_seconds=3600.,
 
 name = 'Kilauea Iki olivine heated 3hr at 1000$\degree$C || b'
 length = Kiki_sample.thickness_microns[1]
-Kiki_1000C_3hr_profileB = Profile(profile_name=name, time_seconds=3600.,
+Kiki_1000C_3hr_profileB = Profile(name=name, time_seconds=3600.,
                                   fnames=['Kiki_1000C_3hr_c01', 
                                           'Kiki_1000C_3hr_c02',
                                           'Kiki_1000C_3hr_c03', 
@@ -303,7 +303,7 @@ wb_Kiki_1000C_3hr = Block(profiles=[Kiki_1000C_3hr_profileA,
 ### Profiles after 8 hours of heating at 800 C + 6 hours heating at 1000 C
 name = 'Kilauea Iki olivine heated 6hr at 1000$\degree$C || a'
 length = Kiki_sample.thickness_microns[0]
-Kiki_1000C_6hr_profileA = Profile(profile_name=name, time_seconds=3600.,
+Kiki_1000C_6hr_profileA = Profile(name=name, time_seconds=3600.,
                                   fnames=['Kiki_1000C_6hr_a01', 
                                           'Kiki_1000C_6hr_a02', 
                                           'Kiki_1000C_6hr_a03', 
@@ -327,7 +327,7 @@ Kiki_1000C_6hr_profileA = Profile(profile_name=name, time_seconds=3600.,
 
 name = 'Kilauea Iki olivine heated 6hr at 1000$\degree$C || c'
 length = Kiki_sample.thickness_microns[2]
-Kiki_1000C_6hr_profileC = Profile(profile_name=name, time_seconds=3600.,
+Kiki_1000C_6hr_profileC = Profile(name=name, time_seconds=3600.,
                                   fnames=['Kiki_1000C_6hr_b01', 
                                           'Kiki_1000C_6hr_b02',
                                           'Kiki_1000C_6hr_b03', 
@@ -347,7 +347,7 @@ Kiki_1000C_6hr_profileC = Profile(profile_name=name, time_seconds=3600.,
 
 name = 'Kilauea Iki olivine heated 6hr at 1000$\degree$C || b'
 length = Kiki_sample.thickness_microns[1]
-Kiki_1000C_6hr_profileB = Profile(profile_name=name, time_seconds=3600.,
+Kiki_1000C_6hr_profileB = Profile(name=name, time_seconds=3600.,
                                   fnames=['Kiki_1000C_6hr_c01', 
                                           'Kiki_1000C_6hr_c02',
                                           'Kiki_1000C_6hr_c03', 
@@ -375,7 +375,7 @@ wb_Kiki_1000C_6hr = Block(profiles=[Kiki_1000C_6hr_profileA,
 ### Profiles after 8 hours of heating at 800 C + 7 hours heating at 1000 C
 name = 'Kilauea Iki olivine heated 7hr at 1000$\degree$C || a'
 length = Kiki_sample.thickness_microns[0]
-Kiki_1000C_7hr_profileA = Profile(profile_name=name, time_seconds=3600.,
+Kiki_1000C_7hr_profileA = Profile(name=name, time_seconds=3600.,
                                   fnames=['Kiki_1000C_7hr_a01', 
                                           'Kiki_1000C_7hr_a02', 
                                           'Kiki_1000C_7hr_a03', 
@@ -399,7 +399,7 @@ Kiki_1000C_7hr_profileA = Profile(profile_name=name, time_seconds=3600.,
 
 name = 'Kilauea Iki olivine heated 7hr at 1000$\degree$C || c'
 length = Kiki_sample.thickness_microns[2]
-Kiki_1000C_7hr_profileC = Profile(profile_name=name, time_seconds=3600.,
+Kiki_1000C_7hr_profileC = Profile(name=name, time_seconds=3600.,
                                   fnames=['Kiki_1000C_7hr_b01', 
                                           'Kiki_1000C_7hr_b02',
                                           'Kiki_1000C_7hr_b03', 
@@ -419,7 +419,7 @@ Kiki_1000C_7hr_profileC = Profile(profile_name=name, time_seconds=3600.,
 
 name = 'Kilauea Iki olivine heated 6hr at 1000$\degree$C || b'
 length = Kiki_sample.thickness_microns[1]
-Kiki_1000C_7hr_profileB = Profile(profile_name=name, time_seconds=3600.,
+Kiki_1000C_7hr_profileB = Profile(name=name, time_seconds=3600.,
                                   fnames=['Kiki_1000C_7hr_c01', 
                                           'Kiki_1000C_7hr_c02',
                                           'Kiki_1000C_7hr_c03', 
@@ -449,7 +449,7 @@ wb_Kiki_1000C_7hr = Block(profiles=[Kiki_1000C_7hr_profileA,
 ### + 1 hour 1000C ~NNO + 2; QFM + 2.7
 name = 'Kilauea Iki olivine oxidized heating step || a'
 length = Kiki_sample.thickness_microns[0]
-Kiki_ox_1000C_1hr_profileA = Profile(profile_name=name, time_seconds=3600.,
+Kiki_ox_1000C_1hr_profileA = Profile(name=name, time_seconds=3600.,
                                   fnames=['Kiki_ox_1000C_1hr_a01', 
                                           'Kiki_ox_1000C_1hr_a02', 
                                           'Kiki_ox_1000C_1hr_a03', 
@@ -473,7 +473,7 @@ Kiki_ox_1000C_1hr_profileA = Profile(profile_name=name, time_seconds=3600.,
 
 name = 'Kilauea Iki olivine oxidized heating step || b'
 length = Kiki_sample.thickness_microns[2]
-Kiki_ox_1000C_1hr_profileC = Profile(profile_name=name, time_seconds=3600.,
+Kiki_ox_1000C_1hr_profileC = Profile(name=name, time_seconds=3600.,
                                   fnames=['Kiki_ox_1000C_1hr_b01', 
                                           'Kiki_ox_1000C_1hr_b02',
                                           'Kiki_ox_1000C_1hr_b03', 
@@ -493,7 +493,7 @@ Kiki_ox_1000C_1hr_profileC = Profile(profile_name=name, time_seconds=3600.,
 
 name = 'Kilauea Iki olivine oxidized heating step || c'
 length = Kiki_sample.thickness_microns[1]
-Kiki_ox_1000C_1hr_profileB = Profile(profile_name=name, time_seconds=3600.,
+Kiki_ox_1000C_1hr_profileB = Profile(name=name, time_seconds=3600.,
                                   fnames=['Kiki_ox_1000C_1hr_c01', 
                                           'Kiki_ox_1000C_1hr_c02',
                                           'Kiki_ox_1000C_1hr_c03', 

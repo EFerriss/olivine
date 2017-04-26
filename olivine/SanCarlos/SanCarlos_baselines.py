@@ -25,7 +25,6 @@ spec.make_baseline(curvature=-0.01, wn_low=3500, wn_high=3650)
 spec.plot_showbaseline(axes=ax, style_base=styles.style_3)
 spec.save_baseline(baseline_ending=high_ending)
 
-#%%
 spec = SC.SC_untreated_Eb
 spec.make_baseline(curvature=0.025, abs_smear_high=10)
 fig, ax = spec.plot_showbaseline()
@@ -38,7 +37,6 @@ spec.make_baseline(curvature=0.04, abs_smear_high=10)
 spec.plot_showbaseline(axes=ax, style_base=styles.style_3)
 spec.save_baseline(baseline_ending=low_ending)
 
-#%%
 spec = SC.SC_untreated_Ec
 spec.make_baseline(curvature=0.075, abs_smear_high=10, wn_high=3750)
 fig, ax = spec.plot_showbaseline()
@@ -82,8 +80,6 @@ spec7.make_baseline(**baseline2)
 spec7.save_baseline(baseline_ending=low_ending, folder=SC.FTIR_file_location)
 spec7.plot_showbaseline(axes=ax)
 
-#baseline3 = {'abs_smear_low':10, 'abs_smear_high':10, 'wn_low':3100, 
-#             'curvature':0.05}
 baseline3 = {'abs_smear_low':10, 'abs_smear_high':10, 'wn_low':3200}
 spec7.make_baseline(**baseline3)
 spec7.save_baseline(baseline_ending=high_ending, folder=SC.FTIR_file_location)
@@ -122,3 +118,4 @@ spec2.save_baseline(baseline_ending=low_ending)
 wb.make_baselines(**baseline3)
 wb.save_baselines(baseline_ending=low_ending)
 spec2.plot_showbaseline(axes=ax)
+

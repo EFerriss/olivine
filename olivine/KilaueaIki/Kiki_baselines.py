@@ -11,6 +11,7 @@ from __future__ import division, print_function
 from olivine.KilaueaIki import Kiki_spectra as kiki
 from matplotlib.backends.backend_pdf import PdfPages
 from pynams import styles
+import olivine
 
 thisfolder = kiki.thisfolder
 
@@ -21,18 +22,22 @@ wb_list = [
 #           kiki.wb_Kiki_1000C_7hr,
            kiki.wb_Kiki_ox]
 
-#%% Range of 3 baselines for initial concentration estimates
-high_ending = '-high-baseline.CSV'
-low_ending = '-low-baseline.CSV'
+high_ending = olivine.high_ending
+low_ending = olivine.low_ending
 
+#%% Range of 3 baselines for initial concentration estimates
 spec = kiki.Kiki_init_Ea
-spec.make_baseline(curvature=0.05, abs_smear_high=10)
+
+baselineKiki = {'curvature':0.05, 'abs_smear_high':10}
+spec.make_baseline(**baselineKiki)
 fig, ax = spec.plot_showbaseline()
 fig.set_size_inches(14, 14)
 spec.save_baseline()
+
 spec.make_baseline(force_through_wn=3400, wn_low=3300, abs_smear_high=10)
 spec.plot_showbaseline(axes=ax, style_base=styles.style_3)
 spec.save_baseline(baseline_ending=high_ending)
+
 spec.make_baseline(curvature=0.1, abs_smear_high=10, wn_low=3100)
 spec.plot_showbaseline(axes=ax, style_base=styles.style_3)
 spec.save_baseline(baseline_ending=low_ending)
@@ -50,7 +55,6 @@ spec.make_baseline(curvature=0.11, abs_smear_high=10, wn_low=3100)
 spec.plot_showbaseline(axes=ax, style_base=styles.style_3)
 spec.save_baseline(baseline_ending=low_ending)
 
-#%%
 spec = kiki.Kiki_init_Ec
 spec.make_baseline(curvature=0.05, abs_smear_high=10, wn_low=3150)
 fig, ax = spec.plot_showbaseline()
@@ -92,7 +96,7 @@ for wb in wb_list:
             fig, ax = spec.plot_showbaseline()
             fig.set_size_inches(6, 6)
             ax.set_ylim(0, 1)
-            title = ''.join((prof.profile_name, '\n',
+            title = ''.join((prof.name, '\n',
                              str(prof.positions_microns[idx]), 
                              ' $\mu$m, index ', str(idx)))
             ax.set_title(title)
@@ -105,7 +109,7 @@ for wb in wb_list:
 #            fig, ax = spec.plot_subtractbaseline()
 #            fig.set_size_inches(6, 6)
 #            ax.set_ylim(0, 0.8)
-#            title = ''.join((prof.profile_name, '\n',
+#            title = ''.join((prof.name, '\n',
 #                             str(prof.positions_microns[idx]), 
 #                             ' $\mu$m, index ', str(idx)))
 #            ax.set_title(title)
@@ -126,7 +130,7 @@ pp.close()
 #            fig, ax = spec.plot_showbaseline()
 #            fig.set_size_inches(6, 6)
 #            ax.set_ylim(0, 1.)
-#            title = ''.join((prof.profile_name, '\n',
+#            title = ''.join((prof.name, '\n',
 #                             str(prof.positions_microns[idx]), ' $\mu$m'))
 #            ax.set_title(title)
 #            fig.savefig(pp, format='pdf')
@@ -138,7 +142,7 @@ pp.close()
 #            fig, ax = spec.plot_subtractbaseline()
 #            fig.set_size_inches(6, 6)
 #            ax.set_ylim(0, 0.7)
-#            title = ''.join((prof.profile_name, '\n',
+#            title = ''.join((prof.name, '\n',
 #                             str(prof.positions_microns[idx]), ' $\mu$m'))
 #            ax.set_title(title)
 #            fig.savefig(pp, format='pdf')
@@ -158,7 +162,7 @@ pp.close()
 #            fig, ax = spec.plot_showbaseline()
 #            fig.set_size_inches(6, 6)
 #            ax.set_ylim(0, 1)
-#            title = ''.join((prof.profile_name, '\n',
+#            title = ''.join((prof.name, '\n',
 #                             str(prof.positions_microns[idx]), ' $\mu$m'))
 #            ax.set_title(title)
 #            fig.savefig(pp, format='pdf')
@@ -170,7 +174,7 @@ pp.close()
 #            fig, ax = spec.plot_subtractbaseline()
 #            fig.set_size_inches(6, 6)
 #            ax.set_ylim(0, 0.2)
-#            title = ''.join((prof.profile_name, '\n',
+#            title = ''.join((prof.name, '\n',
 #                             str(prof.positions_microns[idx]), ' $\mu$m'))
 #            ax.set_title(title)
 #            fig.savefig(pp, format='pdf')
