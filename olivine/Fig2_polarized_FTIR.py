@@ -18,18 +18,13 @@ import matplotlib.pyplot as plt
 plt.close('all')
 numformat = '{:.0f}'
 
-SCi_list = [SC.SC_untreated_Ea, SC.SC_untreated_Eb, SC.SC_untreated_Ec]
-SCf = SC.SC_final_averaged
-Kiki_list = [kiki.Kiki_init_Ea, kiki.Kiki_init_Eb, kiki.Kiki_init_Ec]
-spec_list = Kiki_list + SCi_list
-
 fig = plt.figure()
 fig.set_size_inches(6.5, 4)
 
-x = 0.12
-y = 0.2
-w = 0.16
-h = 0.27
+x = 0.1
+y = 0.19
+w = 0.18
+h = 0.31
 wspace = 0.04
 hspace = 0.12
 ylim = 0.65
@@ -55,13 +50,17 @@ def remove_labels(ax):
     empty_string_labels = ['']*len(labels)
     ax.set_yticklabels(empty_string_labels)
 
+ax = fig.add_axes([x, y+hspace+h, w, h])
+spec = SC.spec2
+plot_stuff(spec, ax)
+ax.text(3900, ytext, 'hydrated\nSC1-2 E||a', va='top')
+ax.set_ylabel('Absorbance (cm$^{-1}$)')
+
 ax = fig.add_axes([x+wspace+w, y+hspace+h, w, h])
 spec = kiki.Kiki_init_Ea
 plot_stuff(spec, ax)
 ax.text(3900, ytext, 'Kiki\nE||a', va='top')
-#ylabel = ''.join(('Absorbance (cm$^{-1}$)\nKilauea Iki olivine\nSIMS: ',
-#                  str(kiki_SIMS)))
-ax.set_ylabel('Absorbance (cm$^{-1}$)\nKilauea Iki olivine')
+remove_labels(ax)
 
 ax = fig.add_axes([x+2*wspace+2*w, y+hspace+h, w, h])
 spec = kiki.Kiki_init_Eb
@@ -80,7 +79,7 @@ spec = SC.SC_final_averaged
 plot_stuff(spec, ax)
 #ax.text(3900, ytext, 'dehydrated\nSC1-2  E||a\n\nSIMS:\n'+str(SC_SIMS), va='top')
 ax.text(3900, ytext, 'dehydrated\nSC1-2  E||a', va='top')
-ax.set_ylabel('Absorbance (cm$^{-1}$)\nSan Carlos olivine')
+ax.set_ylabel('Absorbance (cm$^{-1}$)')
 
 ax = fig.add_axes([x+wspace+w, y, w, h])
 spec = SC.SC_untreated_Ea
@@ -100,6 +99,6 @@ plot_stuff(spec, ax)
 ax.text(3900, ytext, 'untreated\nSC1-1 E||c', va='top')
 remove_labels(ax)
 
-ax.text(5500, -0.4, 'Wavenumber (cm$^{-1}$)', ha='center')
+ax.text(5500, -0.3, 'Wavenumber (cm$^{-1}$)', ha='center')
 
 fig.savefig(SC.thisfolder+'\..\Fig2_polarized_FTIR.jpg', dpi=200, format='jpg')

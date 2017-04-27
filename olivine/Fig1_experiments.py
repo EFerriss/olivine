@@ -55,7 +55,7 @@ for style in [style_graphite, style_MgO, style_capsule, style_buffer]:
 # SC1-2
 ax = fig.add_axes([xstart, ypstart, width, height])
 ax.set_xlim(0, od_pressure_medium)
-ax.set_xlabel('SC1-2 (mm)')
+ax.set_xlabel('(mm)\nSC1-2, 800$\degree$C')
 ax.set_ylabel('(mm)')
 h_guts = h_MgO_base + h_sleeve + h_MgO_wafer + h_MgO_top
 highest_point = max(h_pressure_medium, h_graphite_cylinder, h_guts)
@@ -174,7 +174,7 @@ h_MgO_top = 9.9
 
 ax = fig.add_axes([xstart + width + wspace, ypstart, width, height])
 ax.set_xlim(0, od_pressure_medium)
-ax.set_xlabel('SC1-7 (mm)')
+ax.set_xlabel('(mm)\nSC1-7, 1000$\degree$C')
 ax.set_ylim(0., h_graphite_button + highest_point + 2.)
 plt.tick_params(axis='x', top='off')
 ax.spines['top'].set_visible(False)
