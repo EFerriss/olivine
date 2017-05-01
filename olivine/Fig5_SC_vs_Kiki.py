@@ -37,4 +37,4 @@ for peak in peaks:
     ax.text(peak, y, '$\\leftarrow$'+str(peak),
             rotation=90, ha='center', va='bottom')
     
-fig.savefig(thisfolder+'Fig6_SC_vs_Kiki.jpg', dpi=200, format='jpg')
+fig.savefig(thisfolder+'Fig5_SC_vs_Kiki.jpg', dpi=200, format='jpg')

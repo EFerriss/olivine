@@ -6,7 +6,7 @@ Created on Thu Mar 16 11:09:50 2017
 
 Show SC1-7 hydration
 """
-from __future__ import print_function
+from __future__ import print_function, division
 from olivine.SanCarlos import SanCarlos_spectra as SC
 from olivine import thisfolder
 import matplotlib.pyplot as plt
@@ -21,6 +21,7 @@ spec7 = wb7.average_spectra()
 spec2 = wb2.average_spectra()
 speci = SC.SC_untreated_Ea
 
+#%%
 fig = plt.figure()
 fig.set_size_inches(6.5, 4)
 
@@ -46,16 +47,20 @@ ax.set_xlabel('wavenumbers (cm$^{-1}$)')
 ax.set_ylabel('absorbance (cm$^{-1}$)')
 ax.text(3530, 0.02, 'untreated SC1-1', color='#1f77b4')
 ax.text(3630, 0.15, 'hydrated\nSC1-2', color='#2ca02c', ha='right')
-ax.text(3620, 0.5, 'hydrated\nSC1-7', color='#ff7f0e', ha='right')
+ax.text(3620, 0.6, 'hydrated\nSC1-7', color='#ff7f0e', ha='right')
 ax.text(3950, 0.92, 'A', fontsize=14)
 
-peaks = [3236, 3356, 3396, 3484, 3525, 3573, 3600]
-labels = ['[Mg]', '[tri]', '[tri]', '[Si]', '[Ti]', '[Ti]', '[Si]']
+peaks = [3236, 3329, 3356, 3396, 3484, 3525, 3573, 3600]
+labels = ['[Mg]', '', '', '[tri-Al$^{3+}$]',
+          '[Si]', '[Ti]', '[Ti]', '[Si-Fe$^{2+}$]']
+ax.text((3329+3356)/2, 0.5, '} [tri-Fe$^{3+}$]', rotation=90, ha='center', 
+        va='center')
 for pidx, peak in enumerate(peaks):
     idx = abs(speci.wn_full-peak).argmin()
     y = spec7.abs_full_cm[idx] - 0.05
     ax.text(peak, y, ' '.join(('$\\leftarrow$', str(peak), labels[pidx])), 
             rotation=90, ha='center', va='bottom')
+
 
 ax2.text(3950, 0.67, 'B', fontsize=14)
 ax2.text(3900, 0.3, 'hydrated\nSC1-7\nwith', color='#ff7f0e', va='bottom')

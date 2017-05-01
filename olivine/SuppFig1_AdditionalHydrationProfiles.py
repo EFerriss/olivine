@@ -4,8 +4,8 @@ Created on Thu Mar 16 21:25:29 2017
 
 @author: Elizabeth
 
-Figure showing peak-specific hydration profiles in San Carlos olivine
-SC1-7
+Figure(s) showing additional hydration profiles in San Carlos olivine
+SC1-7 and SC1-2
 """
 from __future__ import print_function
 from olivine.SanCarlos import SanCarlos_spectra as SC
@@ -279,4 +279,4 @@ for idx, peak in enumerate(peaks):
 axes[-1][0].text(-1200, 0.065, 'SC1-7', color=style7['color'])
 axes[-1][0].text(-1200, 0.015, 'SC1-2', color=style2['color'])
 
-fig.savefig(thisfolder+'Fig5_peakspecific3.jpg', dpi=200, format='jpg')
+#fig.savefig(thisfolder+'Fig5_peakspecific3.jpg', dpi=200, format='jpg')
