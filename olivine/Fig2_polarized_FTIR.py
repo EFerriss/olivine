@@ -48,55 +48,55 @@ def plot_stuff(spec, ax):
 def remove_labels(ax):
     labels = [item.get_text() for item in ax.get_yticklabels()]
     empty_string_labels = ['']*len(labels)
+    ax.set_ylabel('')
     ax.set_yticklabels(empty_string_labels)
 
 ax = fig.add_axes([x, y+hspace+h, w, h])
-spec = SC.spec2
-plot_stuff(spec, ax)
-ax.text(3900, ytext, 'hydrated\nSC1-2 E||a', va='top')
-ax.set_ylabel('Absorbance (cm$^{-1}$)')
-
-ax = fig.add_axes([x+wspace+w, y+hspace+h, w, h])
-spec = kiki.Kiki_init_Ea
-plot_stuff(spec, ax)
-ax.text(3900, ytext, 'Kiki\nE||a', va='top')
-remove_labels(ax)
-
-ax = fig.add_axes([x+2*wspace+2*w, y+hspace+h, w, h])
-spec = kiki.Kiki_init_Eb
-plot_stuff(spec, ax)
-ax.text(3900, ytext, 'Kiki E||b', va='top')
-remove_labels(ax)
-
-ax = fig.add_axes([x+3*wspace+3*w, y+hspace+h, w, h])
-spec = kiki.Kiki_init_Ec
-plot_stuff(spec, ax)
-ax.text(3900, ytext, 'Kiki E||c', va='top')
-remove_labels(ax)
-
-ax = fig.add_axes([x, y, w, h])
-spec = SC.SC_final_averaged
-plot_stuff(spec, ax)
-#ax.text(3900, ytext, 'dehydrated\nSC1-2  E||a\n\nSIMS:\n'+str(SC_SIMS), va='top')
-ax.text(3900, ytext, 'dehydrated\nSC1-2  E||a', va='top')
-ax.set_ylabel('Absorbance (cm$^{-1}$)')
-
-ax = fig.add_axes([x+wspace+w, y, w, h])
 spec = SC.SC_untreated_Ea
 plot_stuff(spec, ax)
 ax.text(3900, ytext, 'untreated\nSC1-1 E||a', va='top')
-remove_labels(ax)
+ax.set_ylabel('Absorbance (cm$^{-1}$)')
 
-ax = fig.add_axes([x+2*wspace+2*w, y, w, h])
+ax = fig.add_axes([x+wspace+w, y+hspace+h, w, h])
 spec = SC.SC_untreated_Eb
 plot_stuff(spec, ax)
 ax.text(3900, ytext, 'untreated\nSC1-1 E||b', va='top')
 remove_labels(ax)
 
-ax = fig.add_axes([x+3*wspace+3*w, y, w, h])
+ax = fig.add_axes([x+2*wspace+2*w, y+hspace+h, w, h])
 spec = SC.SC_untreated_Ec
 plot_stuff(spec, ax)
 ax.text(3900, ytext, 'untreated\nSC1-1 E||c', va='top')
+remove_labels(ax)
+
+ax = fig.add_axes([x+3*wspace+3*w, y+hspace+h, w, h])
+spec = SC.spec2
+plot_stuff(spec, ax)
+ax.text(3900, ytext, 'hydrated\nSC1-2 E||a', va='top')
+remove_labels(ax)
+
+ax = fig.add_axes([x, y, w, h])
+spec = kiki.Kiki_init_Ea
+plot_stuff(spec, ax)
+ax.text(3900, ytext, 'Kiki\nE||a', va='top')
+ax.set_ylabel('Absorbance (cm$^{-1}$)')
+
+ax = fig.add_axes([x+wspace+w, y, w, h])
+spec = kiki.Kiki_init_Eb
+plot_stuff(spec, ax)
+ax.text(3900, ytext, 'Kiki E||b', va='top')
+remove_labels(ax)
+
+ax = fig.add_axes([x+2*wspace+2*w, y, w, h])
+spec = kiki.Kiki_init_Ec
+plot_stuff(spec, ax)
+ax.text(3900, ytext, 'Kiki E||c', va='top')
+remove_labels(ax)
+
+ax = fig.add_axes([x+3*wspace+3*w, y, w, h])
+spec = SC.SC_final_averaged
+plot_stuff(spec, ax)
+ax.text(3900, ytext, 'dehydrated\nSC1-2  E||a', va='top')
 remove_labels(ax)
 
 ax.text(5500, -0.3, 'Wavenumber (cm$^{-1}$)', ha='center')
