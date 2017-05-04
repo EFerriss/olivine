@@ -872,10 +872,3 @@ for wb in [wb_1000C_SC1_7, wb_800C_hyd]:
                 idx = np.abs(peak - spec.base_wn).argmin()
                 height = spec.abs_nobase_cm[idx]
                 prof.peak_heights[pidx].append(height)
-
-#%%
-wb7 = wb_1000C_SC1_7
-for prof in wb7.profiles:
-    print(prof.name)
-    print(prof.peak_heights)
-    print()
