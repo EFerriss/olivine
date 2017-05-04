@@ -21,8 +21,8 @@ style2 = {'color':'#2ca02c', 'marker':'o', 'linestyle': 'none', 'markersize':4}
 style7 = {'color':'#ff7f0e', 'marker':'s', 'linestyle': 'none', 'markersize':4}
 
 #%% regular quadratic baselines
-wb7.get_baselines()
-wb2.get_baselines()
+wb7.get_baselines(baseline_ending=high_ending)
+wb2.get_baselines(baseline_ending=high_ending)
 wb7.make_areas()
 wb2.make_areas()
 
@@ -101,12 +101,12 @@ for idx, peak in enumerate(peaks):
     ax = axes[idx][2]
     peaklabel = ''.join((str(peak), ' cm$^{-1}$'))
     ax.text(1400, ax.get_ylim()[1]/2., peaklabel, ha='left', va='center')
-axes[-1][1].set_title('Quadratic baselines used in Figure 4')
+axes[-1][1].set_title('Linear baselines')
 axes[-1][0].set_ylabel('Hydrogen, ppm H$_2$O')
 axes[-1][2].text(1400, axes[-1][2].get_ylim()[1]/2., 'bulk H', 
     ha='left', va='center')
 axes[-1][0].text(-1200, 70, 'SC1-7', color=style7['color'])
 axes[-1][0].text(-1200, 5, 'SC1-2', color=style2['color'])
 
-fig.savefig(thisfolder+'SuppFig1_AdditionalHydrationProfiles.jpg',
+fig.savefig(thisfolder+'SuppFig2_AdditionalHydrationProfiles.jpg',
             dpi=200, format='jpg')

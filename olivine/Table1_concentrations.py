@@ -16,6 +16,7 @@ from pynams import pynams
 import numpy as np
 from uncertainties import ufloat
 
+
 SC1_untreated = [SC.SC_untreated_Ea, SC.SC_untreated_Eb, SC.SC_untreated_Ec]
 SC7_hydrated = SC.spec7
 SC2_hydrated = SC.spec2
