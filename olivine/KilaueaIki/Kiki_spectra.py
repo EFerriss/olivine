@@ -44,7 +44,7 @@ Kiki_sample = Sample(length_a_microns=[2063., 2062., 2064., 2063., 2064.],
                      length_b_microns=[1073., 1073., 1073., 1073., 1073,])
 
 ### Polarized measurements on untreated sample to estimate orientation
-### Note: the estimated orientations based on polarized IR got [100] correct,
+### NOTE: the estimated orientations based on polarized IR got [100] correct,
 ### but [010] and [001] were switched! All code has been updated to 
 ### account for that mistake, but the original filenames retain the
 ### incorrect labels.
@@ -119,6 +119,10 @@ wb_Kiki_init = Block(profiles=[Kiki_init_profileA, Kiki_init_profileB,
                            name='Kilauea Iki untreated olivine', 
                            time_seconds=0.0001,
                            sample=Kiki_sample, celsius=800.)
+
+wb_Kiki_init_ave = wb_Kiki_init.average_spectra()
+wb_Kiki_init_ave.fname = 'wb_Kiki_init_ave'
+wb_Kiki_init_ave.folder = FTIR_file_location
 
 ### Profiles after 1 hour of heating at 800 C
 length = Kiki_sample.thickness_microns[0]
@@ -517,3 +521,7 @@ wb_Kiki_ox = Block(profiles=[Kiki_ox_1000C_1hr_profileA,
                              Kiki_ox_1000C_1hr_profileC],
                     name=name, time_seconds=3600.*8., 
                     sample=Kiki_sample, celsius=1000.)
+
+wb_Kiki_ox_ave = wb_Kiki_ox.average_spectra()
+wb_Kiki_ox_ave.fname = 'wb_Kiki_ox_ave'
+wb_Kiki_ox_ave.folder = FTIR_file_location

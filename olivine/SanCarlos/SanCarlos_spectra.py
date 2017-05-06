@@ -11,7 +11,6 @@ on San Carlos olivine oriented by Laue Camera at Cornell
 from __future__ import print_function, division
 from pynams import Sample, Spectrum, Profile, Block
 import os
-import itertools
 import numpy as np
 from olivine import FTIR
 
@@ -177,6 +176,7 @@ wb_800C_hyd = Block(name='hydrated San Carlos olivine',
 spec2 = wb_800C_hyd.average_spectra()
 spec2.fname = 'SC1-2-hyd-average'
 spec2.folder = FTIR_file_location
+wb_800C_hyd_averagespec = spec2
 
 #%% SC1-2-800C-1hr
 # San Carlos oriented sample SC1-2 dehydrated for 1 hour at 800 C
@@ -249,6 +249,10 @@ wb_800C_1hr = Block(name='SC1-2 800C 1hr',
                                    SC1_2_800C_1hr_profileB,
                                    SC1_2_800C_1hr_profileC,],
                          time_seconds=1.*3600.)
+
+#wb_800_1hr_averagespec = wb_800C_hyd.average_spectra()
+#.fname = 'SC1-2-hyd-average'
+#spec2.folder = FTIR_file_location
  
 #%% SC1-2-800C-3hr
 # San Carlos oriented sample SC1-2 dehydrated for 3 hours at 800 C
