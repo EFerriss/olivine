@@ -525,3 +525,5 @@ wb_Kiki_ox = Block(profiles=[Kiki_ox_1000C_1hr_profileA,
 wb_Kiki_ox_ave = wb_Kiki_ox.average_spectra()
 wb_Kiki_ox_ave.fname = 'wb_Kiki_ox_ave'
 wb_Kiki_ox_ave.folder = FTIR_file_location
+
+peaks = [3600, 3525, 3356]

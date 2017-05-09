@@ -863,18 +863,7 @@ whole_block_list = [wb_800C_1hr, wb_800C_3hr, wb_800C_7hr, wb_800C_13hr,
 whole_block_label_list = ['hydrated', '1hr', '3hr', '7hr', '13hr', '19hr', 
                           '43hr', '68hr']
 
-#%% Set up peak_heights and positions
+# use this list + block.make_peakheights after make/get baseline
+# to generate list of peak heights stored as profile attributes
 peaks = [3600, 3525, 3356, 3236]
-for wb in [wb_1000C_SC1_7, wb_800C_hyd, wb_800C_1hr, wb_800C_3hr,
-           wb_800C_7hr, wb_800C_13hr, wb_800C_19hr, wb_800C_43hr,
-           wb_800C_68hr]:
-    wb.get_baselines()
-    for prof in wb.profiles:
-        prof.peakpos = peaks
-        prof.peak_heights = [[]]*len(peaks)    
-        for pidx, peak in enumerate(peaks): 
-            prof.peak_heights[pidx] = []
-            for spec in prof.spectra:
-                idx = np.abs(peak - spec.base_wn).argmin()
-                height = spec.abs_nobase_cm[idx]
-                prof.peak_heights[pidx].append(height)
+

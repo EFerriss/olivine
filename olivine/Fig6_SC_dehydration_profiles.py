@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 from pynams import dlib
 import itertools
 import numpy as np
-   
+
 peaks = SC.peaks
 fastdiffusion = dlib.KM98_fast.whatIsD(800, printout=False)[0:3]
 
@@ -30,6 +30,7 @@ conversion_factor_area2water = 0.6 # see Table1_concentrations.py
 for wb in wb_list:
     wb.get_baselines()
     wb.make_areas()
+    wb.make_peakheights(peaks=peaks)
     for prof in wb.profiles:
         prof.areas = list(prof.areas * conversion_factor_area2water)
     wb.areas = [prof.areas for prof in wb.profiles]
@@ -40,15 +41,14 @@ wb = wb_list[0]
 for prof in wb.profiles:
     prof.areas = list(prof.areas * conversion_factor_area2water)
 
-#%%
-#% the figure
+#%% the figure
 style2 = {'color':'grey', 'marker':'o', 'linestyle': 'none', 'markersize':8,
           'label': 'hydrated', 'alpha':0.5,}
 style1 = {'color':'r', 'marker':'+', 'linestyle':'none', 'markersize':9,
           'markeredgewidth':1.5, 'label':'1 hour'}
 style3 = {'markeredgecolor':'chocolate', 'marker':'^', 'linestyle':'none', 
            'markersize':7, 'markeredgewidth':1.5, 'label':'3 hours',
-           'alpha':0.5, 'markerfacecolor':'none'}
+           'markerfacecolor':'none'}
 style7 = {'color':'goldenrod', 'marker':'x', 'linestyle':'none', 
            'markersize':6, 'markeredgewidth':1.5, 'label':'7 hours'}
 style13 = {'color':'g', 'marker':'p', 'linestyle':'none', 'markersize':6,
@@ -132,7 +132,7 @@ for ax3, init in zip(axes, initials):
     for ax in ax3:
         ax.plot(ax.get_xlim(), [init, init], ':', color=style2['color'])
 
-axes[0][2].legend(loc='bottom right', ncol=4, title='SC1-2 dehydration time', 
+axes[0][2].legend(ncol=4, title='SC1-2 dehydration time', 
    bbox_to_anchor=(0.7, 0.35))
 
 fig.suptitle('Quadratic baselines')
