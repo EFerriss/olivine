@@ -16,10 +16,12 @@ import olivine
 thisfolder = kiki.thisfolder
 
 wb_list = [
-#           kiki.wb_Kiki_init, kiki.wb_Kiki_1hr, kiki.wb_Kiki_8hr,
-#           kiki.wb_Kiki_1000C_3hr, 
-#           kiki.wb_Kiki_1000C_6hr, 
-#           kiki.wb_Kiki_1000C_7hr,
+           kiki.wb_Kiki_init, 
+           kiki.wb_Kiki_1hr, 
+           kiki.wb_Kiki_8hr,
+           kiki.wb_Kiki_1000C_3hr, 
+           kiki.wb_Kiki_1000C_6hr, 
+           kiki.wb_Kiki_1000C_7hr,
            kiki.wb_Kiki_ox]
 
 high_ending = olivine.high_ending

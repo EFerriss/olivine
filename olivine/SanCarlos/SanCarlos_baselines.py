@@ -92,30 +92,33 @@ wb.save_baselines(baseline_ending=low_ending)
 wb.make_baselines(**baseline3)
 wb.save_baselines(baseline_ending=high_ending)
 
-#%% SC1-2 hydrated
-wb = SC.wb_800C_hyd
+#%% SC1-2 hydrated and dehydrated
 spec2 = SC.spec2
-init = SC.SC_untreated_Ea
-fig, ax = init.plot_spectrum(style={'color':'r', 'linewidth':3}, offset=-0.03)
 
 baseline = {'abs_smear_high':10, 'wn_low':3200, 'curvature':0.05}
 spec2.make_baseline(**baseline)
 spec2.save_baseline()
-wb.make_baselines(**baseline)
-wb.save_baselines()
-spec2.plot_showbaseline(axes=ax)
 
 baseline2 = {'wn_low':3400}
 spec2.make_baseline(**baseline2)
 spec2.save_baseline(baseline_ending=high_ending)
-spec2.plot_showbaseline(axes=ax)
-wb.make_baselines(**baseline2)
-wb.save_baselines(baseline_ending=high_ending)
 
 baseline3 = {'abs_smear_high':10, 'wn_low':3200, 'curvature':0.07}
 spec2.make_baseline(**baseline3)
 spec2.save_baseline(baseline_ending=low_ending)
-wb.make_baselines(**baseline3)
-wb.save_baselines(baseline_ending=low_ending)
-spec2.plot_showbaseline(axes=ax)
 
+wblist = [SC.wb_800C_hyd, SC.wb_800C_1hr, SC.wb_800C_3hr, SC.wb_800C_7hr,
+          SC.wb_800C_13hr, SC.wb_800C_19hr, SC.wb_800C_43hr, SC.wb_800C_68hr]
+
+for wb in wblist:
+    ## Check they look reasonable
+#    spec = wb.average_spectra()
+#    spec.make_baseline(**baseline3)
+#    spec.plot_showbaseline()
+    wb.make_baselines(**baseline)
+    wb.save_baselines()
+    wb.make_baselines(**baseline2)
+    wb.save_baselines(baseline_ending=high_ending)
+    wb.make_baselines(**baseline3)
+    wb.save_baselines(baseline_ending=low_ending)
+    

@@ -865,7 +865,9 @@ whole_block_label_list = ['hydrated', '1hr', '3hr', '7hr', '13hr', '19hr',
 
 #%% Set up peak_heights and positions
 peaks = [3600, 3525, 3356, 3236]
-for wb in [wb_1000C_SC1_7, wb_800C_hyd]:
+for wb in [wb_1000C_SC1_7, wb_800C_hyd, wb_800C_1hr, wb_800C_3hr,
+           wb_800C_7hr, wb_800C_13hr, wb_800C_19hr, wb_800C_43hr,
+           wb_800C_68hr]:
     wb.get_baselines()
     for prof in wb.profiles:
         prof.peakpos = peaks
