@@ -10,7 +10,7 @@ from __future__ import print_function
 from pynams import styles
 from olivine.SanCarlos import SanCarlos_spectra as SC
 from olivine.KilaueaIki import Kiki_spectra as kiki
-from olivine import thisfolder, high_ending
+from olivine import thisfolder
 
 specSCinit = SC.SC_untreated_Ea
 specSC = SC.wb_800C_hyd_averagespec
@@ -18,7 +18,7 @@ specSCfinal = SC.wb_800C_68hr.average_spectra()
 specKiki = kiki.wb_Kiki_init_ave
 specKikiFinal = kiki.wb_Kiki_ox_ave
 
-specSC.get_baseline(baseline_ending=high_ending)
+specSC.get_baseline()
 specKiki.get_baseline()
 
 
@@ -74,13 +74,21 @@ ax.annotate('hydrated', xy=(3570, 0.36), xytext=(3520, 0.32),
             color=styleSC['color'], backgroundcolor='w',
             arrowprops=dict(facecolor='k', arrowstyle='->',
                             color=styleSC['color']))
-ax.annotate('dehydrated', xy=(3565, 0.095), xytext=(3530, 0.02), 
+ax.annotate('dehydrated', xy=(3500, 0.095), xytext=(3475, 0.21), 
             color=styleSC['color'], 
             arrowprops=dict(facecolor='k', arrowstyle='->',
                             color=styleSC['color']))
-ax.annotate('baseline', xy=(3485, 0.09), xytext=(3475, 0.21), 
-            arrowprops=dict(facecolor='k', arrowstyle='->'),
-            backgroundcolor='w',)
+ax.annotate('baseline', xy=(3390, 0.11), xytext=(3380, 0.015), 
+            arrowprops=dict(facecolor='k', arrowstyle='->'))
+
+## for linear baseline
+#ax.annotate('dehydrated', xy=(3565, 0.095), xytext=(3530, 0.02), 
+#            color=styleSC['color'], 
+#            arrowprops=dict(facecolor='k', arrowstyle='->',
+#                            color=styleSC['color']))
+#ax.annotate('baseline', xy=(3485, 0.09), xytext=(3475, 0.21), 
+#            arrowprops=dict(facecolor='k', arrowstyle='->'),
+#            backgroundcolor='w',)
 
 
 peaks = [3329, 3356, 3484, 3525, 3573, 3600]
@@ -93,5 +101,3 @@ for peak in peaks:
 ax.set_ylabel('Absorbance (cm$^{-1}$)')    
 fig.subplots_adjust(bottom=0.17, left=0.1, right=0.95, top=0.95)
 fig.savefig(thisfolder+'Fig5_SC_vs_Kiki.jpg', dpi=200, format='jpg')
-
-#print('done')
