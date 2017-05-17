@@ -10,8 +10,7 @@ from __future__ import print_function
 from pynams import styles
 from olivine.SanCarlos import SanCarlos_spectra as SC
 from olivine.KilaueaIki import Kiki_spectra as kiki
-from olivine import thisfolder
-
+from olivine import thisfolder, high_ending
 
 specSCinit = SC.SC_untreated_Ea
 specSC = SC.wb_800C_hyd_averagespec
@@ -19,19 +18,18 @@ specSCfinal = SC.wb_800C_68hr.average_spectra()
 specKiki = kiki.wb_Kiki_init_ave
 specKikiFinal = kiki.wb_Kiki_ox_ave
 
-specSC.get_baseline()
+specSC.get_baseline(baseline_ending=high_ending)
 specKiki.get_baseline()
-#specKikiFinal.get_baseline()
-#specKiki.get_baseline()
 
+
+#%%
 styleSC = {'color':'#2ca02c', 'linewidth':2}
 styleKiki = {'color':'darkmagenta', 'linewidth':2}
 
 kikioffset = 0.54
 kikioffsetFinal = 0.5
-SCoffset = 0.02
+SCoffset = 0.03
 
-#%%
 fig, ax = styles.plot_spectrum_outline()
 #
 x = specSC.wn_full
@@ -72,16 +70,17 @@ ax.annotate('dehydrated', xy=(3500, 0.71), xytext=(3470, 0.58),
                             color=styleKiki['color']))
 ax.annotate('baseline', xy=(3550, 0.65), xytext=(3530, 0.5), 
             arrowprops=dict(facecolor='k', arrowstyle='->'))
-ax.annotate('hydrated', xy=(3520, 0.23), xytext=(3480, 0.3), 
+ax.annotate('hydrated', xy=(3570, 0.36), xytext=(3520, 0.32), 
+            color=styleSC['color'], backgroundcolor='w',
+            arrowprops=dict(facecolor='k', arrowstyle='->',
+                            color=styleSC['color']))
+ax.annotate('dehydrated', xy=(3565, 0.095), xytext=(3530, 0.02), 
             color=styleSC['color'], 
             arrowprops=dict(facecolor='k', arrowstyle='->',
                             color=styleSC['color']))
-ax.annotate('dehydrated', xy=(3510, 0.08), xytext=(3460, 0.21), 
-            color=styleSC['color'], 
-            arrowprops=dict(facecolor='k', arrowstyle='->',
-                            color=styleSC['color']))
-ax.annotate('baseline', xy=(3470, 0.07), xytext=(3395, 0.02), 
-            arrowprops=dict(facecolor='k', arrowstyle='->'))
+ax.annotate('baseline', xy=(3485, 0.09), xytext=(3475, 0.21), 
+            arrowprops=dict(facecolor='k', arrowstyle='->'),
+            backgroundcolor='w',)
 
 
 peaks = [3329, 3356, 3484, 3525, 3573, 3600]

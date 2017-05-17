@@ -867,3 +867,21 @@ whole_block_label_list = ['hydrated', '1hr', '3hr', '7hr', '13hr', '19hr',
 # to generate list of peak heights stored as profile attributes
 peaks = [3600, 3525, 3356, 3236]
 
+wb_800C_hyd.style = {'color':'grey', 'marker':'o', 'linestyle': 'none', 'markersize':8,
+                     'label': 'hydrated', 'alpha':0.5,}
+wb_800C_1hr.style = {'color':'r', 'marker':'+', 'linestyle':'none', 'markersize':9,
+          'markeredgewidth':2, 'label':'1 hour'}
+wb_800C_3hr.style = {'markeredgecolor':'chocolate', 'marker':'^', 'linestyle':'none', 
+           'markersize':7, 'markeredgewidth':1, 'label':'3 hours',
+           'markerfacecolor':'none'}
+wb_800C_7hr.style = {'color':'goldenrod', 'marker':'x', 'linestyle':'none', 
+           'markersize':6, 'markeredgewidth':1.5, 'label':'7 hours'}
+wb_800C_13hr.style = {'color':'g', 'marker':'p', 'linestyle':'none', 'markersize':6,
+          'markeredgewidth':1.5, 'label':'13 hours', 'alpha':0.4}
+wb_800C_19hr.style = {'markeredgecolor':'b', 'marker':'s', 'linestyle':'none', 
+           'markersize':4, 'markerfacecolor':'none',
+          'markeredgewidth':1, 'label':'19 hours', 'alpha':0.5}
+wb_800C_43hr.style = {'color':'indigo', 'marker':'+', 'linestyle':'none', 
+                      'markersize':6, 'markeredgewidth':1, 'label':'43 hours'}
+wb_800C_68hr.style = {'color':'violet', 'marker':'.', 'linestyle':'none', 'markersize':5,
+             'markeredgewidth':1, 'label':'68 hours'}

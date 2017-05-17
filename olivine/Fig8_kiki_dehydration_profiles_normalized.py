@@ -17,19 +17,18 @@ import matplotlib.pyplot as plt
 from pynams import styles as st
 import itertools
 import numpy as np
-reload(kiki)
    
 peaks = kiki.peaks
 
-wbinit = kiki.wb_Kiki_8hr
+wbinit = kiki.wb_Kiki_init
 wb_list = [
            kiki.wb_Kiki_init,
            kiki.wb_Kiki_1hr, 
            kiki.wb_Kiki_8hr, 
-           kiki.wb_Kiki_1000C_3hr,
-           kiki.wb_Kiki_1000C_6hr,
-           kiki.wb_Kiki_1000C_7hr,
-           kiki.wb_Kiki_ox
+#           kiki.wb_Kiki_1000C_3hr,
+#           kiki.wb_Kiki_1000C_6hr,
+#           kiki.wb_Kiki_1000C_7hr,
+#           kiki.wb_Kiki_ox
            ]
 
 #%%
@@ -69,11 +68,14 @@ style43 = {'color':'indigo', 'marker':'x', 'linestyle':'none', 'markersize':4,
           'label':'+1 more hr at\n1000$\degree$C QFM+2.7'}
 
 styles = [styleinit, style1, style3, style7, style13, style19, style43]
+for style in styles:
+    style['color'] = 'darkmagenta'
+    style['markeredgecolor'] = 'darkmagenta'
 
 #%%
 fig, axs = st.plot_spectrum_outline()
 for style, wb in zip(styles, wb_list):   
-    spec = wb.profiles[1].spectra[6]
+    spec = wb.average_spectra()
     spec.make_baseline(**baseline)
     spec.plot_subtractbaseline(axes=axs, style={'color':style['color']},
                                label=style['label'])
@@ -99,9 +101,6 @@ for peak in range(4):
     ax1 = fig.add_axes([xstart, ypstart, width, height])
     ax2 = fig.add_axes([xstart+width+wgap, ypstart, width, height])
     ax3 = fig.add_axes([xstart+2*width+2*wgap, ypstart, width, height])
-#    ax1.set_xlim(-1200, 1200)
-#    ax2.set_xlim(-950, 950)
-#    ax3.set_xlim(-700, 700)
     axes.append([ax1, ax2, ax3])
     ypstart = ypstart + hgap + height
 
@@ -115,13 +114,14 @@ for idx, ax3 in enumerate(axes):
 axes[0][0].set_xlabel('x (mm)')
 axes[0][1].set_xlabel('y (mm)')
 axes[0][2].set_xlabel('z (mm)')
-axes[-1][0].set_ylabel('bulk hydrogen\n(ppm H$_2$O)')
-axes[0][0].set_ylabel('[Si-Fe$^{2+}$] peak\nheight (cm$^{-1}$)')
-axes[1][0].set_ylabel('[Ti-3525] peak\nheight (cm$^{-1}$)')
-axes[2][0].set_ylabel('[tri-Fe$^{3+}$-3356] peak\nheight (cm$^{-1}$)')
+axes[-1][0].set_ylabel('bulk hydrogen\nrelative to initial')
+axes[0][0].set_ylabel('[Si-Fe$^{2+}$] peak\nheight / initial height')
+axes[1][0].set_ylabel('[Ti-3525] peak\nheight / initial height')
+axes[2][0].set_ylabel('[tri-Fe$^{3+}$-3356] peak\nheight / initial height')
 
 # axes limits
-ytops = [0.2, 0.2, 0.2, 100]
+#ytops = [0.2, 1., 0.2, 100]
+ytops = [2.5, 1.5, 1.2, 2.]
 ybots = [0, 0, 0, 0]
 for top, bot, ax3 in zip(ytops, ybots, axes):    
     for ax in ax3:
@@ -133,29 +133,31 @@ for ax3, peakidx, hplot in zip(axes, [0, 1, 2, None], plotheight):
     for wb, style in zip(wb_list, styles):
         wb.plot_areas_3panels(axes3=ax3, styles3=[style]*3,
                               centered=True, show_errorbars=False, 
-                              wholeblock=False,
+                              wholeblock=True, show_line_at_1=True,
                               peak_idx=peakidx, heights_instead=hplot)
     ax3[1].set_title(' ')
 
 for ax, direction, raypath in zip(axes[-1], wbinit.directions, wbinit.raypaths):
     ax.set_title(''.join(('|| ', direction, ', R || ', raypath)))
 
+axes[-1][1].text(0, 1.8, 'very noisy spectra at 8hrs', ha='center', va='center',
+    color='darkmagenta')
 #initial = mean of the initial across all profiles
-initials = [0]*4
-initials[3] = np.mean(list(itertools.chain(*wbinit.areas)))
-for idx in range(3):
-    x, y = wbinit.xy_picker(peak_idx=idx, wholeblock=False, 
-                            heights_instead=True)
-    initials[idx] = np.mean(list(itertools.chain(*y)))
-for ax3, init in zip(axes, initials):
-    for ax in ax3:
-        ax.plot(ax.get_xlim(), [init, init], ':', color=style3['color'])
+#initials = [0]*4
+#initials[3] = np.mean(list(itertools.chain(*wbinit.areas)))
+#for idx in range(3):
+#    x, y = wbinit.xy_picker(peak_idx=idx, wholeblock=False, 
+#                            heights_instead=True)
+#    initials[idx] = np.mean(list(itertools.chain(*y)))
+#for ax3, init in zip(axes, initials):
+#    for ax in ax3:
+#        ax.plot(ax.get_xlim(), [init, init], ':', color=style3['color'])
 
-axes[0][2].legend(ncol=3, title='Kilauea Iki olivine', 
-   bbox_to_anchor=[1, -0.4], loc=1)
+#axes[0][2].legend(ncol=3, title='Kilauea Iki olivine', 
+#   bbox_to_anchor=[0.7, -0.4], loc=1)
 
-fig.suptitle('Quadratic baselines')
-fig.savefig(kiki.thisfolder+'\..\Fig7_kiki_dehydration_profiles.jpg', 
+axes[1][2].legend(ncol=3, title='Kilauea Iki olivine', 
+   bbox_to_anchor=[0.7, 0.4], loc=1)
+
+fig.savefig(kiki.thisfolder+'\..\Fig7_kiki_dehydration_profiles_normalized.jpg', 
             dpi=400, format='jpg')        
-#
-#
