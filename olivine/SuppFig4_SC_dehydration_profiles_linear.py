@@ -53,9 +53,6 @@ for peak in range(3):
     ax1 = fig.add_axes([xstart, ypstart, width, height])
     ax2 = fig.add_axes([xstart+width+wgap, ypstart, width, height])
     ax3 = fig.add_axes([xstart+2*width+2*wgap, ypstart, width, height])
-    ax1.set_xlim(-1300, 1300)
-    ax2.set_xlim(-950, 950)
-    ax3.set_xlim(-1300, 1300)
     axes.append([ax1, ax2, ax3])
     ypstart = ypstart + hgap + height
 
@@ -124,7 +121,7 @@ for ax, direction, raypath in zip(axes[-1], wb2.directions, wb2.raypaths):
 
 
 axes[0][2].legend(ncol=4, title='SC1-2 dehydration time', 
-   bbox_to_anchor=(0.7, 0.35))
+   bbox_to_anchor=(0.7, 0.32), fontsize=8)
 
 #fig.suptitle('Non-normalized data, linear baselines')
 fig.savefig(SC.thisfolder+'\..\SuppFig4_SC_dehydration_profiles_linear.jpg', 

@@ -12,7 +12,7 @@ from . import FTIR
 FTIR_file_location = ''.join((os.path.dirname(FTIR.__file__), '\\'))
 thisfolder = ''.join((FTIR_file_location, '..\\'))
 
-matplotlib.rcParams.update({'font.size': 8})
+matplotlib.rcParams.update({'font.size': 10})
 
 high_ending = '-high-baseline.CSV'
 low_ending = '-low-baseline.CSV'

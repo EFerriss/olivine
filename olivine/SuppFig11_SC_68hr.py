@@ -69,9 +69,6 @@ for peak in range(3):
     ax1 = fig.add_axes([xstart, ypstart, width, height])
     ax2 = fig.add_axes([xstart+width+wgap, ypstart, width, height])
     ax3 = fig.add_axes([xstart+2*width+2*wgap, ypstart, width, height])
-    ax1.set_xlim(-1300, 1300)
-    ax2.set_xlim(-950, 950)
-    ax3.set_xlim(-1300, 1300)
     axes.append([ax1, ax2, ax3])
     ypstart = ypstart + hgap + height
 
