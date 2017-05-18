@@ -26,12 +26,12 @@ peaks = [3329, 3356]
 for peak in peaks:
     idx = abs(spec.wn_full-peak).argmin()
     y = spec.abs_full_cm[idx] + 0.01
-    ax.text(peak, y, '$\\leftarrow$'+str(peak), fontsize=8, 
+    ax.text(peak, y, '$\\leftarrow$'+str(peak), #fontsize=8, 
             rotation=90, ha='center', va='bottom')
 
 txt = ''.join(('FTIR spectrum\n', str(loc), ' $\mu$m from edge of SC1-2',
                '\nAfter 43 hours at 800$\degree$C'))
-ax.text(3950, 0.21, txt, fontsize=12, ha='left', va='center', 
+ax.text(3980, 0.22, txt, ha='left', va='center', 
         backgroundcolor='w')
 
 #txt = 'linear baseline\nresults in\nnegative\narea'
