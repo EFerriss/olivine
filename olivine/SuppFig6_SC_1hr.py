@@ -76,7 +76,7 @@ axes[0][0].set_xlabel('x (mm)')
 axes[0][1].set_xlabel('y (mm)')
 axes[0][2].set_xlabel('z (mm)')
 axes[-1][0].set_ylabel('bulk hydrogen\n(ppm H$_2$O) rel. to init')
-axes[0][0].set_ylabel('[Si-Fe$^{2+}$] peak\nheight rel. to init)')
+axes[0][0].set_ylabel('[Si-Fe$^{2+}$] peak\nheight rel. to init')
 axes[1][0].set_ylabel('[Ti-3525] peak\nheight rel. to init')
 
 # whole block or raw data?

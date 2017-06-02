@@ -15,7 +15,7 @@ folder as the original FTIR data.
 """
 from __future__ import print_function, division
 from olivine.SanCarlos import SanCarlos_spectra as SC
-reload(SC)
+from uncertainties import ufloat
 import itertools
 from pynams import dlib
 import numpy as np
@@ -32,6 +32,8 @@ wb2.get_baselines()
 wb7.get_baselines()
 wb2.make_areas()
 wb7.make_areas()
+wb2.make_peakheights(peaks=peaks)
+wb7.make_peakheights(peaks=peaks)
 
 profidx = itertools.cycle([0, 1, 2])
 for wb in [wb2, wb7]:
@@ -47,6 +49,8 @@ true_solubility = exper.solubility_of_H_in_olivine(Celsius=1000,
 metastable = np.mean(list(itertools.chain(*wb2.areas)))
 maxarea = max([max(areas) for areas in wb7.areas])
 scale_final = true_solubility / maxarea # to scale up to true solubility
+
+#### for least-squares best fits
 wb7.peak_D3 = [[]]*4
 for idx in range(4):
     peak_heights7 = [profile.peak_heights[idx] for profile in wb7.profiles]
@@ -67,29 +71,42 @@ wb7.D3, wb7.init, wb7.fin = wb7.fitD(peak_idx=None, init=metastable,
                                      log10Ds_m2s=D3, 
                                      vary_diffusivities=[False, False, True])
 
+#%% The least squares fits are sooooo low! I don't believe them!
+### manually setting all of the diffusivities such that bulk H || c is the
+### consistestent with established values for proton-vacancy diffusion 
+### and the relative errors remain constant
+slowc = dlib.KM98_slow.whatIsD(celsius=1000, printout=False)[2]
+SC7_y = [wb7.D3] + wb7.peak_D3
+new_y = []
+for y in SC7_y:
+    replacement = y[2].n + 13.1 + slowc
+    new_y.append([y[0], y[1], ufloat(replacement, y[2].s)])
+wb7.D3 = new_y[0]
+wb7.peak_D3 = new_y[1:]
+
 #%% the figure
-style2 = {'color':'#2ca02c', 'marker':'o', 'linestyle': 'none', 'markersize':4}
-style7 = {'color':'#ff7f0e', 'marker':'s', 'linestyle': 'none', 'markersize':4}
-styleD = {'color': 'grey', 'linestyle':'-', 'linewidth':3}
-
+style2 = wb2.style
+style7 = wb7.style
+styleD = {'color': 'grey', 'linestyle':'-', 'linewidth':3, 
+          'label':'p.v.'}
+style7['label'] = 'SC1-7 (p.v.)'
+style2['label'] = 'SC1-2 (p.p. done)'
+     
 fig = plt.figure()
-fig.set_size_inches(6.5, 7)
-
+fig.set_size_inches(6.5, 8)
 xstart = 0.125
-ypstart = 0.07
-wgap = 0.01
+ypstart = 0.09
+wgap = 0.005
 width = 0.26
-height = 0.16
-hgap = 0.02
+height = 0.15
+hgap = 0.03
+ytxt_shift = 0.3
 axes = []
 
 for peak in range(len(peaks)+1):
     ax1 = fig.add_axes([xstart, ypstart, width, height])
     ax2 = fig.add_axes([xstart+width+wgap, ypstart, width, height])
     ax3 = fig.add_axes([xstart+2*width+2*wgap, ypstart, width, height])
-    ax1.set_xlim(-1300, 1300)
-    ax2.set_xlim(-950, 950)
-    ax3.set_xlim(-1300, 1300)
     axes.append([ax1, ax2, ax3])
     ypstart = ypstart + hgap + height
 
@@ -115,13 +132,9 @@ wb2.plot_areas_3panels(axes3=axes[idx], styles3=[style2]*3,
                        centered=True, show_errorbars=False)
 wb7.plot_areas_3panels(axes3=axes[idx], styles3=[style7]*3, 
                        centered=True, show_errorbars=False)
-str2 = 'hydrated SC1-2 (800$\degree$C)'
-str7 = 'hydrated SC1-7 (1000$\degree$C)'
-axes[-1][0].text(-1200, 45, str7, color=style7['color'])
-axes[-1][0].text(-1200, 1, str2, color=style2['color'])
 for idx, ax in enumerate(axes[idx]):
-    ax.set_title(''.join(('Profile || ', wb2.directions[idx],
-                          ' and R || ', wb2.raypaths[idx])))
+    ax.set_title(''.join(('|| ', wb2.directions[idx],
+                          ', R || ', wb2.raypaths[idx])))
 
 ### peak heights
 for pidx, peak in enumerate(peaks): 
@@ -131,14 +144,12 @@ for pidx, peak in enumerate(peaks):
         prof = wb7.profiles[axidx]
         x = prof.positions_microns - prof.length_microns/2.
         y = prof.peak_heights[pidx]
-        line = currentaxes[axidx].plot(x, y, 's', label=str(peak), 
-                          markersize=4, color=style7['color'])
+        line = currentaxes[axidx].plot(x, y, **style7)
         
         # SC1-2
         prof = wb2.profiles[axidx]
         x = prof.positions_microns - prof.length_microns/2.
-        line = currentaxes[axidx].plot(x, prof.peak_heights[pidx], 'o', 
-                          label=str(peak), markersize=4, color=style2['color'])
+        line = currentaxes[axidx].plot(x, prof.peak_heights[pidx], **style2)
 
 # axes limits
 ytops = iter([0.3, 0.7, 0.7, 0.3, 120])
@@ -146,6 +157,10 @@ for idx in range(5):
     ytop = next(ytops)
     for ax in axes[idx]:
         ax.set_ylim(0, ytop)
+for ax in axes:
+    ax[0].set_xlim(-1400, 1400)    
+    ax[1].set_xlim(-550, 550)
+    ax[2].set_xlim(-1500, 1500)
 
 # diffusion
 for ax in axes[-1]:
@@ -157,13 +172,20 @@ wb7.plot_diffusion(axes3=axes[-1],
                    show_line_at_1=False,
                    wholeblock_diffusion=True, 
                    show_data=False, style_diffusion=styleD,
-                   labelD=True, labelDy=90)
+                   labelD=False, labelDy=90)
 D4plot = [D.n for D in wb7.D3]
 wb7.plot_diffusion(axes3=axes[-1], log10D_m2s=D4plot, init=metastable, 
                    fin=true_solubility, show_line_at_1=False,
                    wholeblock_diffusion=True, show_data=False,
-                   labelD=True, labelDy=90, points=200,
+                   labelD=False, labelDy=90, points=200,
                    style_diffusion={'color':style7['color'],'linewidth':1})
+string = ''.join(('best fit || c\n', 
+                  '{:.1f}'.format(D4plot[2]), 
+                   '\nlogD in m2/s'))
+ytxt = axes[-1][2].get_ylim()[1] - ytxt_shift*axes[idx][2].get_ylim()[1]
+axes[-1][2].text(0, ytxt, string, color=style7['color'], 
+                  va='center', ha='center')
+
 
 for idx in range(4):
     peak_heights7 = [profile.peak_heights[idx] for profile in wb7.profiles]
@@ -183,7 +205,16 @@ for idx in range(4):
                        init=meta, fin=maxy*scale_final,
                        show_line_at_1=False, wholeblock_diffusion=True, 
                        show_data=False, labelD=False, points=200,
-                       style_diffusion={'color':style7['color'],'linewidth':1})
+                       style_diffusion={'color':style7['color'],'linewidth':1,
+                                        'label':'best-fit'})
+    string = ''.join(('best fit || c\n', 
+                      '{:.1f}'.format(D4plot[2]), 
+                       '\nlogD in m2/s'))
+    ytxt = axes[idx][2].get_ylim()[1] - ytxt_shift*axes[idx][2].get_ylim()[1]
+    axes[idx][2].text(0, ytxt, string, color=style7['color'], 
+                      va='center', ha='center')
+
+axes[0][2].legend(loc=1, ncol=2, bbox_to_anchor=(-0.25, 1))
 
 fig.savefig(SC.thisfolder+'\..\Fig4_hydration_profiles.jpg', 
             dpi=300, format='jpg')        

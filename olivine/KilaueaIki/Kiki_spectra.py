@@ -527,3 +527,31 @@ wb_Kiki_ox_ave.fname = 'wb_Kiki_ox_ave'
 wb_Kiki_ox_ave.folder = FTIR_file_location
 
 peaks = [3600, 3525, 3356]
+
+wb_Kiki_init.style = {'color':'grey', 'marker':'o', 
+                      'linestyle': 'none', 'markersize':8,
+                      'label': 'initial', 'alpha':0.5,}
+wb_Kiki_1hr.style = {'color':'r', 'marker':'+', 'linestyle':'none', 
+                     'markersize':9, 'markeredgewidth':1.5, 
+                     'label':'1 hr 800$\degree$C QFM-2'}
+wb_Kiki_8hr.style = {'markeredgecolor':'chocolate', 'marker':'^', 
+                     'linestyle':'none',  'markersize':7, 
+                     'markeredgewidth':1.5, 'color':'chocolate',
+                     'label':'8 hr 800$\degree$C QFM-2',
+                     'markerfacecolor':'none'}
+wb_Kiki_1000C_3hr.style = {'color':'goldenrod', 'marker':'x', 
+                           'linestyle':'none', 
+                           'markersize':6, 'markeredgewidth':1.5, 
+                           'label':'+3 hr 1000$\degree$C QFM-2'}
+wb_Kiki_1000C_6hr.style = {'color':'g', 'marker':'p', 'linestyle':'none', 
+                           'markersize':6,
+                           'markeredgewidth':1.5, 'alpha':0.4, 
+                           'label':'6 hr 1000$\degree$C QFM-2'}
+wb_Kiki_1000C_7hr.style = {'markeredgecolor':'b', 'marker':'s',
+                           'linestyle':'none', 'markersize':4, 
+                           'markerfacecolor':'none', 'color':'b',
+                           'markeredgewidth':1, 'alpha':0.5, 
+                           'label':'7 hr 1000$\degree$C QFM-2'}
+wb_Kiki_ox.style = {'color':'indigo', 'marker':'x', 'linestyle':'none', 
+              'markersize':4, 'markeredgewidth':1,
+              'label':'+1 more hr at\n1000$\degree$C QFM+2.7'}
