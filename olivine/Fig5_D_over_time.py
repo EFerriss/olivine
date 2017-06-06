@@ -15,8 +15,11 @@ import numpy as np
 SC_x = [1, 3, 7, 13, 19, 43, 68]
 SC_y = [-11.6, -10.7, -12.7, -11.3, -11.4, -11.9, -11.9]
 SC_y_err = [1.5, 0.2, 2.1, 0.2, 0.1, 0.2, 0.2]
+SC_y_err[0] = 0. # for clarity
+SC_y_err[2] = 0. # for clarity
 SC_Ti_y = [-11.8, -10.7, -11, -11., -11.1, -11.4, -11.5]
 SC_Ti_y_err = [1.8, 0.2, 0.2, 0.1, 0.1, 0., 0.1]
+SC_Ti_y_err[0] = 0. # for clarity
 SC_Si_y = [-12.5, -12.5, -12.5, -12.5, -12.5, -12., -11.8] # changed idx 0, 1
 SC_Si_y_err = [0., 0., 0., 0., 0, 0., 0]
 # manual updates for SC bulk H that retain original error limits
@@ -39,6 +42,11 @@ for idx, replacement in zip(idxs, replacements):
     SC_Ti_y_err_lo[idx] =  SC_Ti_y[idx] - SC_Ti_y_err_up[idx] - replacement
     SC_Ti_y_err = [SC_Ti_y_err_lo, SC_Ti_y_err_up]
     SC_Ti_y[idx] = replacement
+# upper limits
+SC_Si_uplims = np.zeros_like(SC_x)
+SC_Si_uplims[[0, 1, 2, 3, 4]] = True
+for idx in range(5):
+    SC_Si_y_err[idx] = 0.4
 
 # SC1-7 hydration 
 slowc = dlib.KM98_slow.whatIsD(celsius=1000, printout=False)[2]
@@ -62,13 +70,13 @@ SC7_err = new_err
 # Kilauea Iki
 kiki_800_x = [1, 8]
 kiki_800 = [-12.5, -12.5] # changed idx 1
-kiki_800_err = [2.2, 1.7]
+kiki_800_err = [0., 0.] #[2.2, 1.7]
 kiki_800_tri = [-10, -10.1]
 kiki_800_tri_err = [0.1, 0.1]
 kiki_800_Ti = [-12.5, -12.5]
-kiki_800_Ti_err = [0.4, 0.4]
+kiki_800_Ti_err = [0.4, 0.]
 kiki_800_Si = [-12.5, -12.5]
-kiki_800_Si_err = [0.4, 0.4]
+kiki_800_Si_err = [0., 0.4]
 
 # expected diffusivities
 fast800 = dlib.KM98_fast.whatIsD(800, printout=False)
@@ -94,14 +102,23 @@ ax.set_xlabel('time (hours)')
 ax.set_ylabel('log$_{10}$ diffusivity || a in m$^2$/s')
 ax.set_xlim(0, 70)
 ax.set_ylim(-16, -9.5)
-ax.text(68, -10.5, '800$\degree$C, D || [100]', fontsize=14, ha='right')
+ax.text(68, -10., '800$\degree$C, D || [100]', fontsize=14, ha='right')
+ax.text(68, -10.7, 'p.p.', ha='right')
+ax.text(68, -15.7, 'p.v.', ha='right')
+ax.text(68, -14.2, '[Mg]$_{Fo}$', ha='right')
+ax.text(68, -15.1, '[Ti]$_{Fo}$', ha='right')
 
 ax2 = fig.add_axes([xstart, ystart, width, height])
 ax2.set_xlim(ax.get_xlim())
 ax2.set_ylim(-16, -9.5)
 ax2.set_xlabel('time (hours)')
 ax2.set_ylabel('log$_{10}$ diffusivity || c in m$^2$/s')
-ax2.text(68, -10.5, '1000$\degree$C, D || [001]', fontsize=14, ha='right')
+ax2.text(68, -10., '1000$\degree$C, D || [001]', fontsize=14, ha='right')
+ax2.text(68, -10.95, 'p.p.', ha='right')
+ax2.text(68, -11.65, 'p.v.', ha='right')
+ax2.text(68, -12.6, '[Mg]$_{Fo}$', ha='right')
+ax2.text(68, -13.5, '[Ti]$_{Fo}$', ha='right')
+ax2.text(68, -15.5, '[Si]$_{Fo}$', ha='right')
 
 pnavcolor = 'k'
 SC_style = {'color': '#2ca02c', 'marker':'o', 'markersize':10,
@@ -159,13 +176,7 @@ kiki_tri_style['color'] = kiki_style['color']
 kiki_Ti_style['label'] = '[Ti] in Kiki'
 kiki_Si_style['label'] = '[Si] in Kiki'
 kiki_tri_style['label'] = '[tri] in Kiki'         
-             
-# upper limits
-SC_Si_uplims = np.zeros_like(SC_x)
-SC_Si_uplims[[0, 1, 2, 3, 4]] = True
-for idx in range(5):
-    SC_Si_y_err[idx] = 0.4
-            
+                        
 ax.errorbar(SC_x, SC_y, yerr=SC_y_err, **SC_style)
 ax.errorbar(SC_x, SC_Ti_y, yerr=SC_Ti_y_err, **SC_Ti_style)
 ax.errorbar(SC_x, SC_Si_y, yerr=SC_Si_y_err, uplims=SC_Si_uplims, **SC_Si_style)
