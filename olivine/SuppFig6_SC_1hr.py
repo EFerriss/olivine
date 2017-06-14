@@ -15,6 +15,7 @@ from olivine.SanCarlos import SanCarlos_spectra as SC
 from pynams import dlib
 import matplotlib.pyplot as plt
 import numpy as np
+from uncertainties import ufloat
 
 water = 14.
 peaks = SC.peaks
@@ -33,16 +34,24 @@ for wb in wb_list:
 
 # best-fit diffusivities || a
 fast = dlib.KM98_fast.whatIsD(800, printout=False)[0:3]
+slow = dlib.KM98_slow.whatIsD(800, printout=False)[0:3]
+vD = [[True, False, False], [True, False, False], [True, False, False]]
 final.D_list = []
-for ploc in [0, 1, None]:
+D3 = [slow, fast, fast]
+finals = [0.4, 0., 0.15]
+for f, D, ploc, varyD in zip(finals, D3, [0, 1, None], vD):
     fitD3, fiti, fitf = final.fitD(wholeblock_data=True, 
                                 wholeblock_diffusion=True,
-                                log10Ds_m2s=fast, show_plot=False,
-                                vary_diffusivities=[True, False, False],
+                                log10Ds_m2s=D, show_plot=False,
+                                vary_diffusivities=varyD,
+                                fin=f,
                                 peak_idx=ploc, heights_instead=True)
     final.D_list.append(fitD3)
    
 #%%
+final.D_list[-1][0] = ufloat(-10.8, 0)
+final.D_list[1][0] = ufloat(-10.8, 0)
+final.D_list[0][0] = ufloat(-12.5, 0)
 styles = [wb.style for wb in wb_list]
 styleD = {'color':'#2ca02c', 'linewidth':3, 'marker':None, 'linestyle':'--',
           'alpha':0.75, 'label':'least-squares'}
@@ -107,19 +116,22 @@ fast = dlib.KM98_fast.whatIsD(800, printout=False)[0:3]
 DSi = list(np.array(fast) - 1)
 D3 = [fast, fast, fast]
 peaklocs = [0, 1, None]
-for ax3, D, ploc, D3fit in zip(axes, D3, peaklocs, final.D_list):
+ytext = [0.2, 0.2, 0.2]
+for f, ax3, D, ploc, D3fit, yt in zip(finals, axes, D3, peaklocs, final.D_list, ytext):
     final.plot_diffusion(log10D_m2s=D, show_data=False, axes3=ax3,
                          wholeblock_diffusion=True, labelDy=0.4, 
                          labelD=False)
     fD3 = [diff.n for diff in D3fit]
     final.plot_diffusion(log10D_m2s=fD3, show_data=False, axes3=ax3,
                          wholeblock_diffusion=True, labelDy=0.4, 
+                         fin=f,
                          labelD=False, style_diffusion=styleD)
     string = ''.join(('best fit || a\n', 
                       '{:.1f}'.format(D3fit[0]), 
                        '\nlogD in m2/s'))
-    ax3[0].text(0, 0.4, string, color=styleD['color'], 
+    ax3[0].text(0, yt, string, color=styleD['color'], 
        va='center', ha='center')
+        
         
 #        final.plot_diffusion(log10D_m2s=fitD3, show_data=False, axes3=ax3,
 #                             wholeblock_diffusion=True, fin=fitf, 

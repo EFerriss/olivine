@@ -13,8 +13,8 @@ import numpy as np
 
 # SC1-2 dehydration
 SC_x = [1, 3, 7, 13, 19, 43, 68]
-SC_y = [-11.6, -10.7, -12.7, -11.3, -11.4, -11.9, -11.9]
-SC_y_err = [1.5, 0.2, 2.1, 0.2, 0.1, 0.2, 0.2]
+SC_y = [-10.8, -10.8, -11.4, -11.2, -11.3, -11.7, -11.6]
+SC_y_err = [0., 0., 0., 0.1, 0.1, 0.2, 0.2]
 SC_y_err[0] = 0. # for clarity
 SC_y_err[2] = 0. # for clarity
 SC_Ti_y = [-11.8, -10.7, -11, -11., -11.1, -11.4, -11.5]
@@ -22,21 +22,11 @@ SC_Ti_y_err = [1.8, 0.2, 0.2, 0.1, 0.1, 0., 0.1]
 SC_Ti_y_err[0] = 0. # for clarity
 SC_Si_y = [-12.5, -12.5, -12.5, -12.5, -12.5, -12., -11.8] # changed idx 0, 1
 SC_Si_y_err = [0., 0., 0., 0., 0, 0., 0]
-# manual updates for SC bulk H that retain original error limits
-SC_y_err_up = SC_y_err
-SC_y_err_lo = SC_y_err
-idxs = [0, 1, 2]
-replacements = [-10.8, -10.8, -10.8]
-for idx, replacement in zip(idxs, replacements):
-    SC_y_err_up[idx] =  SC_y[idx] + SC_y_err_up[idx] - replacement
-    SC_y_err_lo[idx] =  SC_y[idx] - SC_y_err_up[idx] - replacement
-    SC_y_err = [SC_y_err_lo, SC_y_err_up]
-    SC_y[idx] = replacement
-# manual updates for SC [Ti] that retain original error limits
+#### manual updates for SC [Ti] that retain original error limits
 SC_Ti_y_err_up = SC_Ti_y_err
 SC_Ti_y_err_lo = SC_Ti_y_err
-idxs = [0, 1, 2]
-replacements = [-10.8, -10.8, -10.8]
+idxs = [0, 1]
+replacements = [-10.8, -10.8]
 for idx, replacement in zip(idxs, replacements):
     SC_Ti_y_err_up[idx] =  SC_Ti_y[idx] + SC_Ti_y_err_up[idx] - replacement
     SC_Ti_y_err_lo[idx] =  SC_Ti_y[idx] - SC_Ti_y_err_up[idx] - replacement
@@ -52,20 +42,8 @@ for idx in range(5):
 slowc = dlib.KM98_slow.whatIsD(celsius=1000, printout=False)[2]
 SC7_x = [7]
 SC7_labels = ['bulk', '[Si]', '[Ti]', '[tri]', '[Mg]']
-SC7_y = [-13.1, -13.5, -13.3, -13.0, -12.7]
-SC7_y_err = [2.2, 21., 5.9, -2.1, 1.1]
-SC7_y_err_hi = SC7_y_err
-SC7_y_err_lo = SC7_y_err
-new_y = []
-new_err = []
-for y, errlo, errhi, err in zip(SC7_y, SC7_y_err_lo, SC7_y_err_hi, SC7_y_err):
-    replacement = y + 13.1 + slowc
-    errhi =  y + errhi - replacement
-    errlo =  y - errhi - replacement
-    new_y.append(replacement)
-    new_err.append([errhi, errlo])
-SC7_y = new_y
-SC7_err = new_err
+SC7_y = [-10.8, -11.5, -11.1, -10.8, -10.5]
+SC7_y_err = [0]*len(SC7_y)
 
 # Kilauea Iki
 kiki_800_x = [1, 8]
@@ -77,6 +55,11 @@ kiki_800_Ti = [-12.5, -12.5]
 kiki_800_Ti_err = [0.4, 0.]
 kiki_800_Si = [-12.5, -12.5]
 kiki_800_Si_err = [0., 0.4]
+kiki_1000_x = [3, 6, 7, 8]
+kiki_1000 = [-11.68, -11.68, -11.68, -11.68]
+kiki_1000_tri = [-11.73, -11.73, -11.73, -11.73]
+kiki_1000_Ti = [-11.73, -11.73, -11.70, -11.70]
+kiki_1000_Si = [-11.66, -11.66, -11.66, -11.66]
 
 # expected diffusivities
 fast800 = dlib.KM98_fast.whatIsD(800, printout=False)
@@ -109,16 +92,17 @@ ax.text(68, -14.2, '[Mg]$_{Fo}$', ha='right')
 ax.text(68, -15.1, '[Ti]$_{Fo}$', ha='right')
 
 ax2 = fig.add_axes([xstart, ystart, width, height])
-ax2.set_xlim(ax.get_xlim())
+ax2.set_xlim(0, 10)
 ax2.set_ylim(-16, -9.5)
 ax2.set_xlabel('time (hours)')
 ax2.set_ylabel('log$_{10}$ diffusivity || c in m$^2$/s')
-ax2.text(68, -10., '1000$\degree$C, D || [001]', fontsize=14, ha='right')
-ax2.text(68, -10.95, 'p.p.', ha='right')
-ax2.text(68, -11.65, 'p.v.', ha='right')
-ax2.text(68, -12.6, '[Mg]$_{Fo}$', ha='right')
-ax2.text(68, -13.5, '[Ti]$_{Fo}$', ha='right')
-ax2.text(68, -15.5, '[Si]$_{Fo}$', ha='right')
+xt = 9.8
+ax2.text(xt, -10., '1000$\degree$C, D || [001]', fontsize=14, ha='right')
+ax2.text(xt, -10.95, 'p.p.', ha='right')
+ax2.text(xt, -11.65, 'p.v.', ha='right')
+ax2.text(xt, -12.6, '[Mg]$_{Fo}$', ha='right')
+ax2.text(xt, -13.5, '[Ti]$_{Fo}$', ha='right')
+ax2.text(xt, -15.5, '[Si]$_{Fo}$', ha='right')
 
 pnavcolor = 'k'
 SC_style = {'color': '#2ca02c', 'marker':'o', 'markersize':10,
@@ -176,7 +160,14 @@ kiki_tri_style['color'] = kiki_style['color']
 kiki_Ti_style['label'] = '[Ti] in Kiki'
 kiki_Si_style['label'] = '[Si] in Kiki'
 kiki_tri_style['label'] = '[tri] in Kiki'         
+SC_hyd_style = SC_style.copy()
+SC_Ti_hyd_style = SC_Ti_style.copy()
+SC_hyd_style['label'] = 'SC1-2 hydr.\nbulk, [Ti]'
+SC_hyd_style['linestyle'] = 'none'
+SC_hyd_style['markersize'] = SC_style['markersize'] + 2
                         
+ax.plot(17.4, fast800[0], **SC_hyd_style)
+
 ax.errorbar(SC_x, SC_y, yerr=SC_y_err, **SC_style)
 ax.errorbar(SC_x, SC_Ti_y, yerr=SC_Ti_y_err, **SC_Ti_style)
 ax.errorbar(SC_x, SC_Si_y, yerr=SC_Si_y_err, uplims=SC_Si_uplims, **SC_Si_style)
@@ -191,6 +182,11 @@ ax2.errorbar(SC7_x, SC7_y[1], yerr=SC7_y_err[1], **SC7_Si_style)
 ax2.errorbar(SC7_x, SC7_y[2], yerr=SC7_y_err[2], **SC7_Ti_style)
 ax2.errorbar(SC7_x, SC7_y[3], yerr=SC7_y_err[3], **SC7_tri_style)
 ax2.errorbar(SC7_x, SC7_y[4], yerr=SC7_y_err[4], **SC7_Mg_style)
+
+ax2.plot(kiki_1000_x, kiki_1000, **kiki_style)
+ax2.plot(kiki_1000_x, kiki_1000_Si, **kiki_Si_style)
+ax2.plot(kiki_1000_x, kiki_1000_tri, **kiki_tri_style)
+ax2.plot(kiki_1000_x, kiki_1000_Ti, **kiki_Ti_style)
 
 ax.plot(ax.get_xlim(), [fast800[0], fast800[0]], 
         label='p.p.', color='k')

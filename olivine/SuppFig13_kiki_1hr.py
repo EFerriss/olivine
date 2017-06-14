@@ -17,13 +17,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from uncertainties import ufloat
 
-#%%
+#%% initial setup - get baselines, areas, peak positions
 water = 15.
 peaks = kiki.peaks
 initial = kiki.wb_Kiki_init
 final = kiki.wb_Kiki_1hr
 wb_list = [initial, final]
-
 for wb in wb_list:
     wb.get_baselines()
     wb.make_areas()
@@ -33,9 +32,15 @@ for wb in wb_list:
     wb.style['color'] = 'darkmagenta'
     wb.style['markeredgecolor'] = 'darkmagenta'
 
-# best-fit diffusivities || a
+# diffusivities
+percslow = 90
 fast = dlib.KM98_fast.whatIsD(800, printout=False)[0:3]
 slow = dlib.KM98_slow.whatIsD(800, printout=False)[0:3]
+medium = dlib.mix_olivine_mechanisms(percslow, 800)
+umedium = [ufloat(D, 0) for D in medium]
+final.D_list = [umedium]*4
+
+#### best-fit
 final.D_list = []
 for ploc in [0, 1, 2, None]:
     fitD3, fiti, fitf = final.fitD(wholeblock_data=True, 
@@ -44,16 +49,15 @@ for ploc in [0, 1, 2, None]:
                                 vary_diffusivities=[True, False, False],
                                 peak_idx=ploc, heights_instead=True)
     final.D_list.append(fitD3)
-   
-#%%
-# manually set upper limit values for plot
+#### manually set upper limit values for plot
 final.D_list[0][0] = ufloat(-12.5, 0)
 final.D_list[1][0] = ufloat(-12.5, 0)
-#final.D_list[3][0] = ufloat(-12.0, 0)
+final.D_list[3][0] = ufloat(-12.0, 0)
 
+#%% figure   
 styles = [wb.style for wb in wb_list]
 styleD = {'color':'darkmagenta', 'linewidth':3, 'marker':None, 'linestyle':'--',
-          'alpha':0.75, 'label':'fit || a'}
+          'alpha':0.75, 'label':''.join((str(percslow), ' % slow'))}
 styleslow = {'color':'k', 'linewidth':3, 'label':'p.v', 'alpha':0.5}
 stylefast = {'color':'k', 'linewidth':1, 'label':'p.p.'}
 

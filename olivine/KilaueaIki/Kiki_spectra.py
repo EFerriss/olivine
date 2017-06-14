@@ -521,7 +521,7 @@ wb_Kiki_ox = Block(profiles=[Kiki_ox_1000C_1hr_profileA,
                              Kiki_ox_1000C_1hr_profileC],
                     name=name, time_seconds=3600.*8., 
                     sample=Kiki_sample, celsius=1000.)
-
+wb_Kiki_1000C_8hr = wb_Kiki_ox
 wb_Kiki_ox_ave = wb_Kiki_ox.average_spectra()
 wb_Kiki_ox_ave.fname = 'wb_Kiki_ox_ave'
 wb_Kiki_ox_ave.folder = FTIR_file_location

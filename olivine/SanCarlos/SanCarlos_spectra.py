@@ -170,7 +170,7 @@ wb_800C_hyd = Block(name='hydrated San Carlos olivine',
                           profiles=[SC1_2_hyd_Ea_profileA,
                                     SC1_2_hyd_Ea_profileB,
                                     SC1_2_hyd_Ea_profileC],
-                          time_seconds=0.00000001,
+                          time_seconds= (17*3600) + (24*60),
                           folder=FTIR_file_location)
 
 spec2 = wb_800C_hyd.average_spectra()

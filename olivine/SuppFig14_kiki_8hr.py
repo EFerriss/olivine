@@ -50,7 +50,7 @@ for ploc in [0, 1, 2, None]:
 # manually set upper limit values for plot
 final.D_list[0][0] = ufloat(-12.5, 0)
 final.D_list[1][0] = ufloat(-12.5, 0)
-#final.D_list[3][0] = ufloat(-12., 0)
+final.D_list[3][0] = ufloat(-12.5, 0)
 
 styles = [wb.style for wb in wb_list]
 styleD = {'color':'darkmagenta', 'linewidth':3, 'marker':None, 'linestyle':'--',

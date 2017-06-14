@@ -38,7 +38,7 @@ slow = dlib.KM98_slow.whatIsD(800, printout=False)[0:3]
 final.D_list = []
 vD = [[True, False, False], [True, False, False], [True, False, False]]
 D3 = [slow, fast, fast]
-finals = [0.4, 0., 0.]
+finals = [0.4, 0., 0.15]
 for f, D, ploc, varyD in zip(finals, D3, [0, 1, None], vD):
     fitD3, fiti, fitf = final.fitD(wholeblock_data=True, 
                                 wholeblock_diffusion=True,
@@ -50,7 +50,8 @@ for f, D, ploc, varyD in zip(finals, D3, [0, 1, None], vD):
    
 #%%
 final.D_list[0] = [ufloat(-12.5, 0), ufloat(-15.3, 0), ufloat(-14.2, 0)]
-final.D_list[2][0] = ufloat(-11.5, 0)
+final.D_list[2][0] = ufloat(-11.4, 0)
+
 styles = [wb.style for wb in wb_list]
 styleD = {'color':'#2ca02c', 'linewidth':3, 'marker':None, 'linestyle':'--',
           'alpha':0.75, 'label':'least-squares'}

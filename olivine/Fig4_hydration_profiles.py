@@ -20,7 +20,7 @@ import itertools
 from pynams import dlib
 import numpy as np
 import matplotlib.pyplot as plt
-import pynams.experiments as exper
+#import pynams.experiments as exper
    
 peaks = SC.peaks
 
@@ -42,49 +42,52 @@ for wb in [wb2, wb7]:
         wb.areas[next(profidx)] = prof.areas
 
 D3 = dlib.KM98_slow.whatIsD(1000, printout=False) # pv mechanism diffusivities
-true_solubility = exper.solubility_of_H_in_olivine(Celsius=1000, 
-                                                   pressure_GPa=1, 
-                                                   author='Mosenfelder',
-                                                   printout=False)
+true_solubility = 58.
+#true_solubility = exper.solubility_of_H_in_olivine(Celsius=1000, 
+#                                                   pressure_GPa=1, 
+#                                                   author='Mosenfelder',
+#                                                   printout=False)
 metastable = np.mean(list(itertools.chain(*wb2.areas)))
 maxarea = max([max(areas) for areas in wb7.areas])
 scale_final = true_solubility / maxarea # to scale up to true solubility
 
 #### for least-squares best fits
-wb7.peak_D3 = [[]]*4
-for idx in range(4):
-    peak_heights7 = [profile.peak_heights[idx] for profile in wb7.profiles]
-    peak_heights2 = [profile.peak_heights[idx] for profile in wb2.profiles]
-    maxy = max([max(heights) for heights in peak_heights7])
-    meta = np.mean(list(itertools.chain(*peak_heights2)))
-    wb7.peak_D3[idx], init, fin = wb7.fitD(peak_idx=idx, show_plot=False,
-                                       heights_instead=True, 
-                                       wholeblock_data=False,
-                                       init=meta, 
-                                       fin=maxy*scale_final,
-                                       log10Ds_m2s=D3,
-                                       vary_final=False,
-                                       vary_diffusivities=[False, False, True])
-wb7.D3, wb7.init, wb7.fin = wb7.fitD(peak_idx=None, init=metastable,
-                                     fin=true_solubility, show_plot=False,
-                                     wholeblock_data=False,
-                                     log10Ds_m2s=D3, 
-                                     vary_diffusivities=[False, False, True])
+#wb7.peak_D3 = [[]]*4
+#for idx in range(4):
+#    peak_heights7 = [profile.peak_heights[idx] for profile in wb7.profiles]
+#    peak_heights2 = [profile.peak_heights[idx] for profile in wb2.profiles]
+#    maxy = max([max(heights) for heights in peak_heights7])
+#    meta = np.mean(list(itertools.chain(*peak_heights2)))
+#    wb7.peak_D3[idx], init, fin = wb7.fitD(peak_idx=idx, show_plot=False,
+#                                       heights_instead=True, 
+#                                       wholeblock_data=False,
+#                                       init=meta, 
+#                                       fin=maxy*scale_final,
+#                                       log10Ds_m2s=D3,
+#                                       vary_final=False,
+#                                       vary_diffusivities=[False, False, True])
+#wb7.D3, wb7.init, wb7.fin = wb7.fitD(peak_idx=None, init=metastable,
+#                                     fin=true_solubility, show_plot=False,
+#                                     wholeblock_data=False,
+#                                     log10Ds_m2s=D3, 
+#                                     vary_diffusivities=[False, False, True])
+#
 
 #%% The least squares fits are sooooo low! I don't believe them!
 ### manually setting all of the diffusivities such that bulk H || c is the
 ### consistestent with established values for proton-vacancy diffusion 
 ### and the relative errors remain constant
-slowc = dlib.KM98_slow.whatIsD(celsius=1000, printout=False)[2]
-SC7_y = [wb7.D3] + wb7.peak_D3
-new_y = []
-for y in SC7_y:
-    replacement = y[2].n + 13.1 + slowc
-    new_y.append([y[0], y[1], ufloat(replacement, y[2].s)])
-wb7.D3 = new_y[0]
-wb7.peak_D3 = new_y[1:]
+slow = dlib.KM98_slow.whatIsD(celsius=1000, printout=False)
+uslow = [ufloat(D, 0) for D in slow[0:3]]
+wb7.D3 = np.copy(uslow)
+wb7.peak_D3 = np.copy([np.copy(uslow)] * (len(peaks)+1))
+wb7.D3[2] = ufloat(-10.8, 0)
+wb7.peak_D3[3][2] = ufloat(-10.5, 0)
+wb7.peak_D3[2][2] = ufloat(-10.8, 0)
+wb7.peak_D3[1][2] = ufloat(-11.1, 0)
+wb7.peak_D3[0][2] = ufloat(-11.5, 0)
 
-#%% the figure
+#% the figure
 style2 = wb2.style
 style7 = wb7.style
 styleD = {'color': 'grey', 'linestyle':'-', 'linewidth':3, 
@@ -152,7 +155,7 @@ for pidx, peak in enumerate(peaks):
         line = currentaxes[axidx].plot(x, prof.peak_heights[pidx], **style2)
 
 # axes limits
-ytops = iter([0.3, 0.7, 0.7, 0.3, 120])
+ytops = iter([0.3, 0.7, 0.7, 0.3, 58])
 for idx in range(5):
     ytop = next(ytops)
     for ax in axes[idx]:
@@ -179,9 +182,7 @@ wb7.plot_diffusion(axes3=axes[-1], log10D_m2s=D4plot, init=metastable,
                    wholeblock_diffusion=True, show_data=False,
                    labelD=False, labelDy=90, points=200,
                    style_diffusion={'color':style7['color'],'linewidth':1})
-string = ''.join(('best fit || c\n', 
-                  '{:.1f}'.format(D4plot[2]), 
-                   '\nlogD in m2/s'))
+string = ''.join(('logD in m$^2$/s\n','{:.1f}'.format(D4plot[2])))
 ytxt = axes[-1][2].get_ylim()[1] - ytxt_shift*axes[idx][2].get_ylim()[1]
 axes[-1][2].text(0, ytxt, string, color=style7['color'], 
                   va='center', ha='center')
@@ -201,20 +202,22 @@ for idx in range(4):
         ax.set_ylim(0, maxy*scale_final)
 
     D4plot = [D.n for D in wb7.peak_D3[idx]]
+    print()
+    print(idx)
+    print('initial', meta)
+    print('final', maxy*scale_final)
     wb7.plot_diffusion(axes3=axes[idx], log10D_m2s=D4plot,
                        init=meta, fin=maxy*scale_final,
                        show_line_at_1=False, wholeblock_diffusion=True, 
                        show_data=False, labelD=False, points=200,
                        style_diffusion={'color':style7['color'],'linewidth':1,
                                         'label':'best-fit'})
-    string = ''.join(('best fit || c\n', 
-                      '{:.1f}'.format(D4plot[2]), 
-                       '\nlogD in m2/s'))
+    string = ''.join(('logD in m$^2$/s\n','{:.1f}'.format(D4plot[2])))
     ytxt = axes[idx][2].get_ylim()[1] - ytxt_shift*axes[idx][2].get_ylim()[1]
     axes[idx][2].text(0, ytxt, string, color=style7['color'], 
                       va='center', ha='center')
 
-axes[0][2].legend(loc=1, ncol=2, bbox_to_anchor=(-0.25, 1))
+axes[0][2].legend(loc=1, ncol=2, bbox_to_anchor=(-0.25, 0))
 
 fig.savefig(SC.thisfolder+'\..\Fig4_hydration_profiles.jpg', 
             dpi=300, format='jpg')        

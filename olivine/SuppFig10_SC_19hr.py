@@ -38,7 +38,7 @@ slow = dlib.KM98_slow.whatIsD(800, printout=False)[0:3]
 final.D_list = []
 vD = [[True, False, False], [True, False, False], [True, False, False]]
 D3 = [slow, fast, fast]
-finals = [0.4, 0., 0.]
+finals = [0.4, 0., 0.15]
 for f, D, ploc, varyD in zip(finals, D3, [0, 1, None], vD):
     fitD3, fiti, fitf = final.fitD(wholeblock_data=True, 
                                 wholeblock_diffusion=True,

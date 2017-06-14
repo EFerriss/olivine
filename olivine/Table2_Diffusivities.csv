@@ -1,0 +1,7 @@
+Sample,Hydrogen,Celsius,Hours,Initial,Final,Units,log10Da,log10Db,log10Dc,D units
+SC1-7,bulk H,1000,7,15,58,ppm H2O,-12.8,-13.2,-10.8,m2/s
+SC1-7,[Mg],1000,7,0.01,0.07,height at 3236 cm-1,-12.8,-13.2,-10.5,m2/s
+SC1-7,[tri],1000,7,0.03,0.21,height at 3356 cm-1,-12.8,-13.2,-10.8,m2/s
+SC1-7,[Ti],1000,7,0.19,0.63,height at 3525 cm-1,-12.8,-13.2,-11.1,m2/s
+SC1-7,[Si],1000,7,0.11,0.24,height at 3600 cm-1,-12.8,-13.2,-11.5,m2/s
+SC1-2,bulk H,800,17.4,0,15,ppm H2O,,,,m2/s
