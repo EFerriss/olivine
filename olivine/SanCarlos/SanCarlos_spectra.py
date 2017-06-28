@@ -120,7 +120,7 @@ sample_SC1_2 = Sample(length_a_microns=[2200.],
                       length_b_microns=[1963., 1987., 1976., 1987., 1980.],
                       length_c_microns=[2858., 2864., 2858., 2863., 2864.])
 
-# hydrated profiles measured with E || a along three directions
+## hydrated profiles measured with E || a along three directions
 SC1_2_hyd_Ea_profileA = Profile(name='SC1-2-hyd || a',
                                        sample=sample_SC1_2, 
                                        direction='a', raypath='b',
@@ -132,7 +132,7 @@ SC1_2_hyd_Ea_profileA = Profile(name='SC1-2-hyd || a',
                                                    'SC1-2-hyd-Ea-a13',
                                                    'SC1-2-hyd-Ea-a17',
                                                    'SC1-2-hyd-Ea-a21',], 
-                                       positions_microns=[100., 500., 900.,
+                                       positions_microns=[100., 500., 900., 
                                                           1300., 1700., 2100.])
 
 SC1_2_hyd_Ea_profileB = Profile(name='SC1-2-hyd || b',
