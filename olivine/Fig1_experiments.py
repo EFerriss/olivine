@@ -14,22 +14,30 @@ from pynams.experiments import style_graphite, style_pyrophyllite
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.path import Path
-from olivine import thisfolder
+import os
+import olivine
+import matplotlib
+
+
+#matplotlib.rcParams.update({'font.size': 8})
+file = os.path.join(olivine.__path__[0], 'Fig1_experiments.jpg')
 
 fig = plt.figure()
-fig.set_size_inches(3.5, 2.5)
 
-xstart = 0.12
-ypstart = 0.15
-width = 0.25
-wspace = 0.05
-height = 0.75
+# figure size
+fig.set_size_inches(3.5, 2.5)
+xstart = 0.17
+ypstart = 0.25
+width = 0.2
+wspace = 0.04
+height = 0.7
 
 # general setup
 capsule_material = 'copper'
 pressure_medium_material='BaCO$_3$'
 sleeve_material='pyrophyllite'
-buffer_material='sample, H$_2$O,\nNi, NiO,\nSan Carlos\nolivine and\nenstatite\n'
+buffer_material = ''.join(('sample,\nH$_2$O,\nNi, NiO,',
+                           '\nSan Carlos\nolivine and\nenstatite'))
 h_graphite_button=1.5
 h_pressure_medium=33.35
 h_graphite_cylinder=33.35
@@ -55,7 +63,7 @@ for style in [style_graphite, style_MgO, style_capsule, style_buffer]:
 # SC1-2
 ax = fig.add_axes([xstart, ypstart, width, height])
 ax.set_xlim(0, od_pressure_medium)
-ax.set_xlabel('(mm)\nSC1-2, 800$\degree$C')
+ax.set_xlabel('SC1-2\n800$\degree$C')
 ax.set_ylabel('(mm)')
 h_guts = h_MgO_base + h_sleeve + h_MgO_wafer + h_MgO_top
 highest_point = max(h_pressure_medium, h_graphite_cylinder, h_guts)
@@ -174,7 +182,7 @@ h_MgO_top = 9.9
 
 ax = fig.add_axes([xstart + width + wspace, ypstart, width, height])
 ax.set_xlim(0, od_pressure_medium)
-ax.set_xlabel('(mm)\nSC1-7, 1000$\degree$C')
+ax.set_xlabel(' (mm) SC1-7\n1000$\degree$C')
 ax.set_ylim(0., h_graphite_button + highest_point + 2.)
 plt.tick_params(axis='x', top='off')
 ax.spines['top'].set_visible(False)
@@ -280,8 +288,8 @@ ax.add_patch(capsule)
 #ax.set_title('SC1-7')
 ax.add_patch(lid)
 
-ax.legend(bbox_to_anchor=(0.95, 0.9), frameon=False)
+ax.legend(bbox_to_anchor=(0.95, 1.05), frameon=False)
 
 print('finished')
 
-fig.savefig(thisfolder+'Fig1_experiments.jpg', dpi=200, format='jpg')
+fig.savefig(file, dpi=200, format='jpg')

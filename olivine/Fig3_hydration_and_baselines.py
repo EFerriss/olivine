@@ -8,8 +8,12 @@ Show SC1-7 hydration
 """
 from __future__ import print_function, division
 from olivine.SanCarlos import SanCarlos_spectra as SC
-from olivine import thisfolder
 import matplotlib.pyplot as plt
+import os
+import olivine
+
+file = os.path.join(olivine.__path__[0], \
+                    'Fig3_hydration_and_baselines.jpg')
 
 wb7 = SC.wb_1000C_SC1_7
 wb7.get_baselines()
@@ -26,7 +30,7 @@ fig = plt.figure()
 fig.set_size_inches(6.5, 4)
 
 xstart = 0.1
-ypstart = 0.1
+ypstart = 0.15
 wgap = 0.1
 width1 = 0.47
 width2 = 0.75 - width1
@@ -53,7 +57,7 @@ ax.text(3950, 0.92, 'A', fontsize=14)
 peaks = [3236, 3329, 3356, 3396, 3484, 3525, 3573, 3600]
 labels = ['[Mg]', '', '', '[tri-Al$^{3+}$]',
           '[Si]', '[Ti]', '[Ti]', '[Si-Fe$^{2+}$]']
-ax.text((3329+3356)/2, 0.5, '} [tri-Fe$^{3+}$]', rotation=90, ha='center', 
+ax.text((3329+3356)/2, 0.575, '} [tri-Fe$^{3+}$]', rotation=90, ha='center', 
         va='center')
 for pidx, peak in enumerate(peaks):
     idx = abs(speci.wn_full-peak).argmin()
@@ -63,8 +67,9 @@ for pidx, peak in enumerate(peaks):
 
 
 ax2.text(3950, 0.67, 'B', fontsize=14)
-ax2.text(3900, 0.3, 'hydrated\nSC1-7\nwith', color='#ff7f0e', va='bottom')
-ax2.text(3900, 0.3, 'baseline', va='top')
+ax2.text(3630, 0.18, 'hydrated\nSC1-7\nwith', color='#ff7f0e', \
+         va='bottom', ha='right')
+ax2.text(3630, 0.18, 'baseline', va='top', ha='right')
 speci.plot_spectrum(axes=ax2, label='initial', offset=-0.03,
                     style={'linewidth':5, 'alpha':0.5})
 spec7.plot_spectrum(axes=ax2, label='SC1-7', offset=-0.07)
@@ -74,11 +79,12 @@ ax2.plot(spec7.base_wn, spec7.base_abs-0.07,'k')
 ax2.set_ylim(0, 0.8)
 ax2.set_title('')
 ax2.set_ylabel('absorbance (cm$^{-1}$)')
-ax2.text(3520, 0.02, 'untreated SC1-1', color='#1f77b4')
+ax2.text(3030, 0.02, 'SC1-1\nuntreated', color='#1f77b4', ha='right')
 
 ax3.text(3950, 0.42, 'C', fontsize=14)
-ax3.text(3900, 0.18, 'hydrated\nSC1-2\nwith', color='#2ca02c', va='bottom')
-ax3.text(3900, 0.18, 'baseline', va='top')
+ax3.text(3630, 0.18, 'hydrated\nSC1-2\nwith', color='#2ca02c', \
+         va='bottom', ha='right')
+ax3.text(3630, 0.18, 'baseline', va='top', ha='right')
 speci.plot_spectrum(axes=ax3, label='initial', offset=-0.03,
                     style={'linewidth':4, 'alpha':0.5})
 spec2.plot_spectrum(axes=ax3, label='SC1-2', style={'color':'#2ca02c'})
@@ -89,7 +95,6 @@ ax3.set_ylim(0, 0.5)
 ax3.set_title('')
 ax3.set_ylabel('absorbance (cm$^{-1}$)')
 ax3.set_xlabel('wavenumbers (cm$^{-1}$)')
-ax3.text(3530, 0.02, 'untreated SC1-1', color='#1f77b4')
+ax3.text(3110, 0.02, 'SC1-1\nuntreated', color='#1f77b4', ha='right')
 
-fig.savefig(thisfolder+'Fig3_hydration_and_baselines.jpg', dpi=200, 
-            format='jpg')
+fig.savefig(file, dpi=200, format='jpg')

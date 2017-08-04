@@ -14,6 +14,10 @@ from olivine.SanCarlos import SanCarlos_spectra as SC
 from olivine.KilaueaIki import Kiki_spectra as kiki
 from pynams import styles
 import matplotlib.pyplot as plt
+import os
+import olivine
+
+file = os.path.join(olivine.__path__[0], 'Fig2_polarized_FTIR.jpg')
 
 plt.close('all')
 numformat = '{:.0f}'
@@ -101,4 +105,4 @@ remove_labels(ax)
 
 ax.text(5500, -0.3, 'Wavenumber (cm$^{-1}$)', ha='center')
 
-fig.savefig(SC.thisfolder+'\..\Fig2_polarized_FTIR.jpg', dpi=200, format='jpg')
+fig.savefig(file, dpi=200, format='jpg')

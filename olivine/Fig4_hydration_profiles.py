@@ -20,7 +20,10 @@ import itertools
 from pynams import dlib
 import numpy as np
 import matplotlib.pyplot as plt
-#import pynams.experiments as exper
+import os
+import olivine
+
+file = os.path.join(olivine.__path__[0], 'Fig4_hydration_profiles.jpg')
    
 peaks = SC.peaks
 
@@ -219,5 +222,4 @@ for idx in range(4):
 
 axes[0][2].legend(loc=1, ncol=2, bbox_to_anchor=(-0.25, 0))
 
-fig.savefig(SC.thisfolder+'\..\Fig4_hydration_profiles.jpg', 
-            dpi=300, format='jpg')        
+fig.savefig(file, dpi=300, format='jpg')        
