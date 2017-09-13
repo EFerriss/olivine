@@ -159,22 +159,31 @@ for ax in axes[-1]:
     ax.plot(ax.get_xlim(), [metastable, metastable], ':', 
             color=style2['color'])
 D4plot = [Dset for Dset in wb7.D3]
-wb7.plot_diffusion(axes3=axes[-1], 
-                   log10D_m2s=dlib.pv.whatIsD(celsius=1000., printout=False), 
+D3pv = dlib.pv.whatIsD(celsius=1000., printout=False)
+wb7.plot_diffusion(axes3=axes[-1], # black lines, pv 
+                   log10D_m2s=D3pv, 
                    init=metastable, 
                    fin=solubility, show_line_at_1=False,
                    wholeblock_diffusion=True, show_data=False,
                    labelD=False, labelDy=90, points=200,
                    style_diffusion={'color':'k','linewidth':2})
-wb7.plot_diffusion(axes3=axes[-1], log10D_m2s=D4plot, init=metastable, 
+wb7.plot_diffusion(axes3=axes[-1], # orange lines, best fit
+                   log10D_m2s=D4plot, 
+                   init=metastable, 
                    fin=solubility, show_line_at_1=False,
                    wholeblock_diffusion=True, show_data=False,
                    labelD=False, labelDy=90, points=200,
                    style_diffusion={'color':style7['color'],'linewidth':1})
-for D, ax in zip(wb7.D3, axes[-1]): 
+for D, Dpv, ax in zip(wb7.D3, D3pv, axes[-1]): 
     string = ''.join(('10$^{', '{:.1f}'.format(D), '}$ m$^2$/s'))
     ytxt = ax.get_ylim()[1] - ytxt_shifts[-1]*ax.get_ylim()[1]
     ax.text(0, ytxt, string, color=style7['color'], va='center', ha='center')
+
+    string = ''.join(('10$^{', '{:.1f}'.format(Dpv), '}$ m$^2$/s'))
+    ytxt = ax.get_ylim()[1] - ytxt_shifts[-1]*ax.get_ylim()[1]
+    ax.text(0, 5, string, color='k', va='center', ha='center')
+
+
 
 # peak-specific diffusion
 for idx in range(4):

@@ -118,12 +118,6 @@ for wb in wblist:
     wb.make_baselines(**baseline3)
     wb.save_baselines(baseline_ending=low_ending)
     
-#%% SC1-2 weirdos that use the low ending baseline
-#spec = SC.wb_800C_13hr.profiles[0].spectra[1]
-#spec.get_baseline(baseline_ending=low_ending)
-#spec.get_baseline()
-#spec.plot_showbaseline()
-#%%
 
 specs = [SC.wb_800C_3hr.profiles[0].spectra[0],
          SC.wb_800C_13hr.profiles[0].spectra[0],
