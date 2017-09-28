@@ -16,6 +16,7 @@ from pynams import styles
 import matplotlib.pyplot as plt
 import os
 import olivine
+import string
 
 file = os.path.join(olivine.__path__[0], 'Fig2_polarized_FTIR.jpg')
 
@@ -58,49 +59,49 @@ def remove_labels(ax):
 ax = fig.add_axes([x, y+hspace+h, w, h])
 spec = SC.SC_untreated_Ea
 plot_stuff(spec, ax)
-ax.text(3900, ytext, 'untreated\nSC1-1 E||a', va='top')
+ax.text(3900, ytext, 'A. untreated\nSC1-1 E||a', va='top')
 ax.set_ylabel('Absorbance (cm$^{-1}$)')
 
 ax = fig.add_axes([x+wspace+w, y+hspace+h, w, h])
 spec = SC.SC_untreated_Eb
 plot_stuff(spec, ax)
-ax.text(3900, ytext, 'untreated\nSC1-1 E||b', va='top')
+ax.text(3900, ytext, 'B. untreated\nSC1-1 E||b', va='top')
 remove_labels(ax)
 
 ax = fig.add_axes([x+2*wspace+2*w, y+hspace+h, w, h])
 spec = SC.SC_untreated_Ec
 plot_stuff(spec, ax)
-ax.text(3900, ytext, 'untreated\nSC1-1 E||c', va='top')
+ax.text(3900, ytext, 'C. untreated\nSC1-1 E||c', va='top')
 remove_labels(ax)
 
 ax = fig.add_axes([x+3*wspace+3*w, y+hspace+h, w, h])
 spec = SC.spec2
 plot_stuff(spec, ax)
-ax.text(3900, ytext, 'hydrated\nSC1-2 E||a', va='top')
+ax.text(3900, ytext, 'D. hydrated\nSC1-2 E||a', va='top')
 remove_labels(ax)
 
 ax = fig.add_axes([x, y, w, h])
 spec = kiki.Kiki_init_Ea
 plot_stuff(spec, ax)
-ax.text(3900, ytext, 'Kiki\nE||a', va='top')
+ax.text(3900, ytext, 'E.\nKiki\nE||a', va='top')
 ax.set_ylabel('Absorbance (cm$^{-1}$)')
 
 ax = fig.add_axes([x+wspace+w, y, w, h])
 spec = kiki.Kiki_init_Eb
 plot_stuff(spec, ax)
-ax.text(3900, ytext, 'Kiki E||b', va='top')
+ax.text(3900, ytext, 'F. Kiki E||b', va='top')
 remove_labels(ax)
 
 ax = fig.add_axes([x+2*wspace+2*w, y, w, h])
 spec = kiki.Kiki_init_Ec
 plot_stuff(spec, ax)
-ax.text(3900, ytext, 'Kiki E||c', va='top')
+ax.text(3900, ytext, 'G. Kiki E||c', va='top')
 remove_labels(ax)
 
 ax = fig.add_axes([x+3*wspace+3*w, y, w, h])
 spec = SC.SC_final_averaged
 plot_stuff(spec, ax)
-ax.text(3900, ytext, 'dehydrated\nSC1-2  E||a', va='top')
+ax.text(3900, ytext, 'H. dehydrated\nSC1-2  E||a', va='top')
 remove_labels(ax)
 
 ax.text(5500, -0.3, 'Wavenumber (cm$^{-1}$)', ha='center')

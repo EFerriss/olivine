@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ # -*- coding: utf-8 -*-
 """
 Created on Thu Mar 16 21:25:29 2017
 
@@ -21,6 +21,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import olivine
+import string 
 
 # output file
 file = os.path.join(olivine.__path__[0], 'Fig4_hydration_profiles.jpg')
@@ -51,9 +52,7 @@ metastable = np.mean(list(itertools.chain(*wb2.areas)))
 maxarea = max([max(areas) for areas in wb7.areas])
 scale_final = solubility / maxarea # to scale up to true solubility
 
-#ytops = iter([0.3, 0.7, 0.7, 0.3, 160])
-ytops = iter([0.3, 0.7, 0.7, 0.3, 60])
-
+ytops = iter([60., 0.3, 0.7, 0.7, 0.3])
 #wb7.pv = 92.
 #wb7.peak_pv = [99, 97, 93, 84]
 wb7.pv = 100.
@@ -144,20 +143,17 @@ for pidx, peak in enumerate(peaks):
         x = prof.positions_microns - prof.length_microns/2.
         line = currentaxes[axidx].plot(x, prof.peak_heights[pidx], **style2)
 
-# set axes limits
-for idx in range(5):
-    ytop = next(ytops)
-    for ax in axes[idx]:
-        ax.set_ylim(0, ytop)
+# set axes limits and labels
 for ax in axes:
     ax[0].set_xlim(-1400, 1400)    
     ax[1].set_xlim(-550, 550)
     ax[2].set_xlim(-1500, 1500)
-
+        
 # bulk H diffusion
 for ax in axes[-1]:
     ax.plot(ax.get_xlim(), [metastable, metastable], ':', 
             color=style2['color'])
+    ax.set_ylim(0, 60)
 D4plot = [Dset for Dset in wb7.D3]
 D3pv = dlib.pv.whatIsD(celsius=1000., printout=False)
 wb7.plot_diffusion(axes3=axes[-1], # black lines, pv 
@@ -175,14 +171,13 @@ wb7.plot_diffusion(axes3=axes[-1], # orange lines, best fit
                    labelD=False, labelDy=90, points=200,
                    style_diffusion={'color':style7['color'],'linewidth':1})
 for D, Dpv, ax in zip(wb7.D3, D3pv, axes[-1]): 
-    string = ''.join(('10$^{', '{:.1f}'.format(D), '}$ m$^2$/s'))
+    tstring = ''.join(('10$^{', '{:.1f}'.format(D), '}$ m$^2$/s'))
     ytxt = ax.get_ylim()[1] - ytxt_shifts[-1]*ax.get_ylim()[1]
-    ax.text(0, ytxt, string, color=style7['color'], va='center', ha='center')
+    ax.text(0, ytxt, tstring, color=style7['color'], va='center', ha='center')
 
-    string = ''.join(('10$^{', '{:.1f}'.format(Dpv), '}$ m$^2$/s'))
+    tstring = ''.join(('10$^{', '{:.1f}'.format(Dpv), '}$ m$^2$/s'))
     ytxt = ax.get_ylim()[1] - ytxt_shifts[-1]*ax.get_ylim()[1]
-    ax.text(0, 5, string, color='k', va='center', ha='center')
-
+    ax.text(0, 5, tstring, color='k', va='center', ha='center')
 
 
 # peak-specific diffusion
@@ -202,9 +197,9 @@ for idx in range(4):
                        show_data=False, labelD=False, points=200,
                        style_diffusion={'color':style7['color'],'linewidth':1})
     for D, ax in zip(D4plot, axes[idx]): 
-        string = ''.join(('10$^{', '{:.1f}'.format(D), '}$ m$^2$/s'))
+        tstring = ''.join(('10$^{', '{:.1f}'.format(D), '}$ m$^2$/s'))
         ytxt = ax.get_ylim()[1] - ytxt_shifts[idx]*ax.get_ylim()[1]
-        ax.text(0, ytxt, string, color=style7['color'], 
+        ax.text(0, ytxt, tstring, color=style7['color'], 
                 va='center', ha='center')
 
 axes[0][2].plot([0, 0], [-100, -100], '-', color=style7['color'],
@@ -213,4 +208,12 @@ axes[0][2].plot([0, 0], [-100, -100], '-', color='k',
     label='pv')
 axes[0][2].legend(loc=1, ncol=4, bbox_to_anchor=(1., 0.35))
 
-fig.savefig(file, dpi=300, format='jpg')
+letters = iter(string.ascii_uppercase)
+for idx in [4, 3, 2, 1, 0]:
+    for ax in axes[idx]:
+        letter = next(letters)
+        x = ax.get_xlim()[0] - 0.1*ax.get_xlim()[0]
+        y = ax.get_ylim()[1] - 0.15*ax.get_ylim()[1]
+        ax.text(x, y, letter)
+
+fig.savefig(file, dpi=200, format='jpg')
