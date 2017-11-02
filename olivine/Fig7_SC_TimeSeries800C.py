@@ -61,9 +61,32 @@ hydration_Ti_a = hydration_a[hydration_a.mechanism == '[Ti]']
 hydration_Ti_b = hydration_b[hydration_b.mechanism == '[Ti]']
 hydration_Ti_c = hydration_c[hydration_c.mechanism == '[Ti]']
 
+kiki_data = olivine[olivine.name == 'kiki']
+kiki_data = kiki_data[kiki_data.celsius == 800]
+
+kiki_bulk = kiki_data[kiki_data.mechanism == 'bulk']
+kiki_bulk_a = kiki_bulk[kiki_bulk.orientation == 'a']
+kiki_bulk_b = kiki_bulk[kiki_bulk.orientation == 'b']
+kiki_bulk_c = kiki_bulk[kiki_bulk.orientation == 'c']
+
+kiki_Ti = kiki_data[kiki_data.mechanism == '[Ti]']
+kiki_Ti_a = kiki_Ti[kiki_Ti.orientation == 'a']
+kiki_Ti_b = kiki_Ti[kiki_Ti.orientation == 'b']
+kiki_Ti_c = kiki_Ti[kiki_Ti.orientation == 'c']
+
+kiki_Si = kiki_data[kiki_data.mechanism == '[Si]']
+kiki_Si_a = kiki_Si[kiki_Si.orientation == 'a']
+kiki_Si_b = kiki_Si[kiki_Si.orientation == 'b']
+kiki_Si_c = kiki_Si[kiki_Si.orientation == 'c']
+
+kiki_tri = kiki_data[kiki_data.mechanism == '[tri]']
+kiki_tri_a = kiki_tri[kiki_tri.orientation == 'a']
+kiki_tri_b = kiki_tri[kiki_tri.orientation == 'b']
+kiki_tri_c = kiki_tri[kiki_tri.orientation == 'c']
+
 #%%
 fig = plt.figure()
-fig.set_size_inches(6.5, 3)
+fig.set_size_inches(6.5, 5)
 
 xstart = 0.1
 ypstart = 0.13
@@ -88,33 +111,29 @@ ax1data = [
            
            SC2_Si_a,
            SC2_Si_b,
-           SC2_Si_c
+           SC2_Si_c,
            ]
 
-colorTi = 'olivedrab'
-colorSi = 'limegreen'
 colora =  '#2ca02c'
-colorb = 'limegreen'
-colorc = 'olivedrab'
 ax1styles = [
              {'color': colora, 'linestyle':'-', 'marker':'o', 
               'label':'SC1-2 bulk || a', 'markerfacecolor':'none', 
               'markersize':6, 'linewidth': 2},
-             {'color': colora, 'linestyle':'-', 'marker':'p',
-              'label':'SC1-2 bulk || b',
-              'markersize':4, 'linewidth': 1},
-             {'color': colora, 'linestyle':'--', 'marker':'s',
+             {'color': colora, 'linestyle':'-', 'marker':'o',
+              'label':'SC1-2 bulk || b', 'markerfacecolor':'none',
+              'markersize':6, 'linewidth': 1},
+             {'color': colora, 'linestyle':'--', 'marker':'o',
               'markerfacecolor':'none', 'label':'SC1-2 bulk || c',
-              'markersize':4, 'linewidth': 1},
+              'markersize':6, 'linewidth': 1},
               
-             {'color': colora, 'linestyle':'-', 'marker':'+', 
-              'label':'SC1-2 [Ti] || a', 'markerfacecolor':'none', 
+             {'color': colora, 'linestyle':'-', 'marker':'p', 
+              'label':'SC1-2 [Ti] || a', 'markerfacecolor':colora, 
               'markersize':4, 'linewidth': 2},   
-             {'color': colora, 'linestyle':'-', 'marker':'+', 
-              'label':'SC1-2 [Ti] || a', 'markerfacecolor':'none', 
+             {'color': colora, 'linestyle':'-', 'marker':'p', 
+              'label':'SC1-2 [Ti] || a', 'markerfacecolor':colora, 
               'markersize':4, 'linewidth': 1}, 
-             {'color': colora, 'linestyle':'--', 'marker':'+', 
-              'label':'SC1-2 [Ti] || a', 'markerfacecolor':'none', 
+             {'color': colora, 'linestyle':'--', 'marker':'p', 
+              'label':'SC1-2 [Ti] || a', 'markerfacecolor':colora, 
               'markersize':4, 'linewidth': 1}, 
               
              {'color': colora, 'linestyle':'-', 'marker':'x', 
@@ -132,15 +151,23 @@ x = ax1.get_xlim()
 xtext = 69
 y = [dlib.pp.whatIsD(800, printout=False)[0]] * 2
 ax1.plot(x, y, '-', color='grey', linewidth=2, alpha=0.5)
-ax1.text(xtext, -10.85, 'pp || a', ha='right')
+ax1.text(xtext, -10.85, 'PP || a', ha='right')
 
 y = [dlib.pp.whatIsD(800, printout=False)[1]] * 2
 ax1.plot(x, y, '-', color='grey', linewidth=2, alpha=0.5)
-ax1.text(xtext, -12.5, 'pp || b', ha='right')
+ax1.text(xtext, -12.5, 'PP || b', ha='right')
 
 y = [dlib.pp.whatIsD(800, printout=False)[2]] * 2
 ax1.plot(x, y, '-', color='grey', linewidth=2, alpha=0.5)
-ax1.text(xtext, -12.2, 'pp || c', ha='right')
+ax1.text(xtext, -12.2, 'PP || c', ha='right')
+
+y = [dlib.pv.whatIsD(800, printout=False)[2]] * 2
+ax1.plot(x, y, '--', color='grey', linewidth=2, alpha=0.5)
+ax1.text(xtext, -13.9, 'PV || c', ha='right')
+
+y = [dlib.pv.whatIsD(800, printout=False)[0]] * 2
+ax1.plot(x, y, '--', color='grey', linewidth=2, alpha=0.5)
+ax1.text(xtext, -14.35, 'PV || a and b', ha='right')
 
 
 for data, style in zip(ax1data, ax1styles):
@@ -148,43 +175,26 @@ for data, style in zip(ax1data, ax1styles):
     y = data.log10D
     ax1.plot(x, y, **style)
 
-ax1.annotate('[Ti] || a', xy=(37, -11.25), xytext=(29, -11.6), 
-            arrowprops=dict(facecolor='k', arrowstyle='->'))
-ax1.annotate('bulk || a', xy=(39, -11.45), xytext=(29, -11.85), 
-            arrowprops=dict(facecolor='k', arrowstyle='->'))
-ax1.annotate('[Si] || a', xy=(39, -12.1), xytext=(29, -12.1), 
-            arrowprops=dict(facecolor='k', arrowstyle='->'))
+ax1.text(55, -11.325, '[Ti] || a', rotation=-4)
+ax1.text(55, -11.525, 'bulk || a', rotation=-2)
+ax1.text(55, -11.8, '[Si] || a', rotation=4)
 
-ax1.annotate('[Ti] || c', xy=(6.3, -12.25), xytext=(8, -11.85), 
-            arrowprops=dict(facecolor='k', arrowstyle='->'))
-ax1.annotate('bulk || c', xy=(7.8, -12.55), xytext=(8, -12.2), 
-            arrowprops=dict(facecolor='k', arrowstyle='->'))
+ax1.text(35, -12.5, '[Ti] || c', rotation=-4)
+ax1.text(35, -12.675, 'bulk || c', rotation=-7)
+ax1.text(35, -13.3, '[Si] || c', rotation=12)
 
-ax1.annotate('[Ti] || b', xy=(7.8, -12.56), xytext=(1, -13.1), 
-            arrowprops=dict(facecolor='k', arrowstyle='->'))
-ax1.annotate('bulk || b', xy=(7.8, -12.88), xytext=(1, -13.45), 
-            arrowprops=dict(facecolor='k', arrowstyle='->'))
+ax1.text(25, -12.75, '[Ti] || b', rotation=-7)
+ax1.text(25, -12.95, 'bulk || b', rotation=-7)
+ax1.text(25, -13.78, '[Si] || b', rotation=12)
+#
+#ax1.annotate('[Ti] || b', xy=(18.2, -12.65), xytext=(11.4, -13.1), 
+#            arrowprops=dict(facecolor='k', arrowstyle='->'))
+#ax1.annotate('bulk || b', xy=(18.9, -12.88), xytext=(11.4, -13.35), 
+#            arrowprops=dict(facecolor='k', arrowstyle='->'))
+#ax1.annotate('[Si] || b', xy=(22, -13.9), xytext=(11.4, -13.9), 
+#            arrowprops=dict(facecolor='k', arrowstyle='->'))
 
-ax1.annotate('[Si] || c', xy=(19, -13.7), xytext=(11.4, -13.7), 
-            arrowprops=dict(facecolor='k', arrowstyle='->'))
-ax1.annotate('[Si] || b', xy=(19, -14), xytext=(11.4, -14), 
-            arrowprops=dict(facecolor='k', arrowstyle='->'))
-
-ax1.text(xtext, -14.4, 'SC1-2\ndehydration\n800$\degree$C, NNO-2.6', 
-         ha='right')
-#legend = ax1.legend(loc=2, ncol=4, shadow=True)
-#legend.get_frame().set_alpha(1)
-#legend.get_frame().set_facecolor('w')
-#ax1.set_zorder(1)
-
-#ax1.text(8.2, -11.5, 'pp || c')
-#ax1.text(8.2, -12.4, 'pv || c')
-#ax1.text(7.2, -12.1, 'pv || a')
-#ax1.text(7, -14, '[Si]')
-#ax1.text(9, -14, '[Mg]')
-#ax1.text(8.8, -14.5, '[Ti]')
-#ax1.text(9.425, -11.4, 'D$_{bulk}$, D$_{[Ti]}$\ndecrease', color='#2ca02c')
-#ax1.text(9.425, -12.5, 'D$_{[Si]}$\nincreases', color='#2ca02c')
-#ax1.text(9.22, -11.9, 'D$_{[tri]}$\ndecreases', color='darkmagenta', ha='right')
+#ax1.text(xtext, -14.4, 'SC1-2\ndehydration\n800$\degree$C, NNO-2.6', 
+#         ha='right', color=colora)
 
 fig.savefig(file, dpi=200, format='jpg')

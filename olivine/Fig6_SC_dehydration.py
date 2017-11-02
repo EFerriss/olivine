@@ -58,8 +58,6 @@ for wb in wbs:
 wb2 = SC.wb_800C_hyd
 initial = np.mean(list(itertools.chain(*wb2.areas)))
 
-pp = dlib.pv.whatIsD(celsius=800., printout=False)
-
 #%% the figure
 ytops = iter([1.2, 1.2, 1.2])
 
@@ -110,8 +108,8 @@ axes[1][0].set_ylabel('[Ti-3525]\npeak height / initial')
 
 # pp curves
 pp = dlib.pp.whatIsD(800, printout=False)
-styleD1 = {'color':'k', 'linestyle':'-', 'label':'pp 7hr'}
-styleD2 = {'color':'k', 'linestyle':':', 'label':'pp 19hr'}
+styleD1 = {'color':'k', 'linestyle':'-', 'label':'PP 7hr'}
+styleD2 = {'color':'k', 'linestyle':':', 'label':'PP 19hr'}
 stylesD = [styleD1, styleD2]
 for ax3 in axes:
     for wb, style in zip(wbs[1:3], stylesD):
@@ -121,7 +119,7 @@ for ax3 in axes:
                           labelD=False, 
                           style_diffusion=style)
        
-
+# initial lines
 for ax3 in axes:
     for ax in ax3:
         ax.plot(ax.get_xlim(), [1., 1.], '--', color=style2['color'], 

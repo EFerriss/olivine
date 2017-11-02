@@ -2,11 +2,11 @@
 """
 @author: Elizabeth Ferriss
 
-Two Arrhenius diagrams showing selected results for 
+Arrhenius diagram showing selected results for 
 H movement in olivine.
 
 Additional results can be visualized at the 
-Arrhenius Diagram online at 
+Arrhenius diagram app online at 
 https://arrheniusdiagram.herokuapp.com/
 """
 
@@ -20,6 +20,8 @@ import numpy as np
 import pandas as pd
 import matplotlib
 import matplotlib.patches as patches
+from pynams import dlib
+
 
 matplotlib.rcParams.update({'font.size': 8})
 
@@ -27,6 +29,7 @@ GAS_CONSTANT = 0.00831 # kJ/mol K
 
 file = os.path.join(olivine.__path__[0], 'Fig10_ArrheniusDiagram.jpg')
 
+# get the data from file in pynams
 datafile = os.path.join(pynams.__path__[0], 'diffusion', 'literaturevalues.csv')
 olivine = pd.read_csv(datafile)
 olivine.loc[olivine["name"] == 'kiki', "color"] = "darkmagenta"
@@ -36,6 +39,12 @@ olivine.loc[olivine["name"] == 'SC1-2', "color"] = '#2ca02c'
 pp = dlib.pp
 pv = dlib.pv
 pnav = dlib.pnav_Ti
+
+megan = olivine[olivine.Author == 'Newcombe et al.']
+chen = olivine[olivine.Author == 'Chen et al.']
+gaetani = olivine[olivine.Author == 'Gaetani et al.']
+hauri = olivine[olivine.Author == 'Hauri']
+portnyagin = olivine[olivine.Author == 'Portnyagin et al.']
 
 kiki_data = olivine[olivine.name == 'kiki']
 kiki_data = kiki_data[kiki_data.maxmin == 'no']
@@ -52,6 +61,7 @@ SC7_bulk_b = SC7_bulk[SC7_bulk.orientation == 'b']
 SC7_bulk_c = SC7_bulk[SC7_bulk.orientation == 'c']
 
 SC2_data = olivine[olivine.name == 'SC1-2']
+SC2_data = SC2_data[SC2_data.hours == 68.]
 SC2_data = SC2_data[SC2_data.maxmin == 'no']
 SC2_bulk = SC2_data[SC2_data.mechanism == 'bulk']
 SC2_bulk_a = SC2_bulk[SC2_bulk.orientation == 'a']
@@ -115,13 +125,8 @@ width = 0.85
 height = 0.8
 hgap = 0.07
 ax1 = fig.add_axes([xstart, ypstart, width, height])
-#ax2 = fig.add_axes([xstart+width+wgap, ypstart, width, height])
-#axes = [ax1, ax2]
-#labels = ['A', 'B']
-ax1.set_xlim(6.5, 10)
-ax1.set_ylim(-16, -7)
-#ax2.set_xlim(6.5, 10)
-#ax2.set_ylim(-13, -10)
+ax1.set_xlim(6, 10)
+ax1.set_ylim(-16, -8)
 
 
 def plotline(mech, orient, ax, style={'color':'k'}):
@@ -158,16 +163,33 @@ ax_celsius.set_xticks(parasite_tick_locations)
 ax_celsius.set_xticklabels(celsius_labels)
 ax_celsius.set_xlabel("Temperature ($\degree$C)")
 
+pp.celsius[3] = pp.celsius[0]
+pp.activation_energy_kJmol[3] = 140.
+pp.D0_m2s[3] = 0.0000027
+
+### fits
+my_data = dlib.Diffusivities(celsius=[[800, 1000, 1200],
+                                        [800, 1000], 
+                                        [800, 1000], []],
+                               log10D=[[-11.6, -10.9, -10], 
+                                       [-13.2, -12.2], 
+                                       [-12.9, -11.9], []])
+my_data.activation_energy_kJmol = [130, 130, 130, 0]
+my_data.D0_m2s = [0.000004, 0.000000135, 0.000000275, 0]
+plotline(my_data, 0, ax1, style={'color':'red', 'linewidth':6, 'alpha':0.5})
+plotline(my_data, 1, ax1, style={'color':'red', 'linewidth':6, 'alpha':0.5})
+plotline(my_data, 2, ax1, style={'color':'red', 'linewidth':6, 'alpha':0.5})
+
 plotline(pp, 0, ax1, style={'color':'grey', 'linewidth':2})
+plotline(pp, 1, ax1, style={'color':'grey', 'linewidth':2})
 plotline(pp, 2, ax1, style={'color':'grey', 'linewidth':2})
+
 plotline(pv, 0, ax1, style={'color':'grey', 'linewidth':2, 'linestyle':'--',
+                            'alpha':0.75})
+plotline(pv, 1, ax1, style={'color':'grey', 'linewidth':2, 'linestyle':'--', 
                             'alpha':0.75})
 plotline(pv, 2, ax1, style={'color':'grey', 'linewidth':2, 'linestyle':'--', 
                             'alpha':0.75})
-
-#plotline(pp, 2, ax1, style={'color':'grey', 'linewidth':2, 'linestyle':'--'})
-#plotline(pv, 2, ax1, style={'color':'grey', 'linewidth':1, 'linestyle':'--'})
-#plotline(pnav, 3, ax1, style={'color':'grey', 'linewidth':1, 'linestyle':'--'})
 
 for pnav in [dlib.pnav_Mg, dlib.pnav_Si, dlib.pnav_Ti]:
     x = 1e4 / (np.array(pnav.celsius[3]) + 273.15)
@@ -179,74 +201,55 @@ for pnav in [dlib.pnav_Mg, dlib.pnav_Si, dlib.pnav_Ti]:
 
 ax1data = [
            SC2_bulk_a,
+           SC2_bulk_b,
            SC2_bulk_c,
-           SC2_Ti_a,
-           SC2_Si_a,
-           
+
            kiki_bulk_a,
+           kiki_bulk_b,
            kiki_bulk_c,
-           kiki_Ti_a,
-           kiki_Si_a,
-           
-#           SC7_bulk_a,
-#           SC7_bulk_c,
-#           SC7_Ti_a,
-#           SC7_Si_a,
-#           
-#           kiki_tri_a,
-#           SC7_tri_a,
-#           SC7_Mg_a
+
+           megan,
+           chen,
+           gaetani,
+           portnyagin,
+           hauri
            ]
 
+color2 = '#2ca02c'
 ax1styles = [
              {'color': '#2ca02c', 'linestyle':'none', 'marker':'o', 
-              'label':'SC1-2 bulk || a', 'markerfacecolor':'none', 
+              'label':'SC1-2 bulk || a', 'markerfacecolor': 'none', 
               'markersize':6},
-             {'color': '#2ca02c', 'linestyle':'none', 'marker':'s',
-              'markerfacecolor':'none', 'label':'SC1-2 bulk || c',
+              {'color':'#2ca02c', 'linestyle':'none', 'marker':'x',
+              'markerfacecolor': color2, 'label':'SC1-2 bulk || b',
               'markersize':4},
-             {'color': '#2ca02c', 'linestyle':'none', 'marker':'+', 
-              'label':'SC1-2 [Ti] || a', 'markerfacecolor':'none', 
-              'markersize':3},   
-             {'color': '#2ca02c', 'linestyle':'none', 'marker':'x', 
-              'label':'SC1-2 [Si] || a', 'markerfacecolor':'none', 
-              'markersize':5},  
-              
+             {'color': '#2ca02c', 'linestyle':'none', 'marker':'s',
+              'markerfacecolor':color2, 'label':'SC1-2 bulk || c',
+              'markersize':4},
              {'color': 'darkmagenta', 'linestyle':'none', 'marker':'o',
               'label':'kiki bulk || a', 'markerfacecolor':'none',
               'markersize':6},
-             {'color': 'darkmagenta', 'linestyle':'none', 'marker':'s',
-              'markerfacecolor':'none', 'label':'kiki bulk || c',
+               {'color': 'darkmagenta', 'linestyle':'none', 'marker':'x',
+              'markerfacecolor':'none', 'label':'kiki bulk || b',
               'markersize':4},
-              {'color': 'darkmagenta', 'linestyle':'none', 'marker':'+', 
-              'label':'kiki [Ti] || a', 'markerfacecolor':'none', 
-              'markersize':3},
-             {'color': 'darkmagenta', 'linestyle':'none', 'marker':'x', 
-              'label':'kiki [Si] || a', 'markerfacecolor':'none', 
-              'markersize':5},  
-#               
-#             {'color': '#ff7f0e', 'linestyle':'none', 'marker':'o', 
-#              'label':'SC1-7 bulk || a', 'markerfacecolor':'none',
-#              'markersize':6},
-#             {'color': '#ff7f0e', 'linestyle':'none', 'marker':'s', 
-#              'markerfacecolor':'none', 'label':'SC1-7 bulk || c',
-#              'markersize':4},
-#              {'color': '#ff7f0e', 'linestyle':'none', 'marker':'+', 
-#              'label':'SC1-7 [Ti] || a', 'markerfacecolor':'none', 
-#              'markersize':3},  
-#              {'color': '#ff7f0e', 'linestyle':'none', 'marker':'x', 
-#              'label':'SC1-7 [Si] || a', 'markerfacecolor':'none', 
-#              'markersize':5},  
-               
-#             {'color': 'darkmagenta', 'linestyle':'none', 'marker':'^',
-#              'label':'kiki [tri] || a', 'markerfacecolor':'none',
-#              'markersize':6},
-#             {'color': '#ff7f0e', 'linestyle':'none', 'marker':'^', 
-#              'label':'SC1-7 [tri] || a', 'markerfacecolor':'none',
-#              'markersize':6},
-#             {'color': '#ff7f0e', 'linestyle':'none', 'marker':'o', 
-#              'markerfacecolor':'none', 'label':'SC1-7 [Mg] || a',
-#              'markersize':10, 'markeredgewidth':0.5},
+              {'color':'darkmagenta', 'linestyle':'none', 'marker':'s',
+              'markerfacecolor': 'darkmagenta', 'label':'SC1-2 bulk || c',
+              'markersize':4}, 
+             {'color': 'blue', 'linestyle':'none', 'marker':'*',
+              'markerfacecolor':'none',
+              'markersize':10},
+             {'color': 'grey', 'linestyle':'none', 'marker':'^',
+              'label':'Chen et al. 2011', 'markerfacecolor':'none',
+              'markersize':6},
+             {'color': 'grey', 'linestyle':'none', 'marker':'^',
+              'label':'Gaetani et al. 2012', 'markerfacecolor':'none',
+              'markersize':6},
+             {'color': 'grey', 'linestyle':'none', 'marker':'^',
+              'label':'Portnyagin et al. 2008', 'markerfacecolor':'none',
+              'markersize':6},
+             {'color': 'grey', 'linestyle':'none', 'marker':'^',
+              'label':'Hauri 2002', 'markerfacecolor':'none',
+              'markersize':6},
              ]
 
 for data, style in zip(ax1data, ax1styles):
@@ -254,33 +257,42 @@ for data, style in zip(ax1data, ax1styles):
     y = data.log10D
     ax1.plot(x, y, **style)
 
-ax1.add_patch(patches.Arrow(9.4, -10.85, 0., -0.85, width=0.03, 
-                            fill=False, color='#2ca02c'))
-ax1.add_patch(patches.Arrow(9.4, -12.7, 0., 0.85, width=0.03, 
-                            fill=False, color='#2ca02c'))
+xtxt = 9.38
+ax1.text(xtxt, -11, 'PP || a')
+ax1.text(xtxt, -11.7, 'SC1-2 || a', color=color2)
+ax1.text(xtxt, -12.6, 'PP || b')
+ax1.text(xtxt, -12.3, 'PP || c')
+ax1.text(xtxt, -12.95, 'SC1-2 || c', color=color2)
+ax1.text(xtxt, -13.3, 'SC1-2 || b', color=color2)
 
-#ax1.add_patch(patches.Arrow(7.81, -11.3, 0., -0.6, width=0.03, 
-#                            fill=False, color='darkmagenta'))
-#ax1.add_patch(patches.Arrow(9.24, -11.6, 0., -1., width=0.03, 
-#                            fill=False, color='darkmagenta'))
+xtxt = 7.5
+ax1.text(xtxt, -11., 'Kiki || a', color='darkmagenta')
+ax1.text(xtxt+0.25, -11.8, 'Kiki || c', color='darkmagenta')
+ax1.text(xtxt, -12.25, 'Kiki || b', color='darkmagenta')
 
-legend = ax1.legend(loc=2, ncol=4, shadow=True,
-#                    bbox_to_anchor=[1.7, 1]
-                    )
-legend.get_frame().set_alpha(1)
-legend.get_frame().set_facecolor('w')
-ax1.set_zorder(1)
+ax1.text(6.3, -10.3, 'Kilauea Iki\ndehydrating || a', color='blue')
+ax1.text(6.5, -11.36, 'unoriented\nestimates', color='grey')
 
-ax1.text(8.2, -10, 'pp || a')
-ax1.text(8.2, -11.5, 'pp || c')
-ax1.text(8.2, -12.4, 'pv || c')
-ax1.text(7.2, -12.1, 'pv || a')
-ax1.text(7, -14, '[Si]')
+ax1.text(7.05, -11.1, 'PV || c', rotation=0)
+ax1.text(6.8, -12.1, 'PV || a and b')
+ax1.text(7, -13.6, '[Si]')
 ax1.text(9, -14, '[Mg]')
 ax1.text(8.8, -14.5, '[Ti]')
-ax1.text(9.425, -11.4, 'D$_{bulk}$, D$_{[Ti]}$\ndecrease', color='#2ca02c')
-ax1.text(9.425, -12.5, 'D$_{[Si]}$\nincreases', color='#2ca02c')
-#ax1.text(7.8, -11.39, 'D$_{[tri]}$\ndecreases', color='darkmagenta', ha='right')
-#ax1.text(9.22, -11.9, 'D$_{[tri]}$\ndecreases', color='darkmagenta', ha='right')
+ax1.text(7.4, -10.3, 'olivine dehydrating during ascent', color='red',
+            rotation=-13)
+
+col_labels=['E$_a$ (kJ/mol)','D$_0$ (m$^2$/s)']
+row_labels=['|| a','|| b','|| c']
+table_vals=[[my_data.activation_energy_kJmol[0], my_data.D0_m2s[0]],
+            [my_data.activation_energy_kJmol[1], my_data.D0_m2s[1]],
+            [my_data.activation_energy_kJmol[2], my_data.D0_m2s[2]]]
+the_table = plt.table(cellText=table_vals,
+                      colWidths = [0.12]*3,
+                      rowLabels=row_labels,
+                      colLabels=col_labels,
+                      loc=3,
+                      bbox=[0.05, 0.02, 0.25, 0.2])
+plt.text(6.05, -14.15, 'Arrhenius laws for H\nin natural dehydrating olivine',
+         size=8, color='red')
 
 fig.savefig(file, dpi=200, format='jpg')

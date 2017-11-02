@@ -11,6 +11,9 @@ from olivine.SanCarlos import SanCarlos_spectra as SC
 import matplotlib.pyplot as plt
 import os
 import olivine
+import matplotlib
+
+matplotlib.rcParams.update({'font.size': 8})
 
 file = os.path.join(olivine.__path__[0], \
                     'Fig3_hydration_and_baselines.jpg')
@@ -57,7 +60,7 @@ ax.text(3950, 0.92, 'A', fontsize=14)
 peaks = [3236, 3329, 3356, 3396, 3484, 3525, 3573, 3600]
 labels = ['[Mg]', '', '', '[tri-Al$^{3+}$]',
           '[Si]', '[Ti]', '[Ti]', '[Si-Fe$^{2+}$]']
-ax.text((3329+3356)/2, 0.575, '} [tri-Fe$^{3+}$]', rotation=90, ha='center', 
+ax.text((3329+3356)/2, 0.5, '} [tri-Fe$^{3+}$]', rotation=90, ha='center', 
         va='center')
 for pidx, peak in enumerate(peaks):
     idx = abs(speci.wn_full-peak).argmin()

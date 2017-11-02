@@ -46,15 +46,12 @@ for wb in [wb2, wb7]:
         wb.areas[next(profidx)] = prof.areas
 
 #%% Assumptions for drawing diffusion curves
-#solubility = 150
 solubility = 58.
 metastable = np.mean(list(itertools.chain(*wb2.areas)))
 maxarea = max([max(areas) for areas in wb7.areas])
 scale_final = solubility / maxarea # to scale up to true solubility
 
 ytops = iter([60., 0.3, 0.7, 0.7, 0.3])
-#wb7.pv = 92.
-#wb7.peak_pv = [99, 97, 93, 84]
 wb7.pv = 100.
 wb7.peak_pv = [100.]*4
 
@@ -77,8 +74,6 @@ wb7.peak_D3[2][2] = wb7.peak_D3[2][2] + 0.6
 wb7.peak_D3[3][2] = wb7.peak_D3[3][2] + 0.6
 
 #% the figure
-
-# set styles
 style2 = wb2.style
 style7 = wb7.style
 style7['label'] = 'SC1-7'
@@ -170,6 +165,7 @@ wb7.plot_diffusion(axes3=axes[-1], # orange lines, best fit
                    wholeblock_diffusion=True, show_data=False,
                    labelD=False, labelDy=90, points=200,
                    style_diffusion={'color':style7['color'],'linewidth':1})
+
 for D, Dpv, ax in zip(wb7.D3, D3pv, axes[-1]): 
     tstring = ''.join(('10$^{', '{:.1f}'.format(D), '}$ m$^2$/s'))
     ytxt = ax.get_ylim()[1] - ytxt_shifts[-1]*ax.get_ylim()[1]
@@ -205,7 +201,7 @@ for idx in range(4):
 axes[0][2].plot([0, 0], [-100, -100], '-', color=style7['color'],
     label='SC1-7 best fit')
 axes[0][2].plot([0, 0], [-100, -100], '-', color='k',
-    label='pv')
+    label='PV')
 axes[0][2].legend(loc=1, ncol=4, bbox_to_anchor=(1., 0.35))
 
 letters = iter(string.ascii_uppercase)

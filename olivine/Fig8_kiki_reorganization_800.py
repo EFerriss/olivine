@@ -23,33 +23,21 @@ import pandas as pd
 import pynams
 import string
 
-file = os.path.join(olivine.__path__[0], 'Fig8_kiki_dehydration.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig8_kiki_reorganization_800.jpg')
 
-dfile = os.path.join(pynams.__path__[0], 'diffusion', 'literaturevalues.csv')
-diffusivities = pd.read_csv(dfile)
-Kdiffusivities = diffusivities[diffusivities.name == 'kiki']
+wbdata = kiki.wb_Kiki_8hr
 
-times = [8, 3, 6, 7]
+wbs = [kiki.wb_Kiki_init,
+       kiki.wb_Kiki_8hr
+       ]
 
-wbs = [kiki.wb_Kiki_8hr,
-       kiki.wb_Kiki_1000C_3hr,
-       kiki.wb_Kiki_1000C_6hr,
-       kiki.wb_Kiki_1000C_8hr]
+hours = wbdata.time_seconds/3600.
 
-for prof in kiki.wb_Kiki_8hr.profiles:
-    prof.initial_profile = prof
-
-mechs = ['bulk', '[tri]', '[Ti]', '[Si]']
-
-for wb, time in zip(wbs, times):
+for wb in wbs:
     wb.get_baselines()
     wb.make_areas()
     wb.make_peakheights(peaks=kiki.peaks)
     wb.diffs = []
-    Ddata = Kdiffusivities[Kdiffusivities.hours == time]
-    for mech in mechs:
-        Ddatamech = Ddata[Ddata.mechanism == mech]
-        wb.diffs.append(list(Ddatamech.log10D))
 
 conversion_factor_area2water = 0.6 # see Table1_concentrations.py
 profidx = itertools.cycle([0, 1, 2])
@@ -58,28 +46,23 @@ for wb in wbs:
         prof.areas = list(prof.areas * conversion_factor_area2water)
         wb.areas[next(profidx)] = prof.areas
 
-wb2 = kiki.wb_Kiki_8hr
-initial = np.mean(list(itertools.chain(*wb2.areas)))
-
-pp = dlib.pv.whatIsD(celsius=800., printout=False)
+for prof, iprof in zip(wbdata.profiles, kiki.wb_Kiki_init.profiles):
+    prof.initial_profile = iprof
 
 #%% the figure
+mechs = ['bulk', '[tri]', '[Ti]', '[Si]']
 
 # set styles
-style2 = wb2.style
-style2['markeredgecolor'] = 'darkmagenta'
-style2['markersize'] = 4
-styles = [style2.copy(), style2.copy(), style2.copy(), style2.copy()]
+style = {'linestyle':'None'}
+style['markeredgecolor'] = 'darkmagenta'
+style['markersize'] = 4
+styles = [style.copy(), style.copy()]
 styles[0]['marker'] = 'o'
 styles[1]['marker'] = 's'
-styles[2]['marker'] = '^'
-styles[3]['marker'] = 'x'
 styles[0]['markerfacecolor'] = 'darkmagenta'
 styles[1]['markerfacecolor'] = 'none'
-styles[3]['label'] = '8hr'
-styles[2]['label'] = '6hr'
-styles[1]['label'] = '3hr'
-styles[0]['label'] = 'after reorganization'
+styles[1]['label'] = 'heated 8hr'
+styles[0]['label'] = 'initial'
      
 # make the axes
 fig = plt.figure()
@@ -114,33 +97,6 @@ axes[0][0].set_ylabel('[Si-Fe$^{2+}$]\npeak height / initial')
 axes[1][0].set_ylabel('[Ti-3525]\npeak height / initial')
 axes[2][0].set_ylabel('[tri-Fe$^{3+}$]\npeak height / initial')
 
-        
-# pp curves
-pp = dlib.pp.whatIsD(1000, printout=False)
-pv = dlib.pv.whatIsD(1000, printout=False)
-styleD1 = {'color':'k', 'linestyle':'-', 'label':'pp 1hr'}
-styleD2 = {'color':'k', 'linestyle':':', 'label':'pv 8hr'}
-for ax3 in axes:
-        wb.plot_diffusion(axes3=ax3,
-                          time_seconds = 1*3600,
-                          log10D_m2s=pp,
-                          wholeblock_diffusion=True,
-                          labelD=False, 
-                          style_diffusion=styleD1)
-        wb.plot_diffusion(axes3=ax3,
-                          time_seconds = 8*3600,
-                          log10D_m2s=pv,
-                          wholeblock_diffusion=True,
-                          labelD=False, 
-                          style_diffusion=styleD2)
-       
-
-# initial lines
-for ax3 in axes:
-    for ax in ax3:
-        ax.plot(ax.get_xlim(), [1., 1.], '--', color='darkmagenta', 
-                alpha=0.6, label='initial')
-        
 # bulk water data
 idx = -1
 for wb, style in zip(wbs, styles):
@@ -148,8 +104,8 @@ for wb, style in zip(wbs, styles):
                           centered=True, show_errorbars=False,
                           wholeblock=True)
 for idx, ax in enumerate(axes[idx]):
-    ax.set_title(''.join(('|| ', wb2.directions[idx],
-                          ', R || ', wb2.raypaths[idx])))
+    ax.set_title(''.join(('|| ', wbdata.directions[idx],
+                          ', R || ', wbdata.raypaths[idx])))
 
 # peak height data
 for idx in [0, 1, 2]:
@@ -157,12 +113,46 @@ for idx in [0, 1, 2]:
         wb.plot_areas_3panels(axes3=axes[idx], styles3=[style]*3, 
                               centered=True, show_errorbars=False,
                               wholeblock=True, heights_instead=True,
-                              peak_idx=idx)
-
+                              peak_idx=idx)   
+        
+# initial lines
+for ax3 in axes:
+    for ax in ax3:
+        ax.plot(ax.get_xlim(), [1., 1.], '--', color='darkmagenta', 
+                alpha=0.6)
+        
+       
+# diffusion
+#pv = dlib.pv.whatIsD(800, printout=False)
+#styleD1 = {'color':'darkmagenta', 'linestyle':'-', 'label':'6hr fit'}
+#styleD2 = {'color':'k', 'linestyle':':', 'label':'6hr PV'}
+#mechs.reverse()
+#ytxts = [0.5, 0.1, 0.1, 0.1]
+#for mech, ax3, ytxt in zip(mechs, axes, ytxts):
+#    # PV
+#    wbdata.plot_diffusion(axes3=ax3,
+#                      log10D_m2s=pv,
+#                      wholeblock_diffusion=True,
+#                      labelD=False, 
+#                      style_diffusion=styleD2)
+    
+##     best fit at 1000C
+#    Ddata = Kdiffusivities[Kdiffusivities.mechanism == mech]
+#    D3 = list(Ddata.log10D)
+#    wbdata.plot_diffusion(axes3=ax3,
+#                          log10D_m2s=D3,
+#                          wholeblock_diffusion=True,
+#                          labelD=False, 
+#                          style_diffusion=styleD1)
+#    
+#    for D, ax in zip(D3, ax3): 
+#        tstring = ''.join(('10$^{', '{:.1f}'.format(D), '}$ m$^2$/s'))
+#        ax.text(0, ytxt, tstring, color='darkmagenta', va='center', ha='center')
+    
 # set axes limits and labels
-ytop = 1.3
+ytops = [1.5, 1.5, 1.5, 3]
 letters = iter(string.ascii_uppercase)
-for idx in [3, 2, 1, 0]:
+for ytop, idx in zip(ytops, [3, 2, 1, 0]):
     for ax in axes[idx]:
         ax.set_ylim(0, ytop)
         letter = next(letters)
@@ -172,9 +162,9 @@ for idx in [3, 2, 1, 0]:
 for idx in range(3):
     axes[idx][1].set_title('')
 
-#axes[-1][2].plot([0, 0], [-10, -10], **styleD2)
-#axes[-1][2].plot([0, 0], [-10, -10], **styleD1)
-axes[-1][2].legend(loc=1, ncol=4, bbox_to_anchor=(0.87, 1.6))
+axes[-1][0].text(0, 2.1, '800$\degree$C', fontsize=20, ha='center')
+
+axes[-1][2].legend(loc=1, ncol=3, bbox_to_anchor=(0.8, 1.6))
 
 for ax in axes[0]:
     plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right')

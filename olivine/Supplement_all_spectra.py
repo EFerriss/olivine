@@ -15,7 +15,7 @@ import pynams
 import numpy as np
 import olivine
 import matplotlib.pyplot as plt
-from pynams import styles, dlib
+from pynams import styles
 
 filetosave = os.path.join(olivine.__path__[0], 'Supplement_all_spectra.pdf')
 
@@ -75,7 +75,7 @@ peak2fin = {None: 0.15, 3600: 0.4, 3525: 0, 3356: 0, 3236: 0.}
 #% plot by peak and wholeblock group and save to pdf
 pdf = PdfPages(filetosave)
 
-# San Carlos
+### San Carlos
 peaks = [None] + SCpeaks
 
 for peak in peaks:
@@ -95,7 +95,7 @@ for peak in peaks:
                                          heights_instead=height,
                                          wholeblock=True, 
                                          scale=1, 
-                                         ytop = 1.2,
+                                         ytop = 1.4,
                                          show_line_at_1=True)
 
         # get diffusivity data from spreadsheet and plot
@@ -105,14 +105,15 @@ for peak in peaks:
         df = df[df['hours'] == wb.hours]
         df = df[df['mechanism'] == mech]
         D3 = list(df.log10D)
-#        D3 = dlib.mix_olivine_mechanisms(celsius=800., percent_slow=pv)
         hyd = list(df.Experiment)
+        
         if (0 not in D3) and ('dehydration' in hyd):
             fin = peak2fin[peak]
             wb.plot_diffusion(axes3=ax3, show_data=False,
                               wholeblock_diffusion=True, 
                               fin = fin,
-                              log10D_m2s=D3, labelD=False)
+                              log10D_m2s=D3, labelD=True,
+                              labelDy=1.275)
         ax3[1].set_title(' '.join((wb.name, ax3[1].get_title())))
         fig.subplots_adjust(bottom=0.3)
         pdf.savefig()
@@ -120,8 +121,10 @@ for peak in peaks:
 
 # Kilauea Iki
 pvlist = [0, 0, 97, 97, 97, 97, 95]
-ytops = [2., 2.5, 1.5, 1.2, 1.2]
+ytops = [2., 2.5, 1.5, 1.5, 1.5]
 peaks = [None, 3600, 3525, 3356]
+#peaks = [3356]
+#ytops = [1.2]*6
 temps = [800, 800] + [1000]*5
 
 for peak, ytop in zip(peaks, ytops):
@@ -135,6 +138,8 @@ for peak, ytop in zip(peaks, ytops):
         
     for wb, pv, temp in zip(kiki_whole_block_list, pvlist, temps):
         # plot data        
+        if wb.celsius == 1000:
+            ytop = 1.25
         fig, ax3 = wb.plot_areas_3panels(styles3=[wb.style]*3, 
                                          centered=True, 
                                          peak_idx = idx,
@@ -151,12 +156,12 @@ for peak, ytop in zip(peaks, ytops):
         df = df[df['hours'] == wb.hours]
         df = df[df['mechanism'] == mech]
         D3 = list(df.log10D)
-#        D3 = dlib.mix_olivine_mechanisms(celsius=temp, percent_slow=pv)
         hyd = list(df.Experiment)
         if (0 not in D3) and ('dehydration' in hyd):
             wb.plot_diffusion(axes3=ax3, show_data=False,
                               wholeblock_diffusion=True, 
-                              log10D_m2s=D3, labelD=False)
+                              log10D_m2s=D3, labelD=True,
+                              labelDy=ytop-ytop*0.08)
         ax3[1].set_title(' '.join((wb.name, ax3[1].get_title())))
         fig.subplots_adjust(bottom=0.3)
         pdf.savefig()
@@ -181,7 +186,7 @@ for ytop, wb in zip(ytops, wblist):
                                     )))
             pdf.savefig()
             plt.close()
-
+#
 pdf.close()
 #%%
 def spit(D3):
