@@ -77,7 +77,7 @@ wb7.peak_D3[3][2] = wb7.peak_D3[3][2] + 0.6
 style2 = wb2.style
 style7 = wb7.style
 style7['label'] = 'SC1-7'
-style2['label'] = 'SC1-2 (pp done)'
+style2['label'] = 'SC1-2 (PP done)'
      
 # make the axes
 fig = plt.figure()

@@ -16,7 +16,7 @@ import pandas as pd
 import matplotlib
 import matplotlib.patches as patches
 
-matplotlib.rcParams.update({'font.size': 8})
+#matplotlib.rcParams.update({'font.size': 10})
 
 GAS_CONSTANT = 0.00831 # kJ/mol K
 
@@ -88,7 +88,7 @@ kiki_tri_c = kiki_tri[kiki_tri.orientation == 'c']
 fig = plt.figure()
 fig.set_size_inches(6.5, 5)
 
-xstart = 0.1
+xstart = 0.13
 ypstart = 0.13
 wgap = 0.18
 width = 0.85

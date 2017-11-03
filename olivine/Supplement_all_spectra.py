@@ -59,9 +59,10 @@ for wb in SC_whole_block_list:
 for wb in kiki_whole_block_list:
     wb.sample.name = 'kiki'
     
-#%%# get diffusivity data from spreadsheet
+#%%# get diffusivity data from spreadsheet in pynams
 # store log10 diffusivities in wholeblock attribute D3
-datafile = os.path.join(pynams.__path__[0], 'diffusion', 'literaturevalues.csv')
+datafile = os.path.join(pynams.__path__[0], 'diffusion', 
+                        'literaturevalues.csv')
 diffs = pd.read_csv(datafile)
 diffs = diffs.dropna(how='all') # ignore empty rows
 diffs.fillna(0, inplace=True) # replace missing values with zero
@@ -72,10 +73,33 @@ peak2mech = {None: 'bulk', 3600:'[Si]', 3525:'[Ti]', 3356:'[tri]', 3236:'[Mg]'}
 peak2idx = {None: None, 3600: 0, 3525: 1, 3356: 2, 3236:3}
 peak2fin = {None: 0.15, 3600: 0.4, 3525: 0, 3356: 0, 3236: 0.}
 
+
+def show_error_envelope(wb, ax3, fin, D3, error_log_units=[0.4]*3):
+    """
+    Input:
+        The whole-block
+        A list of 3 axes on which to plot
+        The final value diffusion is going to
+        The list of diffusivities, D
+        The list of assumed errors on each diffusivity
+        
+    Shows lines for D +/- each error with fill-between on axes
+    """
+    Dhigh = [D+e for D, e in zip(D3, error_log_units)]
+    Dlow = [D-e for D, e in zip(D3, error_log_units)]
+    lmfit, xs, yhighs = wb.diffusion_profiles(wholeblock_diffusion=True, 
+                                     fin = fin, log10D_m2s=Dhigh)
+    lmfit, xs, ylows = wb.diffusion_profiles(wholeblock_diffusion=True,
+                                     fin = fin, log10D_m2s=Dlow)
+    xs = [x - (length/2) for x, length in zip(xs, wb.sample.lengths_microns)]
+
+    for ax, x, ylow, yhigh in zip(ax3, xs, ylows, yhighs):
+        ax.fill_between(x, ylow, yhigh, color='grey', alpha=0.3)
+
 #% plot by peak and wholeblock group and save to pdf
 pdf = PdfPages(filetosave)
 
-### San Carlos
+######## San Carlos ########
 peaks = [None] + SCpeaks
 
 for peak in peaks:
@@ -105,26 +129,32 @@ for peak in peaks:
         df = df[df['hours'] == wb.hours]
         df = df[df['mechanism'] == mech]
         D3 = list(df.log10D)
+        D3e = list(df.log10Derror)
         hyd = list(df.Experiment)
         
+        # plot diffusion curve
         if (0 not in D3) and ('dehydration' in hyd):
             fin = peak2fin[peak]
             wb.plot_diffusion(axes3=ax3, show_data=False,
                               wholeblock_diffusion=True, 
                               fin = fin,
-                              log10D_m2s=D3, labelD=True,
-                              labelDy=1.275)
+                              log10D_m2s=D3, labelD=False)
+            show_error_envelope(wb, ax3, fin, D3, error_log_units=D3e)
+            for ax, D, e in zip(ax3, D3, D3e):
+                label = ''.join(('log$_{10}$D in m$^2$/s\n', 
+                                 str(D), '+/-', str(e)))
+                ax.text(0, 1.19, label, ha='center', fontsize=8)
+                
+        # adjust and save figure
         ax3[1].set_title(' '.join((wb.name, ax3[1].get_title())))
         fig.subplots_adjust(bottom=0.3)
         pdf.savefig()
         plt.close()
 
-# Kilauea Iki
+####### Kilauea Iki ##########
 pvlist = [0, 0, 97, 97, 97, 97, 95]
-ytops = [2., 2.5, 1.5, 1.5, 1.5]
+ytops = [1.5, 2.5, 1.5, 1.5, 1.5]
 peaks = [None, 3600, 3525, 3356]
-#peaks = [3356]
-#ytops = [1.2]*6
 temps = [800, 800] + [1000]*5
 
 for peak, ytop in zip(peaks, ytops):
@@ -139,7 +169,7 @@ for peak, ytop in zip(peaks, ytops):
     for wb, pv, temp in zip(kiki_whole_block_list, pvlist, temps):
         # plot data        
         if wb.celsius == 1000:
-            ytop = 1.25
+            ytop = 1.2
         fig, ax3 = wb.plot_areas_3panels(styles3=[wb.style]*3, 
                                          centered=True, 
                                          peak_idx = idx,
@@ -156,19 +186,26 @@ for peak, ytop in zip(peaks, ytops):
         df = df[df['hours'] == wb.hours]
         df = df[df['mechanism'] == mech]
         D3 = list(df.log10D)
+        D3e = list(df.log10Derror)
         hyd = list(df.Experiment)
         if (0 not in D3) and ('dehydration' in hyd):
             wb.plot_diffusion(axes3=ax3, show_data=False,
                               wholeblock_diffusion=True, 
-                              log10D_m2s=D3, labelD=True,
-                              labelDy=ytop-ytop*0.08)
+                              log10D_m2s=D3, labelD=False)
+            
+            labelDy=ytop-ytop*0.15
+            show_error_envelope(wb, ax3, fin, D3, error_log_units=D3e)
+            for ax, D, e in zip(ax3, D3, D3e):
+                label = ''.join(('log$_{10}$D in m$^2$/s\n', 
+                                 str(D), '+/-', str(e)))
+                ax.text(0, labelDy, label, ha='center', fontsize=8)
+
         ax3[1].set_title(' '.join((wb.name, ax3[1].get_title())))
         fig.subplots_adjust(bottom=0.3)
         pdf.savefig()
         plt.close()
 
-
-## individual spectra and baselines
+######## individual spectra and baselines #############
 wblist = [SC.wb_1000C_SC1_7] + SC_whole_block_list + kiki_whole_block_list
            
 ytops = np.ones_like(wblist) * 0.5
@@ -186,7 +223,7 @@ for ytop, wb in zip(ytops, wblist):
                                     )))
             pdf.savefig()
             plt.close()
-#
+
 pdf.close()
 #%%
 def spit(D3):
