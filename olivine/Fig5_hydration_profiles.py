@@ -24,7 +24,7 @@ import olivine
 import string 
 
 # output file
-file = os.path.join(olivine.__path__[0], 'Fig4_hydration_profiles.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig5_hydration_profiles.jpg')
 
 # set up peaks and areas
 peaks = SC.peaks

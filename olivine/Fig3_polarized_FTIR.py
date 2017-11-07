@@ -18,7 +18,7 @@ import os
 import olivine
 import string
 
-file = os.path.join(olivine.__path__[0], 'Fig2_polarized_FTIR.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig3_polarized_FTIR.jpg')
 
 plt.close('all')
 numformat = '{:.0f}'

@@ -17,7 +17,7 @@ import olivine
 import matplotlib.pyplot as plt
 from pynams import styles
 
-filetosave = os.path.join(olivine.__path__[0], 'Supplement_all_spectra.pdf')
+filetosave = os.path.join(olivine.__path__[0], 'Ferriss_Supplement.pdf')
 
 SC_whole_block_list = [SC.wb_800C_hyd] + SC.whole_block_list.copy()
 

@@ -23,7 +23,7 @@ import pandas as pd
 import pynams
 import string
 
-file = os.path.join(olivine.__path__[0], 'Fig6_SC_dehydration.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig7_SC_dehydration.jpg')
 
 dfile = os.path.join(pynams.__path__[0], 'diffusion', 'literaturevalues.csv')
 diffusivities = pd.read_csv(dfile)

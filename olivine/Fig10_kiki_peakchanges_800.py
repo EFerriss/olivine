@@ -4,26 +4,18 @@ Created on Thu Mar 16 21:25:29 2017
 
 @author: Elizabeth
 
-Figure showing dehydration profiles in Kilauea Iki olivine for bulk 
-hydrogen and 3 major peaks.
-
-Data details and peak heights are in Kiki_spectra.py. Baselines
-were created in Kiki_baselines.py and are stored in the same
-folder as the original FTIR data.
+Modified paper figure to emphasize absolute changes in peak heights
 """
 from __future__ import print_function, division
 from olivine.KilaueaIki import Kiki_spectra as kiki
 import itertools
-from pynams import dlib
-import numpy as np
 import matplotlib.pyplot as plt
 import os
 import olivine
-import pandas as pd
-import pynams
+import numpy as np
 import string
 
-file = os.path.join(olivine.__path__[0], 'Fig8_kiki_reorganization_800.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig10_kiki_peakchanges_800.jpg')
 
 wbdata = kiki.wb_Kiki_8hr
 
@@ -63,6 +55,7 @@ styles[0]['markerfacecolor'] = 'darkmagenta'
 styles[1]['markerfacecolor'] = 'none'
 styles[1]['label'] = 'heated 8hr'
 styles[0]['label'] = 'initial'
+#styles[1]['markeredgecolor'] = 'k'
      
 # make the axes
 fig = plt.figure()
@@ -92,17 +85,17 @@ for idx, ax3 in enumerate(axes):
 axes[0][0].set_xlabel('x (mm)')
 axes[0][1].set_xlabel('y (mm)')
 axes[0][2].set_xlabel('z (mm)')
-axes[3][0].set_ylabel('bulk\nhydrogen / initial')
-axes[0][0].set_ylabel('[Si-Fe$^{2+}$]\npeak height / initial')
-axes[1][0].set_ylabel('[Ti-3525]\npeak height / initial')
-axes[2][0].set_ylabel('[tri-Fe$^{3+}$]\npeak height / initial')
+axes[3][0].set_ylabel('bulk\nhydrogen (cm$^{-2}$)')
+axes[0][0].set_ylabel('[Si-Fe$^{2+}$]\nheight (cm$^{-1}$)')
+axes[1][0].set_ylabel('[Ti-3525]\nheight (cm$^{-1}$)')
+axes[2][0].set_ylabel('[tri-Fe$^{3+}$]\nheight (cm$^{-1}$)')
 
 # bulk water data
 idx = -1
 for wb, style in zip(wbs, styles):
     wb.plot_areas_3panels(axes3=axes[idx], styles3=[style]*3, 
                           centered=True, show_errorbars=False,
-                          wholeblock=True)
+                          wholeblock=False)
 for idx, ax in enumerate(axes[idx]):
     ax.set_title(''.join(('|| ', wbdata.directions[idx],
                           ', R || ', wbdata.raypaths[idx])))
@@ -112,15 +105,71 @@ for idx in [0, 1, 2]:
     for wb, style in zip(wbs, styles):
         wb.plot_areas_3panels(axes3=axes[idx], styles3=[style]*3, 
                               centered=True, show_errorbars=False,
-                              wholeblock=True, heights_instead=True,
+                              wholeblock=False, heights_instead=True,
                               peak_idx=idx)   
-        
-# initial lines
-for ax3 in axes:
+
+
+# initial and final overall values        
+bulkH_initial = np.mean(list(itertools.chain(*kiki.wb_Kiki_init.areas)))
+bulkH_final = np.mean(list(itertools.chain(*kiki.wb_Kiki_8hr.areas)))
+
+for wb in wbs:
+    wb.peakpos = wb.profiles[0].peakpos
+    wb.peakSi = [prof.peak_heights[0] for prof in wb.profiles]
+    wb.peakTi = [prof.peak_heights[1] for prof in wb.profiles]
+    wb.peakTri = [prof.peak_heights[2] for prof in wb.profiles]
+    wb.peakSi_mean = np.mean(list(itertools.chain(*wb.peakSi)))
+    wb.peakTi_mean = np.mean(list(itertools.chain(*wb.peakTi)))
+    wb.peakTri_mean = np.mean(list(itertools.chain(*wb.peakTri)))
+
+def plot_initial_line(init, ax3):
     for ax in ax3:
-        ax.plot(ax.get_xlim(), [1., 1.], '--', color='darkmagenta', 
-                alpha=0.6)
-        
+        ax.plot(ax.get_xlim(), [init, init], '--', color='darkmagenta')
+
+
+def plot_final_line(final, ax3):
+    for ax in ax3:
+        ax.plot(ax.get_xlim(), [final, final], '-', color='k', alpha=0.5)
+
+plot_initial_line(bulkH_initial, axes[-1])
+plot_final_line(bulkH_final, axes[-1])
+plot_initial_line(wbs[0].peakSi_mean, axes[0])
+plot_final_line(wbs[1].peakSi_mean, axes[0])
+plot_initial_line(wbs[0].peakTi_mean, axes[1])
+plot_final_line(wbs[1].peakTi_mean, axes[1])
+plot_initial_line(wbs[0].peakTri_mean, axes[2])
+plot_final_line(wbs[1].peakTri_mean, axes[2])
+    
+print()
+print('[Si] peak')
+print('initial:', kiki.wb_Kiki_init.peakSi_mean)
+print('final:', kiki.wb_Kiki_8hr.peakSi_mean)
+print('change:', kiki.wb_Kiki_8hr.peakSi_mean - kiki.wb_Kiki_init.peakSi_mean)
+print()
+print('[Tri] peak')
+print('initial:', kiki.wb_Kiki_init.peakTri_mean)
+print('final:', kiki.wb_Kiki_8hr.peakTri_mean)
+print('change:', kiki.wb_Kiki_8hr.peakTri_mean - kiki.wb_Kiki_init.peakTri_mean)
+print()
+print('[Ti] peak')
+print('initial:', kiki.wb_Kiki_init.peakTi_mean)
+print('final:', kiki.wb_Kiki_8hr.peakTi_mean)
+print('change:', kiki.wb_Kiki_8hr.peakTi_mean - kiki.wb_Kiki_init.peakTi_mean)
+print()
+print('bulk H')
+print('initial:', bulkH_initial)
+print('final:', bulkH_final)
+print('change:', bulkH_final - bulkH_initial)
+ 
+
+#for ax3, wb in zip(axes, kiki.wb_Kiki_init):
+
+#    metastable = 
+#    
+#    for ax in ax3:
+#        ax.plot(ax.get_xlim(), [1., 1.], '--', color='darkmagenta', 
+#                alpha=0.6)
+#        
        
 # diffusion
 #pv = dlib.pv.whatIsD(800, printout=False)
@@ -150,7 +199,7 @@ for ax3 in axes:
 #        ax.text(0, ytxt, tstring, color='darkmagenta', va='center', ha='center')
     
 # set axes limits and labels
-ytops = [1.5, 1.5, 1.5, 3]
+ytops = [60, 0.25, 0.6, 0.25]
 letters = iter(string.ascii_uppercase)
 for ytop, idx in zip(ytops, [3, 2, 1, 0]):
     for ax in axes[idx]:
@@ -162,8 +211,7 @@ for ytop, idx in zip(ytops, [3, 2, 1, 0]):
 for idx in range(3):
     axes[idx][1].set_title('')
 
-axes[-1][0].text(0, 2.1, '800$\degree$C', fontsize=20, ha='center')
-
+axes[-1][0].text(0, 80, '800$\degree$C', fontsize=20, ha='center')
 axes[-1][2].legend(loc=1, ncol=3, bbox_to_anchor=(0.8, 1.6))
 
 for ax in axes[0]:

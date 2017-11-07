@@ -27,7 +27,7 @@ matplotlib.rcParams.update({'font.size': 8})
 
 GAS_CONSTANT = 0.00831 # kJ/mol K
 
-file = os.path.join(olivine.__path__[0], 'Fig11_ArrheniusDiagram.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig12_ArrheniusDiagram.jpg')
 
 # get the data from file in pynams
 datafile = os.path.join(pynams.__path__[0], 'diffusion', 'literaturevalues.csv')

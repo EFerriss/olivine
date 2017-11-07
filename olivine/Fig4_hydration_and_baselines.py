@@ -16,7 +16,7 @@ import matplotlib
 matplotlib.rcParams.update({'font.size': 8})
 
 file = os.path.join(olivine.__path__[0], \
-                    'Fig3_hydration_and_baselines.jpg')
+                    'Fig4_hydration_and_baselines.jpg')
 
 wb7 = SC.wb_1000C_SC1_7
 wb7.get_baselines()

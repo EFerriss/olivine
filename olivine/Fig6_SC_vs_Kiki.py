@@ -14,7 +14,7 @@ import os
 import olivine
 
 # output file
-file = os.path.join(olivine.__path__[0], 'Fig5_SC_vs_Kiki.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig6_SC_vs_Kiki.jpg')
 
 specSCinit = SC.SC_untreated_Ea
 specSC = SC.wb_800C_hyd_averagespec

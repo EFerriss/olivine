@@ -20,7 +20,7 @@ import matplotlib.patches as patches
 
 GAS_CONSTANT = 0.00831 # kJ/mol K
 
-file = os.path.join(olivine.__path__[0], 'Fig7_SC_TimeSeries800C.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig8_SC_TimeSeries800C.jpg')
 
 datafile = os.path.join(pynams.__path__[0], 'diffusion', 'literaturevalues.csv')
 olivine = pd.read_csv(datafile)
