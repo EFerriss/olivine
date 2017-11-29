@@ -270,7 +270,7 @@ ax1.text(xtxt, -11., 'Kiki || a', color='darkmagenta')
 ax1.text(xtxt+0.25, -11.8, 'Kiki || c', color='darkmagenta')
 ax1.text(xtxt, -12.25, 'Kiki || b', color='darkmagenta')
 
-ax1.text(6.3, -10.3, 'Kilauea Iki\ndehydrating || a', color='blue')
+ax1.text(6.3, -10.45, 'Kilauea Iki\ndehydrating || a', color='blue')
 ax1.text(6.5, -11.36, 'unoriented\nestimates', color='grey')
 
 ax1.text(7.05, -11.1, 'PV || c', rotation=0)

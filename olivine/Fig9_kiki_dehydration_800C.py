@@ -15,7 +15,7 @@ import olivine
 import numpy as np
 import string
 
-file = os.path.join(olivine.__path__[0], 'Fig10_kiki_peakchanges_800.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig9_kiki_peakchanges_800.jpg')
 
 wbdata = kiki.wb_Kiki_8hr
 
@@ -124,12 +124,14 @@ for wb in wbs:
 
 def plot_initial_line(init, ax3):
     for ax in ax3:
-        ax.plot(ax.get_xlim(), [init, init], '--', color='darkmagenta')
+        ax.plot(ax.get_xlim(), [init, init], '--', color='darkmagenta',
+                label='average initial')
 
 
 def plot_final_line(final, ax3):
     for ax in ax3:
-        ax.plot(ax.get_xlim(), [final, final], '-', color='k', alpha=0.5)
+        ax.plot(ax.get_xlim(), [final, final], '-', color='k', alpha=0.5,
+                label='average final')
 
 plot_initial_line(bulkH_initial, axes[-1])
 plot_final_line(bulkH_final, axes[-1])
@@ -161,43 +163,6 @@ print('initial:', bulkH_initial)
 print('final:', bulkH_final)
 print('change:', bulkH_final - bulkH_initial)
  
-
-#for ax3, wb in zip(axes, kiki.wb_Kiki_init):
-
-#    metastable = 
-#    
-#    for ax in ax3:
-#        ax.plot(ax.get_xlim(), [1., 1.], '--', color='darkmagenta', 
-#                alpha=0.6)
-#        
-       
-# diffusion
-#pv = dlib.pv.whatIsD(800, printout=False)
-#styleD1 = {'color':'darkmagenta', 'linestyle':'-', 'label':'6hr fit'}
-#styleD2 = {'color':'k', 'linestyle':':', 'label':'6hr PV'}
-#mechs.reverse()
-#ytxts = [0.5, 0.1, 0.1, 0.1]
-#for mech, ax3, ytxt in zip(mechs, axes, ytxts):
-#    # PV
-#    wbdata.plot_diffusion(axes3=ax3,
-#                      log10D_m2s=pv,
-#                      wholeblock_diffusion=True,
-#                      labelD=False, 
-#                      style_diffusion=styleD2)
-    
-##     best fit at 1000C
-#    Ddata = Kdiffusivities[Kdiffusivities.mechanism == mech]
-#    D3 = list(Ddata.log10D)
-#    wbdata.plot_diffusion(axes3=ax3,
-#                          log10D_m2s=D3,
-#                          wholeblock_diffusion=True,
-#                          labelD=False, 
-#                          style_diffusion=styleD1)
-#    
-#    for D, ax in zip(D3, ax3): 
-#        tstring = ''.join(('10$^{', '{:.1f}'.format(D), '}$ m$^2$/s'))
-#        ax.text(0, ytxt, tstring, color='darkmagenta', va='center', ha='center')
-    
 # set axes limits and labels
 ytops = [60, 0.25, 0.6, 0.25]
 letters = iter(string.ascii_uppercase)
@@ -212,7 +177,7 @@ for idx in range(3):
     axes[idx][1].set_title('')
 
 axes[-1][0].text(0, 80, '800$\degree$C', fontsize=20, ha='center')
-axes[-1][2].legend(loc=1, ncol=3, bbox_to_anchor=(0.8, 1.6))
+axes[-1][2].legend(loc=1, ncol=2, bbox_to_anchor=(0.8, 1.6))
 
 for ax in axes[0]:
     plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right')

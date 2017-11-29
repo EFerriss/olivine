@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+plot# -*- coding: utf-8 -*-
 """
 Created on Fri Aug 11 09:55:19 2017
 
