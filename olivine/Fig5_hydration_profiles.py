@@ -77,7 +77,7 @@ wb7.peak_D3[3][2] = wb7.peak_D3[3][2] + 0.6
 style2 = wb2.style
 style7 = wb7.style
 style7['label'] = 'SC1-7'
-style2['label'] = 'SC1-2 (PP done)'
+style2['label'] = 'SC1-2 (redox done)'
      
 # make the axes
 fig = plt.figure()
@@ -108,10 +108,10 @@ axes[0][0].set_xlabel('x (mm)')
 axes[0][1].set_xlabel('y (mm)')
 axes[0][2].set_xlabel('z (mm)')
 axes[4][0].set_ylabel('bulk hydrogen\n(ppm H$_2$O)')
-axes[0][0].set_ylabel('[Si-Fe$^{2+}$] peak\nheight (cm$^{-1}$)')
-axes[1][0].set_ylabel('[Ti-3525] peak\nheight (cm$^{-1}$)')
-axes[2][0].set_ylabel('[tri-Fe$^{3+}$] peak\nheight (cm$^{-1}$)')
-axes[3][0].set_ylabel('[Mg] peak\nheight (cm$^{-1}$)')
+axes[0][0].set_ylabel('[Si-4H] peak\nheight (cm$^{-1}$)')
+axes[1][0].set_ylabel('[Ti-2H] peak\nheight (cm$^{-1}$)')
+axes[2][0].set_ylabel('[tri-H] peak\nheight (cm$^{-1}$)')
+axes[3][0].set_ylabel('[Mg-2H] peak\nheight (cm$^{-1}$)')
 
 # plot bulk water data
 idx = -1

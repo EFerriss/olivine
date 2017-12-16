@@ -55,9 +55,7 @@ styles[0]['markerfacecolor'] = 'darkmagenta'
 styles[1]['markerfacecolor'] = 'none'
 styles[1]['label'] = 'heated 8hr'
 styles[0]['label'] = 'initial'
-#styles[1]['markeredgecolor'] = 'k'
      
-# make the axes
 fig = plt.figure()
 fig.set_size_inches(6.5, 8)
 xstart = 0.13
@@ -86,9 +84,9 @@ axes[0][0].set_xlabel('x (mm)')
 axes[0][1].set_xlabel('y (mm)')
 axes[0][2].set_xlabel('z (mm)')
 axes[3][0].set_ylabel('bulk\nhydrogen (cm$^{-2}$)')
-axes[0][0].set_ylabel('[Si-Fe$^{2+}$]\nheight (cm$^{-1}$)')
-axes[1][0].set_ylabel('[Ti-3525]\nheight (cm$^{-1}$)')
-axes[2][0].set_ylabel('[tri-Fe$^{3+}$]\nheight (cm$^{-1}$)')
+axes[0][0].set_ylabel('[Si-4H]\nheight (cm$^{-1}$)')
+axes[1][0].set_ylabel('[Ti-2H]\nheight (cm$^{-1}$)')
+axes[2][0].set_ylabel('[tri-H-Fe$^{3+}$]\nheight (cm$^{-1}$)')
 
 # bulk water data
 idx = -1

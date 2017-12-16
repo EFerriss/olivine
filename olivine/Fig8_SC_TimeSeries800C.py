@@ -151,15 +151,15 @@ x = ax1.get_xlim()
 xtext = 69
 y = [dlib.pp.whatIsD(800, printout=False)[0]] * 2
 ax1.plot(x, y, '-', color='grey', linewidth=2, alpha=0.5)
-ax1.text(xtext, -10.85, 'PP || a', ha='right')
+ax1.text(xtext, -10.85, 'redox || a', ha='right')
 
 y = [dlib.pp.whatIsD(800, printout=False)[1]] * 2
 ax1.plot(x, y, '-', color='grey', linewidth=2, alpha=0.5)
-ax1.text(xtext, -12.5, 'PP || b', ha='right')
+ax1.text(xtext, -12.5, 'redox || b', ha='right')
 
 y = [dlib.pp.whatIsD(800, printout=False)[2]] * 2
 ax1.plot(x, y, '-', color='grey', linewidth=2, alpha=0.5)
-ax1.text(xtext, -12.2, 'PP || c', ha='right')
+ax1.text(xtext, -12.2, 'redox || c', ha='right')
 
 y = [dlib.pv.whatIsD(800, printout=False)[2]] * 2
 ax1.plot(x, y, '--', color='grey', linewidth=2, alpha=0.5)
@@ -186,15 +186,5 @@ ax1.text(35, -13.3, '[Si] || c', rotation=12)
 ax1.text(25, -12.75, '[Ti] || b', rotation=-7)
 ax1.text(25, -12.95, 'bulk || b', rotation=-7)
 ax1.text(25, -13.78, '[Si] || b', rotation=12)
-#
-#ax1.annotate('[Ti] || b', xy=(18.2, -12.65), xytext=(11.4, -13.1), 
-#            arrowprops=dict(facecolor='k', arrowstyle='->'))
-#ax1.annotate('bulk || b', xy=(18.9, -12.88), xytext=(11.4, -13.35), 
-#            arrowprops=dict(facecolor='k', arrowstyle='->'))
-#ax1.annotate('[Si] || b', xy=(22, -13.9), xytext=(11.4, -13.9), 
-#            arrowprops=dict(facecolor='k', arrowstyle='->'))
-
-#ax1.text(xtext, -14.4, 'SC1-2\ndehydration\n800$\degree$C, NNO-2.6', 
-#         ha='right', color=colora)
 
 fig.savefig(file, dpi=200, format='jpg')

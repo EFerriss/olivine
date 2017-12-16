@@ -103,13 +103,13 @@ axes[0][0].set_xlabel('x (mm)')
 axes[0][1].set_xlabel('y (mm)')
 axes[0][2].set_xlabel('z (mm)')
 axes[2][0].set_ylabel('bulk\nhydrogen / initial')
-axes[0][0].set_ylabel('[Si-Fe$^{2+}$]\npeak height / initial')
-axes[1][0].set_ylabel('[Ti-3525]\npeak height / initial')
+axes[0][0].set_ylabel('[Si-4H]\npeak height / initial')
+axes[1][0].set_ylabel('[Ti-2H]\npeak height / initial')
 
 # pp curves
 pp = dlib.pp.whatIsD(800, printout=False)
-styleD1 = {'color':'k', 'linestyle':'-', 'label':'PP 7hr'}
-styleD2 = {'color':'k', 'linestyle':':', 'label':'PP 19hr'}
+styleD1 = {'color':'k', 'linestyle':'-', 'label':'redox 7hr'}
+styleD2 = {'color':'k', 'linestyle':':', 'label':'redox 19hr'}
 stylesD = [styleD1, styleD2]
 for ax3 in axes:
     for wb, style in zip(wbs[1:3], stylesD):

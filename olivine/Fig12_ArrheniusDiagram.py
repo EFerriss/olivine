@@ -258,10 +258,10 @@ for data, style in zip(ax1data, ax1styles):
     ax1.plot(x, y, **style)
 
 xtxt = 9.38
-ax1.text(xtxt, -11, 'PP || a')
+ax1.text(xtxt, -11, 'redox || a')
 ax1.text(xtxt, -11.7, 'SC1-2 || a', color=color2)
-ax1.text(xtxt, -12.6, 'PP || b')
-ax1.text(xtxt, -12.3, 'PP || c')
+ax1.text(xtxt, -12.6, 'redox || b')
+ax1.text(xtxt, -12.3, 'redox || c')
 ax1.text(xtxt, -12.95, 'SC1-2 || c', color=color2)
 ax1.text(xtxt, -13.3, 'SC1-2 || b', color=color2)
 
