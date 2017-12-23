@@ -19,9 +19,7 @@ from pynams import dlib
 import numpy as np
 import pandas as pd
 import matplotlib
-import matplotlib.patches as patches
-from pynams import dlib
-
+from matplotlib.patches import Ellipse
 
 matplotlib.rcParams.update({'font.size': 8})
 
@@ -32,7 +30,7 @@ file = os.path.join(olivine.__path__[0], 'Fig12_ArrheniusDiagram.jpg')
 # get the data from file in pynams
 datafile = os.path.join(pynams.__path__[0], 'diffusion', 'literaturevalues.csv')
 olivine = pd.read_csv(datafile)
-olivine.loc[olivine["name"] == 'kiki', "color"] = "darkmagenta"
+olivine.loc[olivine["name"] == 'IEFERJAIC', "color"] = "darkmagenta"
 olivine.loc[olivine["name"] == 'SC1-7', "color"] = '#ff7f0e'
 olivine.loc[olivine["name"] == 'SC1-2', "color"] = '#2ca02c'
 
@@ -40,13 +38,14 @@ pp = dlib.pp
 pv = dlib.pv
 pnav = dlib.pnav_Ti
 
-megan = olivine[olivine.Author == 'Newcombe et al.']
+megan = olivine[olivine.name == 'IEMN1KI02']
 chen = olivine[olivine.Author == 'Chen et al.']
 gaetani = olivine[olivine.Author == 'Gaetani et al.']
 hauri = olivine[olivine.Author == 'Hauri']
 portnyagin = olivine[olivine.Author == 'Portnyagin et al.']
+novella = olivine[olivine.Author == 'Novella et al.']
 
-kiki_data = olivine[olivine.name == 'kiki']
+kiki_data = olivine[olivine.name == 'IEFERJAIC']
 kiki_data = kiki_data[kiki_data.maxmin == 'no']
 kiki_bulk = kiki_data[kiki_data.mechanism == 'bulk']
 kiki_bulk_a = kiki_bulk[kiki_bulk.orientation == 'a']
@@ -68,52 +67,10 @@ SC2_bulk_a = SC2_bulk[SC2_bulk.orientation == 'a']
 SC2_bulk_b = SC2_bulk[SC2_bulk.orientation == 'b']
 SC2_bulk_c = SC2_bulk[SC2_bulk.orientation == 'c']
 
-kiki_Ti = kiki_data[kiki_data.mechanism == '[Ti]']
-kiki_Ti = kiki_Ti[kiki_Ti.maxmin == 'no']
-kiki_Ti_a = kiki_Ti[kiki_Ti.orientation == 'a']
-kiki_Ti_b = kiki_Ti[kiki_Ti.orientation == 'b']
-kiki_Ti_c = kiki_Ti[kiki_Ti.orientation == 'c']
+novella_a = novella[novella.orientation == 'a']
+novella_b = novella[novella.orientation == 'b']
+novella_c = novella[novella.orientation == 'c']
 
-SC7_Ti = SC7_data[SC7_data.mechanism == '[Ti]']
-SC7_Ti_a = SC7_Ti[SC7_Ti.orientation == 'a']
-SC7_Ti_b = SC7_Ti[SC7_Ti.orientation == 'b']
-SC7_Ti_c = SC7_Ti[SC7_Ti.orientation == 'c']
-
-SC2_Ti = SC2_data[SC2_data.mechanism == '[Ti]']
-SC2_Ti_a = SC2_Ti[SC2_Ti.orientation == 'a']
-SC2_Ti_b = SC2_Ti[SC2_Ti.orientation == 'b']
-SC2_Ti_c = SC2_Ti[SC2_Ti.orientation == 'c']
-
-kiki_Si = kiki_data[kiki_data.mechanism == '[Si]']
-kiki_Si = kiki_Si[kiki_Si.maxmin == 'no']
-kiki_Si_a = kiki_Si[kiki_Si.orientation == 'a']
-kiki_Si_b = kiki_Si[kiki_Si.orientation == 'b']
-kiki_Si_c = kiki_Si[kiki_Si.orientation == 'c']
-
-SC7_Si = SC7_data[SC7_data.mechanism == '[Si]']
-SC7_Si_a = SC7_Si[SC7_Si.orientation == 'a']
-SC7_Si_b = SC7_Si[SC7_Si.orientation == 'b']
-SC7_Si_c = SC7_Si[SC7_Si.orientation == 'c']
-
-SC2_Si = SC2_data[SC2_data.mechanism == '[Si]']
-SC2_Si_a = SC2_Si[SC2_Si.orientation == 'a']
-SC2_Si_b = SC2_Si[SC2_Si.orientation == 'b']
-SC2_Si_c = SC2_Si[SC2_Si.orientation == 'c']
-
-SC7_tri = SC7_data[SC7_data.mechanism == '[tri]']
-SC7_tri_a = SC7_tri[SC7_tri.orientation == 'a']
-SC7_tri_b = SC7_tri[SC7_tri.orientation == 'b']
-SC7_tri_c = SC7_tri[SC7_tri.orientation == 'c']
-
-SC7_Mg = SC7_data[SC7_data.mechanism == '[Mg]']
-SC7_Mg_a = SC7_Mg[SC7_Mg.orientation == 'a']
-SC7_Mg_b = SC7_Mg[SC7_Mg.orientation == 'b']
-SC7_Mg_c = SC7_Mg[SC7_Mg.orientation == 'c']
-
-kiki_tri = kiki_data[kiki_data.mechanism == '[tri]']
-kiki_tri_a = kiki_tri[kiki_tri.orientation == 'a']
-kiki_tri_b = kiki_tri[kiki_tri.orientation == 'b']
-kiki_tri_c = kiki_tri[kiki_tri.orientation == 'c']
 #%%
 fig = plt.figure()
 fig.set_size_inches(6.5, 5)
@@ -125,7 +82,7 @@ width = 0.85
 height = 0.8
 hgap = 0.07
 ax1 = fig.add_axes([xstart, ypstart, width, height])
-ax1.set_xlim(6, 10)
+ax1.set_xlim(6, 10.5)
 ax1.set_ylim(-16, -8)
 
 
@@ -176,6 +133,15 @@ my_data = dlib.Diffusivities(celsius=[[800, 1000, 1200],
                                        [-12.9, -11.9], []])
 my_data.activation_energy_kJmol = [130, 130, 130, 0]
 my_data.D0_m2s = [0.000004, 0.000000135, 0.000000275, 0]
+
+novellaD = dlib.Diffusivities(celsius=[[750, 800, 900]]*4,
+                              log10D=[novella_a.log10D,
+                                      novella_b.log10D,
+                                      novella_c.log10D,
+                                      []])
+novellaD.activation_energy_kJmol = [229, 172, 188]
+novellaD.D0_m2s = [10**-0.7, 10**-5, 10**-3.5]
+
 plotline(my_data, 0, ax1, style={'color':'red', 'linewidth':6, 'alpha':0.5})
 plotline(my_data, 1, ax1, style={'color':'red', 'linewidth':6, 'alpha':0.5})
 plotline(my_data, 2, ax1, style={'color':'red', 'linewidth':6, 'alpha':0.5})
@@ -190,6 +156,17 @@ plotline(pv, 1, ax1, style={'color':'grey', 'linewidth':2, 'linestyle':'--',
                             'alpha':0.75})
 plotline(pv, 2, ax1, style={'color':'grey', 'linewidth':2, 'linestyle':'--', 
                             'alpha':0.75})
+
+style_novella = {'color':'blue', 'linewidth':1, 'linestyle':'-', 'alpha':0.5}
+plotline(novellaD, 0, ax1, style=style_novella)
+plotline(novellaD, 1, ax1, style=style_novella)
+plotline(novellaD, 2, ax1, style=style_novella)
+    
+# ellipse around unoriented estimates
+unoriented_data = Ellipse(xy=(6.7, -11), width=1, height=1.2, angle=20, 
+                          color='grey', alpha=0.1)
+ax1.add_artist(unoriented_data)
+
 
 for pnav in [dlib.pnav_Mg, dlib.pnav_Si, dlib.pnav_Ti]:
     x = 1e4 / (np.array(pnav.celsius[3]) + 273.15)
@@ -209,10 +186,14 @@ ax1data = [
            kiki_bulk_c,
 
            megan,
-           chen,
-           gaetani,
-           portnyagin,
-           hauri
+#           chen,
+#           gaetani,
+#           portnyagin,
+           hauri,
+           
+#           novella_a,
+#           novella_b,
+#           novella_c
            ]
 
 color2 = '#2ca02c'
@@ -235,21 +216,32 @@ ax1styles = [
               {'color':'darkmagenta', 'linestyle':'none', 'marker':'s',
               'markerfacecolor': 'darkmagenta', 'label':'SC1-2 bulk || c',
               'markersize':4}, 
-             {'color': 'blue', 'linestyle':'none', 'marker':'*',
+             {'color': 'blue', 'linestyle':'none', 'marker':'o',
               'markerfacecolor':'none',
-              'markersize':10},
-             {'color': 'grey', 'linestyle':'none', 'marker':'^',
-              'label':'Chen et al. 2011', 'markerfacecolor':'none',
               'markersize':6},
-             {'color': 'grey', 'linestyle':'none', 'marker':'^',
-              'label':'Gaetani et al. 2012', 'markerfacecolor':'none',
-              'markersize':6},
-             {'color': 'grey', 'linestyle':'none', 'marker':'^',
-              'label':'Portnyagin et al. 2008', 'markerfacecolor':'none',
-              'markersize':6},
+              
+#             {'color': 'grey', 'linestyle':'none', 'marker':'^',
+#              'label':'Chen et al. 2011', 'markerfacecolor':'none',
+#              'markersize':6},
+#             {'color': 'grey', 'linestyle':'none', 'marker':'^',
+#              'label':'Gaetani et al. 2012', 'markerfacecolor':'none',
+#              'markersize':6},
+#             {'color': 'grey', 'linestyle':'none', 'marker':'^',
+#              'label':'Portnyagin et al. 2008', 'markerfacecolor':'none',
+#              'markersize':6},
              {'color': 'grey', 'linestyle':'none', 'marker':'^',
               'label':'Hauri 2002', 'markerfacecolor':'none',
               'markersize':6},
+              
+#             {'color': 'k', 'linestyle':'none', 'marker':'o',
+#              'label':'Novella et al. 2017 || a', 'markerfacecolor':'none',
+#              'markersize':6},
+#             {'color': 'k', 'linestyle':'none', 'marker':'+',
+#              'label':'Novella et al. 2017 || b', 'markerfacecolor':'none',
+#              'markersize':6},
+#             {'color': 'k', 'linestyle':'none', 'marker':'s',
+#              'label':'Novella et al. 2017 || c', 'markerfacecolor':'none',
+#              'markersize':6},
              ]
 
 for data, style in zip(ax1data, ax1styles):
@@ -257,29 +249,41 @@ for data, style in zip(ax1data, ax1styles):
     y = data.log10D
     ax1.plot(x, y, **style)
 
-xtxt = 9.38
-ax1.text(xtxt, -11, 'redox || a')
-ax1.text(xtxt, -11.7, 'SC1-2 || a', color=color2)
-ax1.text(xtxt, -12.6, 'redox || b')
-ax1.text(xtxt, -12.3, 'redox || c')
+xtxt = 9.36
+#ax1.text(xtxt, -11, 'redox || a', color='grey')
+ax1.text(xtxt, -11.65, 'SC1-2 || a', color=color2)
+#ax1.text(xtxt, -12.67, 'redox || b', color='grey')
+#ax1.text(xtxt, -12.25, 'redox || c', color='grey')
 ax1.text(xtxt, -12.95, 'SC1-2 || c', color=color2)
-ax1.text(xtxt, -13.3, 'SC1-2 || b', color=color2)
+ax1.text(xtxt, -13.4, 'SC1-2 || b', color=color2)
 
-xtxt = 7.5
+xtxt = 7.475
 ax1.text(xtxt, -11., 'Kiki || a', color='darkmagenta')
 ax1.text(xtxt+0.25, -11.8, 'Kiki || c', color='darkmagenta')
 ax1.text(xtxt, -12.25, 'Kiki || b', color='darkmagenta')
 
-ax1.text(6.3, -10.45, 'Kilauea Iki\ndehydrating || a', color='blue')
-ax1.text(6.5, -11.36, 'unoriented\nestimates', color='grey')
+xtxt = 9.85
+ax1.text(xtxt, -12.47, 'self-D || a', color='blue', alpha=0.5)
+ax1.text(xtxt, -13.9, 'self-D || b', color='blue', alpha=0.5)
+ax1.text(xtxt, -13.15, 'self-D || c', color='blue', alpha=0.5)
 
-ax1.text(7.05, -11.1, 'PV || c', rotation=0)
-ax1.text(6.8, -12.1, 'PV || a and b')
+ax1.text(6.25, -10.45, 'Kilauea Iki\ndehydrating || a', color='blue')
+ax1.text(6.7, -11, 'unoriented\nestimates', color='grey', 
+         va='center', ha='center')
+
+ax1.text(7.05, -11.1, 'PV || c', color='grey')
+ax1.text(6.8, -12.1, 'PV || a and b', color='grey')
 ax1.text(7, -13.6, '[Si]')
 ax1.text(9, -14, '[Mg]')
 ax1.text(8.8, -14.5, '[Ti]')
-ax1.text(7.4, -10.3, 'olivine dehydrating during ascent', color='red',
-            rotation=-13)
+ax1.text(6.8, -9.9, 'olivine dehydrating during ascent', color='red',
+            rotation=-15.3)
+
+xtxt = 8.8
+ax1.text(xtxt, -10.45, 'redox || a', color='grey', rotation = -15)
+ax1.text(xtxt, -12.35, 'redox || b', color='grey', rotation = -20)
+ax1.text(xtxt, -11.9, 'redox || c', color='grey', rotation = -10)
+
 
 col_labels=['E$_a$ (kJ/mol)','D$_0$ (m$^2$/s)']
 row_labels=['|| a','|| b','|| c']
