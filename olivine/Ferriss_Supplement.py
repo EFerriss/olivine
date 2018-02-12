@@ -1,4 +1,4 @@
-plot# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Created on Fri Aug 11 09:55:19 2017
 
@@ -61,8 +61,7 @@ for wb in kiki_whole_block_list:
     
 #%%# get diffusivity data from spreadsheet in pynams
 # store log10 diffusivities in wholeblock attribute D3
-datafile = os.path.join(pynams.__path__[0], 'diffusion', 
-                        'literaturevalues.csv')
+datafile = os.path.join(olivine.__path__[0], 'mydata.csv')
 diffs = pd.read_csv(datafile)
 diffs = diffs.dropna(how='all') # ignore empty rows
 diffs.fillna(0, inplace=True) # replace missing values with zero
