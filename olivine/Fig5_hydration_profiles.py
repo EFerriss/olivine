@@ -24,7 +24,7 @@ import olivine
 import string 
 
 # output file
-file = os.path.join(olivine.__path__[0], 'Fig5_hydration_profiles.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig5_hydration_profiles.tif')
 
 # set up peaks and areas
 peaks = SC.peaks
@@ -212,4 +212,4 @@ for idx in [4, 3, 2, 1, 0]:
         y = ax.get_ylim()[1] - 0.15*ax.get_ylim()[1]
         ax.text(x, y, letter)
 
-fig.savefig(file, dpi=200, format='jpg')
+fig.savefig(file, dpi=300, format='tif')

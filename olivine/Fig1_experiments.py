@@ -20,7 +20,7 @@ import matplotlib
 
 
 matplotlib.rcParams.update({'font.size': 8})
-file = os.path.join(olivine.__path__[0], 'Fig1_experiments.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig1_experiments.tif')
 
 fig = plt.figure()
 
@@ -292,4 +292,4 @@ ax.legend(bbox_to_anchor=(1.25, 0.95), frameon=False)
 
 print('finished')
 
-fig.savefig(file, dpi=200, format='jpg')
+fig.savefig(file, dpi=300, format='tif')

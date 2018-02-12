@@ -18,7 +18,7 @@ import os
 import olivine
 import string
 
-file = os.path.join(olivine.__path__[0], 'Fig3_polarized_FTIR.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig3_polarized_FTIR.tif')
 
 plt.close('all')
 numformat = '{:.0f}'
@@ -109,4 +109,4 @@ remove_labels(ax)
 
 ax.text(5500, -0.3, 'Wavenumber (cm$^{-1}$)', ha='center')
 
-fig.savefig(file, dpi=200, format='jpg')
+fig.savefig(file, dpi=300, format='tif')

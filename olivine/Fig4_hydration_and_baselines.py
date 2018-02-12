@@ -16,7 +16,7 @@ import matplotlib
 matplotlib.rcParams.update({'font.size': 8})
 
 file = os.path.join(olivine.__path__[0], \
-                    'Fig4_hydration_and_baselines.jpg')
+                    'Fig4_hydration_and_baselines.tif')
 
 wb7 = SC.wb_1000C_SC1_7
 wb7.get_baselines()
@@ -100,4 +100,4 @@ ax3.set_ylabel('absorbance (cm$^{-1}$)')
 ax3.set_xlabel('wavenumbers (cm$^{-1}$)')
 ax3.text(3110, 0.02, 'SC1-1\nuntreated', color='#1f77b4', ha='right')
 
-fig.savefig(file, dpi=200, format='jpg')
+fig.savefig(file, dpi=300, format='tif')

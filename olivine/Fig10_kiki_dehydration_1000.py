@@ -23,11 +23,11 @@ import pandas as pd
 import pynams
 import string
 
-file = os.path.join(olivine.__path__[0], 'Fig10_kiki_dehydration_1000.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig10_kiki_dehydration_1000.tif')
 
 dfile = os.path.join(pynams.__path__[0], 'diffusion', 'literaturevalues.csv')
 diffusivities = pd.read_csv(dfile)
-Kdiffusivities = diffusivities[diffusivities.name == 'kiki']
+Kdiffusivities = diffusivities[diffusivities.name == 'IEFERJAIC']
 Kdiffusivities = Kdiffusivities[Kdiffusivities.celsius == 1000.]
 
 wbdata = kiki.wb_Kiki_1000C_6hr
@@ -179,4 +179,4 @@ for ax in axes[0]:
     plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right')
 
 fig.autofmt_xdate()
-fig.savefig(file, dpi=300, format='jpg')
+fig.savefig(file, dpi=300, format='tif')

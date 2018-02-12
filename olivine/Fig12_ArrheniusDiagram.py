@@ -25,7 +25,7 @@ matplotlib.rcParams.update({'font.size': 8})
 
 GAS_CONSTANT = 0.00831 # kJ/mol K
 
-file = os.path.join(olivine.__path__[0], 'Fig12_ArrheniusDiagram.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig12_ArrheniusDiagram.tif')
 
 # get the data from file in pynams
 datafile = os.path.join(pynams.__path__[0], 'diffusion', 'literaturevalues.csv')
@@ -299,4 +299,4 @@ the_table = plt.table(cellText=table_vals,
 plt.text(6.05, -14.15, 'Arrhenius laws for H\nin natural dehydrating olivine',
          size=8, color='red')
 
-fig.savefig(file, dpi=200, format='jpg')
+fig.savefig(file, dpi=300, format='tif')

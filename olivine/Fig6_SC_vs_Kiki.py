@@ -13,7 +13,7 @@ from olivine.KilaueaIki import Kiki_spectra as kiki
 import os
 import olivine
 
-file = os.path.join(olivine.__path__[0], 'Fig6_SC_vs_Kiki.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig6_SC_vs_Kiki.tif')
 
 specSCinit = SC.SC_untreated_Ea
 specSC = SC.wb_800C_hyd_averagespec
@@ -100,4 +100,5 @@ for pidx, peak in enumerate(peaks):
 ax.set_ylabel('Absorbance (cm$^{-1}$)')
 ax.grid(None)
 fig.subplots_adjust(bottom=0.17, left=0.1, right=0.95, top=0.95)
-fig.savefig(file, dpi=200, format='jpg')
+fig.savefig(file, dpi=300, format='tif')
+fig.savefig(file, dpi=150, format='jpg')

@@ -23,7 +23,7 @@ import pandas as pd
 import pynams
 import string
 
-file = os.path.join(olivine.__path__[0], 'Fig7_SC_dehydration.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig7_SC_dehydration.tif')
 
 dfile = os.path.join(pynams.__path__[0], 'diffusion', 'literaturevalues.csv')
 diffusivities = pd.read_csv(dfile)
@@ -167,4 +167,4 @@ for D, ax in zip(pp, axes[-1]):
     ytxt = ax.get_ylim()[1] - ytxt_shifts[-1]*ax.get_ylim()[1]
     ax.text(0, 0.05, tstring, color='k', va='center', ha='center')
 
-fig.savefig(file, dpi=300, format='jpg')
+fig.savefig(file, dpi=300, format='tif')

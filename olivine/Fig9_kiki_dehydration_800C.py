@@ -15,7 +15,7 @@ import olivine
 import numpy as np
 import string
 
-file = os.path.join(olivine.__path__[0], 'Fig9_kiki_peakchanges_800.jpg')
+file = os.path.join(olivine.__path__[0], 'Fig9_kiki_peakchanges_800.tif')
 
 wbdata = kiki.wb_Kiki_8hr
 
@@ -181,4 +181,4 @@ for ax in axes[0]:
     plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right')
 
 fig.autofmt_xdate()
-fig.savefig(file, dpi=300, format='jpg')
+fig.savefig(file, dpi=300, format='tif')
