@@ -4,14 +4,13 @@ Created on Fri Aug 11 09:55:19 2017
 
 @author: Elizabeth Ferriss
 
-Show all FTIR spectra and baselines used for olivine dehydration project
+Show all FTIR spectra and baselines used for H diffusion in olivine GCA paper
 """
 from olivine.SanCarlos import SanCarlos_spectra as SC
 from olivine.KilaueaIki import Kiki_spectra as kiki
 from matplotlib.backends.backend_pdf import PdfPages
 import os
 import pandas as pd
-import pynams
 import numpy as np
 import olivine
 import matplotlib.pyplot as plt
@@ -124,7 +123,7 @@ for peak in peaks:
         # get diffusivity data from spreadsheet and plot
         wb.hours = wb.time_seconds / 3600.
         df = diffs[diffs['name'] == wb.sample.name]
-        df = df[df['celsius'] == wb.celsius]
+        df = df[df['Celsius'] == wb.celsius]
         df = df[df['hours'] == wb.hours]
         df = df[df['mechanism'] == mech]
         D3 = list(df.log10D)
@@ -181,7 +180,7 @@ for peak, ytop in zip(peaks, ytops):
         # get diffusivity data from spreadsheet and plot
         wb.hours = wb.time_seconds / 3600.
         df = diffs[diffs['name'] == wb.sample.name]
-        df = df[df['celsius'] == wb.celsius]
+        df = df[df['Celsius'] == wb.celsius]
         df = df[df['hours'] == wb.hours]
         df = df[df['mechanism'] == mech]
         D3 = list(df.log10D)

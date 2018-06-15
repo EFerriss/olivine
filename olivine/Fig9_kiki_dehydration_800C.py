@@ -42,7 +42,7 @@ for prof, iprof in zip(wbdata.profiles, kiki.wb_Kiki_init.profiles):
     prof.initial_profile = iprof
 
 #%% the figure
-mechs = ['bulk', '[tri]', '[Ti]', '[Si]']
+mechs = ['total', '[tri]', '[Ti]', '[Si]']
 
 # set styles
 style = {'linestyle':'None'}
@@ -83,12 +83,12 @@ for idx, ax3 in enumerate(axes):
 axes[0][0].set_xlabel('x (mm)')
 axes[0][1].set_xlabel('y (mm)')
 axes[0][2].set_xlabel('z (mm)')
-axes[3][0].set_ylabel('bulk\nhydrogen (cm$^{-2}$)')
+axes[3][0].set_ylabel('total\nhydrogen (cm$^{-2}$)')
 axes[0][0].set_ylabel('[Si-4H]\nheight (cm$^{-1}$)')
 axes[1][0].set_ylabel('[Ti-2H]\nheight (cm$^{-1}$)')
-axes[2][0].set_ylabel('[tri-H-Fe$^{3+}$]\nheight (cm$^{-1}$)')
+axes[2][0].set_ylabel('[Fe$^{3+}$-H]\nheight (cm$^{-1}$)')
 
-# bulk water data
+# total water data
 idx = -1
 for wb, style in zip(wbs, styles):
     wb.plot_areas_3panels(axes3=axes[idx], styles3=[style]*3, 
@@ -108,8 +108,8 @@ for idx in [0, 1, 2]:
 
 
 # initial and final overall values        
-bulkH_initial = np.mean(list(itertools.chain(*kiki.wb_Kiki_init.areas)))
-bulkH_final = np.mean(list(itertools.chain(*kiki.wb_Kiki_8hr.areas)))
+totalH_initial = np.mean(list(itertools.chain(*kiki.wb_Kiki_init.areas)))
+totalH_final = np.mean(list(itertools.chain(*kiki.wb_Kiki_8hr.areas)))
 
 for wb in wbs:
     wb.peakpos = wb.profiles[0].peakpos
@@ -131,8 +131,8 @@ def plot_final_line(final, ax3):
         ax.plot(ax.get_xlim(), [final, final], '-', color='k', alpha=0.5,
                 label='average final')
 
-plot_initial_line(bulkH_initial, axes[-1])
-plot_final_line(bulkH_final, axes[-1])
+plot_initial_line(totalH_initial, axes[-1])
+plot_final_line(totalH_final, axes[-1])
 plot_initial_line(wbs[0].peakSi_mean, axes[0])
 plot_final_line(wbs[1].peakSi_mean, axes[0])
 plot_initial_line(wbs[0].peakTi_mean, axes[1])
@@ -156,10 +156,10 @@ print('initial:', kiki.wb_Kiki_init.peakTi_mean)
 print('final:', kiki.wb_Kiki_8hr.peakTi_mean)
 print('change:', kiki.wb_Kiki_8hr.peakTi_mean - kiki.wb_Kiki_init.peakTi_mean)
 print()
-print('bulk H')
-print('initial:', bulkH_initial)
-print('final:', bulkH_final)
-print('change:', bulkH_final - bulkH_initial)
+print('total H')
+print('initial:', totalH_initial)
+print('final:', totalH_final)
+print('change:', totalH_final - totalH_initial)
  
 # set axes limits and labels
 ytops = [60, 0.25, 0.6, 0.25]

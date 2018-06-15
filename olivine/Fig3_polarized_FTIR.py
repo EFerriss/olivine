@@ -16,11 +16,9 @@ from pynams import styles
 import matplotlib.pyplot as plt
 import os
 import olivine
-import string
 
 file = os.path.join(olivine.__path__[0], 'Fig3_polarized_FTIR.tif')
 
-plt.close('all')
 numformat = '{:.0f}'
 
 fig = plt.figure()

@@ -4,7 +4,7 @@ Created on Thu Mar 16 21:25:29 2017
 
 @author: Elizabeth
 
-Figure showing dehydration profiles in Kilauea Iki olivine for bulk 
+Figure showing dehydration profiles in Kilauea Iki olivine for total 
 hydrogen and 3 major peaks.
 
 Data details and peak heights are in Kiki_spectra.py. Baselines
@@ -24,8 +24,8 @@ import pynams
 import string
 
 file = os.path.join(olivine.__path__[0], 'Fig10_kiki_dehydration_1000.tif')
+dfile = os.path.join(olivine.__path__[0], 'mydata.csv')
 
-dfile = os.path.join(pynams.__path__[0], 'diffusion', 'literaturevalues.csv')
 diffusivities = pd.read_csv(dfile)
 Kdiffusivities = diffusivities[diffusivities.name == 'IEFERJAIC']
 Kdiffusivities = Kdiffusivities[Kdiffusivities.celsius == 1000.]
@@ -60,7 +60,7 @@ initial = np.mean(list(itertools.chain(*wb2.areas)))
 
 
 #%% the figure
-mechs = ['bulk', '[tri]', '[Ti]', '[Si]']
+mechs = ['total', '[tri]', '[Ti]', '[Si]']
 
 # set styles
 style2 = wb2.style
@@ -102,12 +102,12 @@ for idx, ax3 in enumerate(axes):
 axes[0][0].set_xlabel('x (mm)')
 axes[0][1].set_xlabel('y (mm)')
 axes[0][2].set_xlabel('z (mm)')
-axes[3][0].set_ylabel('bulk\nhydrogen / initial')
+axes[3][0].set_ylabel('total\nhydrogen / initial')
 axes[0][0].set_ylabel('[Si-4H]\npeak height / initial')
 axes[1][0].set_ylabel('[Ti-2H]\npeak height / initial')
-axes[2][0].set_ylabel('[tri-H-Fe$^{3+}$]\npeak height / initial')
+axes[2][0].set_ylabel('[Fe$^{3+}$-H]\npeak height / initial')
 
-# bulk water data
+# total H data
 idx = -1
 for wb, style in zip(wbs, styles):
     wb.plot_areas_3panels(axes3=axes[idx], styles3=[style]*3, 

@@ -4,7 +4,7 @@ Created on Thu Mar 16 21:25:29 2017
 
 @author: Elizabeth
 
-Figure showing dehydration profiles in San Carlos olivines for bulk 
+Figure showing dehydration profiles in San Carlos olivines for total 
 hydrogen and 2 major peaks.
 
 Data details and peak heights are in SanCarlos_spectra.py. Baselines
@@ -24,8 +24,8 @@ import pynams
 import string
 
 file = os.path.join(olivine.__path__[0], 'Fig7_SC_dehydration.tif')
+dfile = os.path.join(olivine.__path__[0], 'mydata.csv')
 
-dfile = os.path.join(pynams.__path__[0], 'diffusion', 'literaturevalues.csv')
 diffusivities = pd.read_csv(dfile)
 SCdiffusivities = diffusivities[diffusivities.name == 'SC1-2']
 
@@ -36,7 +36,7 @@ wbs = [SC.wb_800C_hyd,
        SC.wb_800C_19hr,
        SC.wb_800C_68hr]
 
-mechs = ['bulk', '[Ti]', '[Si]']
+mechs = ['total', '[Ti]', '[Si]']
 
 for wb, time in zip(wbs, times):
     wb.get_baselines()
@@ -102,7 +102,7 @@ for idx, ax3 in enumerate(axes):
 axes[0][0].set_xlabel('x (mm)')
 axes[0][1].set_xlabel('y (mm)')
 axes[0][2].set_xlabel('z (mm)')
-axes[2][0].set_ylabel('bulk\nhydrogen / initial')
+axes[2][0].set_ylabel('total\nhydrogen / initial')
 axes[0][0].set_ylabel('[Si-4H]\npeak height / initial')
 axes[1][0].set_ylabel('[Ti-2H]\npeak height / initial')
 
@@ -125,7 +125,7 @@ for ax3 in axes:
         ax.plot(ax.get_xlim(), [1., 1.], '--', color=style2['color'], 
                 alpha=0.6, label='initial')
         
-# bulk water data
+# total water data
 idx = -1
 for wb, style in zip(wbs, styles):
     wb.plot_areas_3panels(axes3=axes[idx], styles3=[style]*3, 

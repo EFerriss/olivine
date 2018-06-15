@@ -285,7 +285,6 @@ ax.add_patch(MgO_wafer)
 ax.add_patch(MgO_top)
 ax.add_patch(thermocouple)
 ax.add_patch(capsule)
-#ax.set_title('SC1-7')
 ax.add_patch(lid)
 
 ax.legend(bbox_to_anchor=(1.25, 0.95), frameon=False)

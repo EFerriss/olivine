@@ -89,7 +89,7 @@ ax.annotate('baseline', xy=(3390, 0.11), xytext=(3380, 0.015),
 
 peaks = [3329, 3356, 3484, 3525, 3573, 3600]
 labels = ['', '', '[Si-4H]', '[Ti-2H]', '[Ti-2H]', '[Si-4H]']
-ax.text((3329+3356)/2, 1.53, '} [tri-H-Fe$^{3+}$]', rotation=90, ha='center', 
+ax.text((3329+3356)/2, 1.53, '} [Fe$^{3+}$-H]', rotation=90, ha='center', 
         va='center')
 for pidx, peak in enumerate(peaks):
     idx = abs(specKiki.wn_full-peak).argmin()

@@ -4,7 +4,7 @@ Created on Thu Mar 16 21:25:29 2017
 
 @author: Elizabeth
 
-Figure showing hydration profiles in San Carlos olivines for bulk 
+Figure showing hydration profiles in San Carlos olivines for total
 hydrogen and 4 major peaks.
 
 All related profiles are going into the supplement.
@@ -107,13 +107,13 @@ for idx, ax3 in enumerate(axes):
 axes[0][0].set_xlabel('x (mm)')
 axes[0][1].set_xlabel('y (mm)')
 axes[0][2].set_xlabel('z (mm)')
-axes[4][0].set_ylabel('bulk hydrogen\n(ppm H$_2$O)')
+axes[4][0].set_ylabel('total hydrogen\n(ppm H$_2$O)')
 axes[0][0].set_ylabel('[Si-4H] peak\nheight (cm$^{-1}$)')
 axes[1][0].set_ylabel('[Ti-2H] peak\nheight (cm$^{-1}$)')
-axes[2][0].set_ylabel('[tri-H] peak\nheight (cm$^{-1}$)')
+axes[2][0].set_ylabel('[Fe$^{3+}$-H] peak\nheight (cm$^{-1}$)')
 axes[3][0].set_ylabel('[Mg-2H] peak\nheight (cm$^{-1}$)')
 
-# plot bulk water data
+# plot total hydrogen data
 idx = -1
 wb2.plot_areas_3panels(axes3=axes[idx], styles3=[style2]*3, 
                        centered=True, show_errorbars=False)
@@ -144,7 +144,7 @@ for ax in axes:
     ax[1].set_xlim(-550, 550)
     ax[2].set_xlim(-1500, 1500)
         
-# bulk H diffusion
+# total H diffusion
 for ax in axes[-1]:
     ax.plot(ax.get_xlim(), [metastable, metastable], ':', 
             color=style2['color'])

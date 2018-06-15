@@ -58,9 +58,9 @@ ax.text(3620, 0.6, 'hydrated\nSC1-7', color='#ff7f0e', ha='right')
 ax.text(3950, 0.92, 'A', fontsize=14)
 
 peaks = [3236, 3329, 3356, 3396, 3484, 3525, 3573, 3600]
-labels = ['[Mg-2H]', '', '', '[tri-H-Al$^{3+}$]',
+labels = ['[Mg-2H]', '', '', '[Al$^{3+}$-H]',
           '[Si-4H]', '[Ti-2H]', '[Ti-2H]', '[Si-4H]']
-ax.text((3329+3356)/2, 0.52, '} [tri-H-Fe$^{3+}$]', rotation=90, ha='center', 
+ax.text((3329+3356)/2, 0.52, '} [Fe$^{3+}$-H]', rotation=90, ha='center', 
         va='center')
 for pidx, peak in enumerate(peaks):
     idx = abs(speci.wn_full-peak).argmin()
