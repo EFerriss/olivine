@@ -23,12 +23,13 @@ except OSError:
 line = ','.join(('sample name', 'peak location (cm^-1)', 
                  'temperature (Celsius)', 'hours dehydrated', 
                  'traverse direction', 'raypath direction', 
-                 'position (microns)', 'area/initial or height/initial',
+                 'position (microns)', 'area (cm^-2) or height (/cm)',
+                 'area/initial or height/initial',
                  'FTIR spectrum filename','\n'))
 with open(filetosave, 'a') as csvfile:
     csvfile.write(line)
 
-SC_whole_block_list = [SC.wb_800C_hyd] + SC.whole_block_list.copy()
+SC_whole_block_list = [SC.wb_800C_hyd] + SC.whole_block_list
 
 kiki_whole_block_list = [kiki.wb_Kiki_init,
                          kiki.wb_Kiki_1hr, 
@@ -88,12 +89,17 @@ for peak in peaks:
         xlist, ylist = wb.xy_picker(peak_idx=peak2idx[peak], wholeblock=True, 
                                     heights_instead=height)
                 
+        x2, rawy = wb.xy_picker(peak_idx=peak2idx[peak], wholeblock=False,
+                               heights_instead=height)
+
         for i, prof in enumerate(wb.profiles):
-            for x, y, spectrum in zip(xlist[i], ylist[i], prof.spectra):
+            for x, y, ry, spectrum in zip(xlist[i], ylist[i], rawy[i], prof.spectra):
                 specfile = ''.join((spectrum.fname, '.csv'))
                 line = ','.join((wb.sample.name, str(peak), str(wb.celsius), 
                                  time, prof.direction, prof.raypath, 
-                                 '{:.1f}'.format(x), '{:.3f}'.format(y), 
+                                 '{:.1f}'.format(x), 
+                                 '{:.3f}'.format(ry), 
+                                 '{:.3f}'.format(y), 
                                  specfile, '\n'))
                 with open(filetosave, 'a') as csvfile:
                     csvfile.write(line)
@@ -112,12 +118,18 @@ for peak in peaks:
     for wb, temp in zip(kiki_whole_block_list, temps):
         xlist, ylist = wb.xy_picker(peak_idx=peak2idx[peak], wholeblock=True, 
                                     heights_instead=height)
+        
+        x2, rawy = wb.xy_picker(peak_idx=peak2idx[peak], wholeblock=False,
+                               heights_instead=height)
                 
         for i, prof in enumerate(wb.profiles):
-            for x, y, spectrum in zip(xlist[i], ylist[i], prof.spectra):
+            for x, y, ry, spectrum in zip(xlist[i], ylist[i], rawy[i], prof.spectra):
                 specfile = ''.join((spectrum.fname, '.csv'))
                 line = ','.join((wb.sample.name, str(peak), str(wb.celsius), 
                                  time, prof.direction, prof.raypath, 
-                                 '{:.1f}'.format(x), '{:.3f}'.format(y), specfile, '\n'))
+                                 '{:.1f}'.format(x), 
+                                 '{:.3f}'.format(y), 
+                                 '{:.3f}'.format(ry), 
+                                 specfile, '\n'))
                 with open(filetosave, 'a') as csvfile:
                     csvfile.write(line)
