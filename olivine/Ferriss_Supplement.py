@@ -18,7 +18,7 @@ from pynams import styles
 
 filetosave = os.path.join(olivine.__path__[0], 'Ferriss_Supplement.pdf')
 
-SC_whole_block_list = [SC.wb_800C_hyd] + SC.whole_block_list.copy()
+SC_whole_block_list = [SC.wb_800C_hyd] + SC.whole_block_list
 
 kiki_whole_block_list = [kiki.wb_Kiki_init,
                          kiki.wb_Kiki_1hr, 
@@ -67,7 +67,7 @@ diffs.fillna(0, inplace=True) # replace missing values with zero
 
 diffs['hours'] = diffs['hours'].astype(float)
 
-peak2mech = {None: 'bulk', 3600:'[Si]', 3525:'[Ti]', 3356:'[tri]', 3236:'[Mg]'}
+peak2mech = {None: 'total', 3600:'[Si]', 3525:'[Ti]', 3356:'[tri]', 3236:'[Mg]'}
 peak2idx = {None: None, 3600: 0, 3525: 1, 3356: 2, 3236:3}
 peak2fin = {None: 0.15, 3600: 0.4, 3525: 0, 3356: 0, 3236: 0.}
 
@@ -94,10 +94,50 @@ def show_error_envelope(wb, ax3, fin, D3, error_log_units=[0.4]*3):
     for ax, x, ylow, yhigh in zip(ax3, xs, ylows, yhighs):
         ax.fill_between(x, ylow, yhigh, color='grey', alpha=0.3)
 
-#% plot by peak and wholeblock group and save to pdf
+#%% plot by peak and wholeblock group and save to pdf
 pdf = PdfPages(filetosave)
 
-######## San Carlos ########
+
+### LA-ICP-MS profiles
+laser = pd.read_csv('laserdata.csv')
+elements = laser.columns[4:]
+units = laser.iloc[:1].values[0][4:]
+units[0] = 'Fo number'
+
+samples = ['SC1-7', 'SC1-2', 'Kiki', 'Kikin', ]
+traverses = ['a-axis', 'c-axis']
+colors = ['#ff7f0e', SCcolors[0], Kcolors[0], 'blue']
+
+for sample, color in zip(samples, colors):
+    data = laser[laser.name == sample]
+    
+    for trav in traverses:
+        travdata = data[data.traverse == trav]   
+        if len(travdata) == 0:
+            continue
+        
+        x = travdata.microns
+
+        for element, unit in zip(elements, units):
+            y = np.array(travdata[element])
+            
+            if np.isnan(float(y[0])):
+                continue
+
+            fig = plt.figure()
+            plt.plot(x, y, 'o', color=color)
+            plt.title(' '.join((sample, trav, element)))
+            plt.xlabel('microns')
+            plt.ylabel(unit)
+            axes = plt.gca()
+            xlo, xhi = axes.get_xlim()
+            plt.text(xlo + (0.02*(xhi-xlo)), float(min(y)), 'rim', ha='left')
+            
+            pdf.savefig()
+            plt.close()
+    
+
+###### San Carlos H profiles ########
 peaks = [None] + SCpeaks
 
 for peak in peaks:
@@ -149,7 +189,7 @@ for peak in peaks:
         pdf.savefig()
         plt.close()
 
-####### Kilauea Iki ##########
+####### Kilauea Iki H profiles ##########
 pvlist = [0, 0, 97, 97, 97, 97, 95]
 ytops = [1.5, 2.5, 1.5, 1.5, 1.5]
 peaks = [None, 3600, 3525, 3356]
@@ -179,7 +219,7 @@ for peak, ytop in zip(peaks, ytops):
 
         # get diffusivity data from spreadsheet and plot
         wb.hours = wb.time_seconds / 3600.
-        df = diffs[diffs['name'] == wb.sample.name]
+        df = diffs[diffs['name'] == 'Kiki']
         df = df[df['Celsius'] == wb.celsius]
         df = df[df['hours'] == wb.hours]
         df = df[df['mechanism'] == mech]
@@ -192,7 +232,7 @@ for peak, ytop in zip(peaks, ytops):
                               log10D_m2s=D3, labelD=False)
             
             labelDy=ytop-ytop*0.15
-            show_error_envelope(wb, ax3, fin, D3, error_log_units=D3e)
+            show_error_envelope(wb, ax3, 0, D3, error_log_units=D3e)
             for ax, D, e in zip(ax3, D3, D3e):
                 label = ''.join(('log$_{10}$D in m$^2$/s\n', 
                                  str(D), '+/-', str(e)))
@@ -223,7 +263,3 @@ for ytop, wb in zip(ytops, wblist):
             plt.close()
 
 pdf.close()
-#%%
-def spit(D3):
-    for D in D3:
-        print('{:.1f}'.format(D))

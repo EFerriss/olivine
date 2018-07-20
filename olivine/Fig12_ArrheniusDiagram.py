@@ -124,7 +124,6 @@ pp.celsius[3] = pp.celsius[0]
 pp.activation_energy_kJmol[3] = 140.
 pp.D0_m2s[3] = 0.0000027
 
-### fits
 my_data = dlib.Diffusivities(celsius=[[800, 1000, 1200],
                                         [800, 1000], 
                                         [800, 1000], []],
@@ -180,20 +179,11 @@ ax1data = [
            SC2_bulk_a,
            SC2_bulk_b,
            SC2_bulk_c,
-
            kiki_bulk_a,
            kiki_bulk_b,
            kiki_bulk_c,
-
            megan,
-#           chen,
-#           gaetani,
-#           portnyagin,
            hauri,
-           
-#           novella_a,
-#           novella_b,
-#           novella_c
            ]
 
 color2 = '#2ca02c'
@@ -219,29 +209,9 @@ ax1styles = [
              {'color': 'blue', 'linestyle':'none', 'marker':'o',
               'markerfacecolor':'none',
               'markersize':6},
-              
-#             {'color': 'grey', 'linestyle':'none', 'marker':'^',
-#              'label':'Chen et al. 2011', 'markerfacecolor':'none',
-#              'markersize':6},
-#             {'color': 'grey', 'linestyle':'none', 'marker':'^',
-#              'label':'Gaetani et al. 2012', 'markerfacecolor':'none',
-#              'markersize':6},
-#             {'color': 'grey', 'linestyle':'none', 'marker':'^',
-#              'label':'Portnyagin et al. 2008', 'markerfacecolor':'none',
-#              'markersize':6},
              {'color': 'grey', 'linestyle':'none', 'marker':'^',
               'label':'Hauri 2002', 'markerfacecolor':'none',
               'markersize':6},
-              
-#             {'color': 'k', 'linestyle':'none', 'marker':'o',
-#              'label':'Novella et al. 2017 || a', 'markerfacecolor':'none',
-#              'markersize':6},
-#             {'color': 'k', 'linestyle':'none', 'marker':'+',
-#              'label':'Novella et al. 2017 || b', 'markerfacecolor':'none',
-#              'markersize':6},
-#             {'color': 'k', 'linestyle':'none', 'marker':'s',
-#              'label':'Novella et al. 2017 || c', 'markerfacecolor':'none',
-#              'markersize':6},
              ]
 
 for data, style in zip(ax1data, ax1styles):
@@ -250,10 +220,7 @@ for data, style in zip(ax1data, ax1styles):
     ax1.plot(x, y, **style)
 
 xtxt = 9.36
-#ax1.text(xtxt, -11, 'redox || a', color='grey')
 ax1.text(xtxt, -11.65, 'SC1-2 || a', color=color2)
-#ax1.text(xtxt, -12.67, 'redox || b', color='grey')
-#ax1.text(xtxt, -12.25, 'redox || c', color='grey')
 ax1.text(xtxt, -12.95, 'SC1-2 || c', color=color2)
 ax1.text(xtxt, -13.4, 'SC1-2 || b', color=color2)
 
