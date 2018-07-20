@@ -1,6 +1,6 @@
 # olivine
 
-All of the raw data and code used in Ferriss et al. submission to *Gechemica et Cosmochemica Acta* on H diffusivity in olivine except the code for the [interactive online Arrhenius diagram](https://arrheniusdiagram.herokuapp.com/arrheniusdiagram), which is [here](https://github.com/EFerriss/arrheniusdiagram/).
+All of the raw data and code used in the 2018 Ferriss et al. submission to *Geochemica et Cosmochemica Acta* on H diffusivity in olivine except the code for the [interactive online Arrhenius diagram](https://arrheniusdiagram.herokuapp.com/arrheniusdiagram), which is [here](https://github.com/EFerriss/arrheniusdiagram/).
 
 Details about the FTIR files can be found in [this table](https://github.com/EFerriss/olivine/blob/master/olivine/Ferriss_Supplement_astable.csv) as well as in the python scripts Kiki_spectra.py in the KilaueaIki folder and SanCarlos_spectra.py in the SanCarlos folder. 
 
