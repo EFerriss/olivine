@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1319757.svg)](https://doi.org/10.5281/zenodo.1319757)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1318324.svg)](https://doi.org/10.5281/zenodo.1318324)
 
 # olivine
 
@@ -9,4 +9,4 @@ Details about the FTIR files can be found in [this table](https://github.com/EFe
 The Monte Carlo simulations were performed with [a MATLAB script](https://github.com/EFerriss/olivine/blob/master/olivine/monte_carlo/olivine_degassing_MCfit_script.m).
 
 Please cite as:  
-Elizabeth Ferriss, & Megan Newcombe. (2018, July 23). Data and code for H diffusion in olivine (Version v1.1). Zenodo. http://doi.org/10.5281/zenodo.1319757
+Elizabeth Ferriss, & Megan Newcombe. (2018, July 23). Data and code for H diffusion in olivine (Version v1.2). Zenodo. http://doi.org/10.5281/zenodo.1318324
