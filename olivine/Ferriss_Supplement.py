@@ -225,7 +225,7 @@ for ytop, wb in zip(ytops, wblist):
 
 
 ### LA-ICP-MS profiles
-laser = pd.read_csv('./LAICPMS/laserdata.csv')
+laser = pd.read_csv('./LAICPMS/laserdata_with_units.csv')
 elements = laser.columns[4:]
 units = laser.iloc[:1].values[0][4:]
 units[0] = 'Fo number'
@@ -245,7 +245,7 @@ for sample, color in zip(samples, colors):
         x = travdata.microns
 
         for element, unit in zip(elements, units):
-            y = np.array(travdata[element])
+            y = [float(measurement) for measurement in travdata[element]]
             
             if np.isnan(float(y[0])):
                 continue
