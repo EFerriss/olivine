@@ -98,45 +98,6 @@ def show_error_envelope(wb, ax3, fin, D3, error_log_units=[0.4]*3):
 pdf = PdfPages(filetosave)
 
 
-### LA-ICP-MS profiles
-laser = pd.read_csv('laserdata.csv')
-elements = laser.columns[4:]
-units = laser.iloc[:1].values[0][4:]
-units[0] = 'Fo number'
-
-samples = ['SC1-7', 'SC1-2', 'Kiki', 'Kikin', ]
-traverses = ['a-axis', 'c-axis']
-colors = ['#ff7f0e', SCcolors[0], Kcolors[0], 'blue']
-
-for sample, color in zip(samples, colors):
-    data = laser[laser.name == sample]
-    
-    for trav in traverses:
-        travdata = data[data.traverse == trav]   
-        if len(travdata) == 0:
-            continue
-        
-        x = travdata.microns
-
-        for element, unit in zip(elements, units):
-            y = np.array(travdata[element])
-            
-            if np.isnan(float(y[0])):
-                continue
-
-            fig = plt.figure()
-            plt.plot(x, y, 'o', color=color)
-            plt.title(' '.join((sample, trav, element)))
-            plt.xlabel('microns')
-            plt.ylabel(unit)
-            axes = plt.gca()
-            xlo, xhi = axes.get_xlim()
-            plt.text(xlo + (0.02*(xhi-xlo)), float(min(y)), 'rim', ha='left')
-            
-            pdf.savefig()
-            plt.close()
-    
-
 ###### San Carlos H profiles ########
 peaks = [None] + SCpeaks
 
@@ -262,4 +223,43 @@ for ytop, wb in zip(ytops, wblist):
             pdf.savefig()
             plt.close()
 
+
+### LA-ICP-MS profiles
+laser = pd.read_csv('./LAICPMS/laserdata.csv')
+elements = laser.columns[4:]
+units = laser.iloc[:1].values[0][4:]
+units[0] = 'Fo number'
+
+samples = ['SC1-7', 'SC1-2', 'Kiki', 'Kikin', ]
+traverses = ['a-axis', 'c-axis']
+colors = ['#ff7f0e', SCcolors[0], Kcolors[0], 'blue']
+
+for sample, color in zip(samples, colors):
+    data = laser[laser.name == sample]
+    
+    for trav in traverses:
+        travdata = data[data.traverse == trav]   
+        if len(travdata) == 0:
+            continue
+        
+        x = travdata.microns
+
+        for element, unit in zip(elements, units):
+            y = np.array(travdata[element])
+            
+            if np.isnan(float(y[0])):
+                continue
+
+            fig = plt.figure()
+            plt.plot(x, y, 'o', color=color)
+            plt.title(' '.join((sample, trav, element)))
+            plt.xlabel('microns')
+            plt.ylabel(unit)
+            axes = plt.gca()
+            xlo, xhi = axes.get_xlim()
+            plt.text(xlo + (0.02*(xhi-xlo)), float(min(y)), 'rim', ha='left')
+            
+            pdf.savefig()
+            plt.close()
+    
 pdf.close()
