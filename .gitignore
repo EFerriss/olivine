@@ -5,3 +5,6 @@ olivine/KilaueaIki/__pycache__/
 olivine/FTIR/__pycache__/
 olivine/FTIR/__pycache__/
 olivine/.DS_Store
+*.pyc
+*.egg
+*.egg-info/

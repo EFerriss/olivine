@@ -23,8 +23,9 @@ except OSError:
 line = ','.join(('sample name', 'peak location (cm^-1)', 
                  'temperature (Celsius)', 'hours dehydrated', 
                  'traverse direction', 'raypath direction', 
-                 'position (microns)', 'area (cm^-2) or height (/cm)',
-                 'area/initial or height/initial',
+                 'position (microns)', 
+                 'area (cm^-2) for total H or height (/cm) of peak',
+                 'area/initial for total H or height/initial of peak',
                  'FTIR spectrum filename','\n'))
 with open(filetosave, 'a') as csvfile:
     csvfile.write(line)
@@ -122,6 +123,11 @@ for peak in peaks:
         x2, rawy = wb.xy_picker(peak_idx=peak2idx[peak], wholeblock=False,
                                heights_instead=height)
                 
+        if np.isclose(wb.time_seconds, 0.0001):
+            time = 'initial'
+        else:
+            time = str(wb.time_seconds/3600)
+
         for i, prof in enumerate(wb.profiles):
             for x, y, ry, spectrum in zip(xlist[i], ylist[i], rawy[i], prof.spectra):
                 specfile = ''.join((spectrum.fname, '.csv'))
